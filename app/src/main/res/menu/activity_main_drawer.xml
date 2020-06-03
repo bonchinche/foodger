@@ -4,17 +4,22 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_products"
+            android:title="@string/menu_products" />
+
+        <item
+            android:id="@+id/nav_shelflife"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_shelflife" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_nutrition"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_nutrition" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_addproduct"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_addproduct" />
     </group>
 </menu>
