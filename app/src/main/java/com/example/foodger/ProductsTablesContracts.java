@@ -2,6 +2,8 @@ package com.example.foodger;
 
 import android.provider.BaseColumns;
 
+//TEST COMMENT
+
 public class ProductsTablesContracts {
 
     private ProductsTablesContracts() {
