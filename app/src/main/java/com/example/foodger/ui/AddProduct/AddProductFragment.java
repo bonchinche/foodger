@@ -27,7 +27,7 @@ public class AddProductFragment extends Fragment {
         addProductViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textView.setText(s); //test
             }
         });
         return root;
