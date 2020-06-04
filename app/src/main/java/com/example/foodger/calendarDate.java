@@ -12,6 +12,12 @@ public class calendarDate {
         _year = y;
     }
 
+    public void setDate (int d, int m, int y){
+        _date = d;
+        _month = m;
+        _year = y;
+    }
+
     public int get_date() {
         return _date;
     }

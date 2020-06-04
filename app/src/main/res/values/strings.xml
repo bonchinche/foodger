@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">FoodGer</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">FoodGer</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="add_product_activity">Add Product Activity</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_products">Products</string>

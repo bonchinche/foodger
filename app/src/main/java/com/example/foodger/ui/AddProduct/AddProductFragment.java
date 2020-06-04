@@ -1,6 +1,7 @@
 package com.example.foodger.ui.AddProduct;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,13 +14,12 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -27,17 +27,19 @@ import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.example.foodger.calendarDate;
-import com.example.foodger.ui.Products.ProductsFragment;
 
-public class AddProductFragment extends Fragment {
+import java.util.ArrayList;
+
+public class AddProductFragment extends Fragment{
 
     private AddProductViewModel addProductViewModel;
+    private AdditionalInfo additionalInfo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         addProductViewModel = ViewModelProviders.of(this).get(AddProductViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_addproduct, container, false);
-
+        
         Button cancellButton = (Button)root.findViewById(R.id.cancellButton);
         Button applyButton = (Button)root.findViewById(R.id.applyButton);
         Button additionalInfoButton = (Button)root.findViewById(R.id.additionalnfoButton);
@@ -45,6 +47,10 @@ public class AddProductFragment extends Fragment {
         final EditText productNameEditText = (EditText)root.findViewById(R.id.productNameEditText);
         final CalendarView calendarView = (CalendarView)root.findViewById(R.id.calendarView);
         Spinner spinner = (Spinner)root.findViewById(R.id.productCategorySpinner);
+
+        //DataBase
+        _db = new DataBaseHelper(getContext());
+
 
         //адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, _productType);
@@ -54,8 +60,15 @@ public class AddProductFragment extends Fragment {
         spinner.setAdapter(adapter);
         spinner.setPrompt("Choose your category");
         spinner.setSelection(1);
+
         //Rating bar
         ratingBar.setStepSize(1);
+
+        //Calendar
+        _calendarDate = new calendarDate(0, 0, 0);
+
+
+        additionalInfo = new AdditionalInfo();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -81,47 +94,49 @@ public class AddProductFragment extends Fragment {
 
         additionalInfoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //AdditionalInfo additionalInfoFragment
-                //DrawerLayout drawer = root.findViewById(R.layout.fragment_additionalinfo);
+                FragmentManager fragmentManager = getFragmentManager();
 
+                additionalInfo.setTargetFragment(AddProductFragment.this, 0);
+                additionalInfo.show(fragmentManager, "DIALOG");
             }
         });
 
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                _productName = productNameEditText.getText().toString();
-                //intent.putExtra("productName", _productName);
-                String dateOfManufacture = _calendarDate.get_date() + "." + _calendarDate.get_month() + "." + _calendarDate.get_year();
-                //ProductsFragment.mDb.execSQL("INSERT INTO products (_id, name, category, day, month, year, rating)\n" +
 
+                _productName = productNameEditText.getText().toString();
+                _dateOfManufacture = _calendarDate.get_date() + "." + _calendarDate.get_month() + "." + _calendarDate.get_year();
 
                 // Gets the database in write mode
-                SQLiteDatabase db = _db.getReadableDatabase();
+                Toast.makeText(getContext(), "Дата: " + _dateOfManufacture, Toast.LENGTH_SHORT).show();
+                SQLiteDatabase db = _db.getWritableDatabase();
                 //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
                 // Создаем объект ContentValues, где имена столбцов ключи,
 
-                ContentValues values = new ContentValues();
-                //values.put(ProductsTablesContracts.Products.PRODUCT_NAME, _productName); // Имя продукта
-                //values.put(ProductsTablesContracts.Product.PRODUCT_TYPE_ID, _chosenPosition); // Выбранный тип продукта
-                //values.put(ProductsTablesContracts.Product.PRODUCT_DOM, dateOfManufacture); // Дата изготовления
-                //values.put(ProductsTablesContracts.Product.SHELF_LIFE, ); // Срок хранения
-                //values.put(ProductsTablesContracts.Product.PRODUCT_CHARACTERISTIC_ID, ); //
+                ContentValues valuesOfProduct = new ContentValues();
+                valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
+                valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Выбранный тип продукта
+                //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
+                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, 0); // Срок хранения
+                //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
-                long newRowId = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, values);
+                ContentValues valuesOfProductCharacteristics = new ContentValues();
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CALORIES, _calories);
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.PROTEIN, _protein);
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.FATNESS, _fatness);
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
 
-                if (newRowId == -1) {
+                long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
+                long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
+
+                if (newRowIdProducts == -1) {
                     // Если ID  -1, значит произошла ошибка
                     Toast.makeText(getContext(), "Ошибка при добавлении продукта", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Продукт добавлен под номером: " + newRowId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Продукт добавлен под номером: " + newRowIdProducts, Toast.LENGTH_SHORT).show();
                 }
-
-
-                //_prDate = _calendarView.getDate();
-                //_productionDate.setDate(_calendarView.getDateTextAppearance());
-                //Toast.makeText(getBaseContext(), "Pr = " + _productName, Toast.LENGTH_SHORT).show();
-                //closeActivity();
             }
         });
 
@@ -133,36 +148,55 @@ public class AddProductFragment extends Fragment {
 
                 month = month + 1;
                 Toast.makeText(getContext(), "Дата: " + date + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getApplicationContext(),date+ "/"+month+"/"+year,4000).show();
-                _calendarDate = new calendarDate(date, month, year);
+                _calendarDate.setDate(date, month, year);
 
             }
         });
 
 
+
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Toast.makeText(getContext(), "Рейтинг продукта: " + ratingBar.getRating(), Toast.LENGTH_SHORT).show();
+                _rating = rating;
+                Toast.makeText(getContext(), "Рейтинг продукта: " + rating, Toast.LENGTH_SHORT).show();
             }
         });
 
         addProductViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //textView.setText(s); //test
+
             }
         });
         return root;
     }
 
+    @Override
+    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
+            String[] buf = data.getStringArrayExtra("DIALOG_RESULT");
+
+            _calories = buf[0];
+            _protein = buf[1];
+            _fatness = buf[2];
+            _carbohydrates = buf[3];
+    }
 
 
+    private String _calories = "0";
+    private String _protein = "0";
+    private String _fatness = "0";
+    private String _carbohydrates = "0";
+    private float _rating = 0;
 
     private DataBaseHelper _db;
     private calendarDate _calendarDate;
     private String _productName;
+    private String _dateOfManufacture;
     private String _chosenType;
     private int _chosenPosition;
     private String[] _productType = {"milk", "meat", "eggs", "cheese", "vegetables", "other"};
+
+
 }
