@@ -42,7 +42,7 @@ public class AddProductFragment extends Fragment{
         Button additionalInfoButton = (Button)root.findViewById(R.id.additionalnfoButton);
         final RatingBar ratingBar = (RatingBar)root.findViewById(R.id.ratingBar);
         final EditText productNameEditText = (EditText)root.findViewById(R.id.productNameEditText);
-        final CalendarView calendarView = (CalendarView)root.findViewById(R.id.calendarView);
+        final CalendarView calendarView = (CalendarView)root.findViewById(R.id.Layout);
         Spinner spinner = (Spinner)root.findViewById(R.id.productCategorySpinner);
 
         //DataBase
