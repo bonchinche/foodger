@@ -30,7 +30,7 @@ import com.example.foodger.calendarDate;
 
 public class AddProductFragment extends Fragment{
 
-    private AdditionalInfo additionalInfo;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,8 +43,8 @@ public class AddProductFragment extends Fragment{
         final RatingBar ratingBar = (RatingBar)root.findViewById(R.id.ratingBar);
         final EditText productNameEditText = (EditText)root.findViewById(R.id.productNameEditText);
         final CalendarView calendarView = (CalendarView)root.findViewById(R.id.Layout);
-        Spinner spinner = (Spinner)root.findViewById(R.id.productCategorySpinner);
-
+        final Spinner spinner = (Spinner)root.findViewById(R.id.productCategorySpinner);
+        final long date = calendarView.getDate();
         //DataBase
         _db = new DataBaseHelper(getContext());
 
@@ -56,16 +56,16 @@ public class AddProductFragment extends Fragment{
         //Выпадающий список
         spinner.setAdapter(adapter);
         spinner.setPrompt("Choose your category");
-        spinner.setSelection(1);
+        spinner.setSelection(0);
 
         //Rating bar
         ratingBar.setStepSize(1);
-
+        ratingBar.setRating(0);
         //Calendar
         _calendarDate = new calendarDate(0, 0, 0);
 
 
-        additionalInfo = new AdditionalInfo();
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,14 +85,17 @@ public class AddProductFragment extends Fragment{
 
         cancellButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
+                productNameEditText.setText("");
+                spinner.setSelection(0);
+                ratingBar.setRating(0);
+                calendarView.setDate(date);
             }
         });
 
         additionalInfoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
-
+                AdditionalInfo additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife);
                 additionalInfo.setTargetFragment(AddProductFragment.this, 0);
                 additionalInfo.show(fragmentManager, "DIALOG");
             }
@@ -134,6 +137,10 @@ public class AddProductFragment extends Fragment{
                 } else {
                     Toast.makeText(getContext(), "Продукт добавлен под номером: " + newRowIdProducts, Toast.LENGTH_SHORT).show();
                 }
+                productNameEditText.setText("");
+                spinner.setSelection(0);
+                ratingBar.setRating(0);
+                calendarView.setDate(date);
             }
         });
 
@@ -170,15 +177,17 @@ public class AddProductFragment extends Fragment{
 
             _calories = buf[0];
             _protein = buf[1];
-            _fatness = buf[2];
-            _carbohydrates = buf[3];
+            _carbohydrates = buf[2];
+            _fatness = buf[3];
+            _shelfLife = buf[4];
     }
 
 
-    private String _calories = "0";
-    private String _protein = "0";
-    private String _fatness = "0";
-    private String _carbohydrates = "0";
+    private String _calories = "";
+    private String _protein = "";
+    private String _carbohydrates = "";
+    private String _fatness = "";
+    private String _shelfLife = "";
     private float _rating = 0;
 
     private DataBaseHelper _db;
