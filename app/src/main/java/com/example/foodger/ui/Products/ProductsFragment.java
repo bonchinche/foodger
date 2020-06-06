@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class ProductsFragment extends Fragment {
 
-    private ProductsViewModel productsViewModel;
+    //private ProductsViewModel productsViewModel;
     private DataBaseHelper dbHelper;
     ArrayList<String> ProductsList = new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
@@ -180,8 +180,8 @@ public class ProductsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
-        productsViewModel =
-                ViewModelProviders.of(this).get(ProductsViewModel.class);
+        //productsViewModel =
+                //ViewModelProviders.of(this).get(ProductsViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_products, container, false);
         //final TextView textView = root.findViewById(R.id.text_products);
 
@@ -221,14 +221,6 @@ public class ProductsFragment extends Fragment {
                 android.R.layout.simple_list_item_1, ProductsList );
 
         listView.setAdapter(meat_list_adapter);
-
-        productsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-
-            }
-        });
         return root;
     }
 }
