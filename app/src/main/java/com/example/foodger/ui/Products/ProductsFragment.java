@@ -125,7 +125,7 @@ public class ProductsFragment extends Fragment {
 
         try {
 
-            //roductsList.add(Products.NAME);
+           // TypeProductsList.add(Products.NAME);
 
             // Узнаем индекс каждого столбца
             int idColumnIndex = cursor.getColumnIndex(Product_Type._ID);
@@ -174,7 +174,7 @@ public class ProductsFragment extends Fragment {
 
         try {
 
-            //roductsList.add(Products.NAME);
+           // ProductCharacteristicList.add(Products.NAME);
 
             // Узнаем индекс каждого столбца
             int idColumnIndex = cursor.getColumnIndex(Product_Characteristic._ID);
@@ -223,7 +223,8 @@ public class ProductsFragment extends Fragment {
             Toast.makeText(getContext(), "Гость заведён под номером: " + newRowId, Toast.LENGTH_SHORT).show();
         }*/
 
-        SelectFromProducts();
+        if (!(ProductsList.size()>0)){
+        SelectFromProducts();}
 
         Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
