@@ -21,5 +21,10 @@
             android:id="@+id/nav_addproduct"
 
             android:title="@string/menu_addproduct" />
+        <item
+            android:id="@+id/nav_product_characteristics"
+            android:visible="false"
+            />
+
     </group>
 </menu>

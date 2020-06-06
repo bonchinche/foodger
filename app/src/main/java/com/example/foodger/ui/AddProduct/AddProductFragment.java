@@ -17,21 +17,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
 
 import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.example.foodger.calendarDate;
 
-import java.util.ArrayList;
 
 public class AddProductFragment extends Fragment{
-
 
     private AdditionalInfo additionalInfo;
 
@@ -163,7 +160,6 @@ public class AddProductFragment extends Fragment{
                 Toast.makeText(getContext(), "Рейтинг продукта: " + rating, Toast.LENGTH_SHORT).show();
             }
         });
-
 
         return root;
     }
