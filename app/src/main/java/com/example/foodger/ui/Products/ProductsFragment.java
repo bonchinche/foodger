@@ -10,8 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
@@ -27,8 +32,17 @@ import java.util.ArrayList;
 
 public class ProductsFragment extends Fragment {
 
+    public ListView listView;
+    private DataBaseHelper dbHelper;
+    ArrayList<String> ProductsList = new ArrayList<>();
+    ArrayList<String> TypeProductsList = new ArrayList<>();
+    ArrayList<String> ProductCharacteristicList = new ArrayList<>();
 
     private ReplaceFragment replaceFragment;
+
+    public ProductsFragment(){
+
+    }
 
     public interface ReplaceFragment {
         void onFragmentReplace(Bundle bundle);
@@ -45,14 +59,68 @@ public class ProductsFragment extends Fragment {
         }
     }
 
-    public ProductsFragment(){
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             final ViewGroup container, Bundle savedInstanceState) {
 
+        final View root = inflater.inflate(R.layout.fragment_products, container, false);
+        //final TextView textView = root.findViewById(R.id.text_products);
+
+        listView = root.findViewById(R.id.products_list);
+
+
+        dbHelper = new DataBaseHelper(getContext());
+
+        /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
+        // Создаем объект ContentValues, где имена столбцов ключи,
+        // а информация о госте является значениями ключей
+        ContentValues values = new ContentValues();
+        values.put(Products.NAME, "diimmooonn");
+
+
+        long newRowId = wd.insert(Products.TABLE_NAME, null, values);
+
+
+        if (newRowId == -1) {
+            // Если ID  -1, значит произошла ошибка
+            Toast.makeText(getContext(), "Ошибка при заведении гостя", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Гость заведён под номером: " + newRowId, Toast.LENGTH_SHORT).show();
+        }*/
+
+        if (!(ProductsList.size()>0)){
+        SelectFromProducts();}
+
+        Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
+        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity (), android.R.layout.simple_spinner_item,  TypeProductsList);
+        // Определяем разметку для использования при выборе элемента
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Применяем адаптер к элементу spinner
+       spinner.setAdapter(adapter);
+
+
+
+        ArrayAdapter<String> meat_list_adapter = new ArrayAdapter<>(getActivity(),
+               android.R.layout.simple_list_item_1, ProductsList );
+
+        listView.setAdapter(meat_list_adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                String selectedFromList= (String) parent.getItemAtPosition(position).toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("arg1", selectedFromList);
+                bundle.putInt("arg2", position);
+                replaceFragment.onFragmentReplace(bundle);
+            }
+        });
+
+        return root;
     }
-
-    private DataBaseHelper dbHelper;
-    ArrayList<String> ProductsList = new ArrayList<>();
-    ArrayList<String> TypeProductsList = new ArrayList<>();
-    ArrayList<String> ProductCharacteristicList = new ArrayList<>();
 
     private void SelectFromProducts() {
         // Создадим и откроем для чтения базу данных
@@ -110,7 +178,7 @@ public class ProductsFragment extends Fragment {
                 Product_Type.COLOR,
                 Product_Type.TEMPERATURE,
                 Product_Type.AVG_SHELF_LIFE,
-                };
+        };
 
         // Делаем запрос
         Cursor cursor = db.query(
@@ -125,7 +193,7 @@ public class ProductsFragment extends Fragment {
 
         try {
 
-           // TypeProductsList.add(Products.NAME);
+            // TypeProductsList.add(Products.NAME);
 
             // Узнаем индекс каждого столбца
             int idColumnIndex = cursor.getColumnIndex(Product_Type._ID);
@@ -174,7 +242,7 @@ public class ProductsFragment extends Fragment {
 
         try {
 
-           // ProductCharacteristicList.add(Products.NAME);
+            // ProductCharacteristicList.add(Products.NAME);
 
             // Узнаем индекс каждого столбца
             int idColumnIndex = cursor.getColumnIndex(Product_Characteristic._ID);
@@ -186,7 +254,7 @@ public class ProductsFragment extends Fragment {
                 String currentID = cursor.getString(idColumnIndex);
 
                 // Выводим значения каждого столбца
-               // ProductCharacteristicList.add(currentID);
+                // ProductCharacteristicList.add(currentID);
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -194,66 +262,6 @@ public class ProductsFragment extends Fragment {
         }
     }
 
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             final ViewGroup container, Bundle savedInstanceState) {
-
-        final View root = inflater.inflate(R.layout.fragment_products, container, false);
-        //final TextView textView = root.findViewById(R.id.text_products);
-
-        ListView listView = root.findViewById(R.id.products_list);
-
-
-        dbHelper = new DataBaseHelper(getContext());
-
-        /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
-        // Создаем объект ContentValues, где имена столбцов ключи,
-        // а информация о госте является значениями ключей
-        ContentValues values = new ContentValues();
-        values.put(Products.NAME, "diimmooonn");
-
-
-        long newRowId = wd.insert(Products.TABLE_NAME, null, values);
-
-
-        if (newRowId == -1) {
-            // Если ID  -1, значит произошла ошибка
-            Toast.makeText(getContext(), "Ошибка при заведении гостя", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Гость заведён под номером: " + newRowId, Toast.LENGTH_SHORT).show();
-        }*/
-
-        if (!(ProductsList.size()>0)){
-        SelectFromProducts();}
-
-        Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
-        // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity (), android.R.layout.simple_spinner_item,  TypeProductsList);
-        // Определяем разметку для использования при выборе элемента
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Применяем адаптер к элементу spinner
-        spinner.setAdapter(adapter);
-
-        ArrayAdapter<String> meat_list_adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, ProductsList );
-
-        listView.setAdapter(meat_list_adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                String selectedFromList= (String) parent.getItemAtPosition(position).toString();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("arg1", selectedFromList);
-                bundle.putInt("arg2", position);
-                replaceFragment.onFragmentReplace(bundle);
-            }
-        });
-
-        return root;
-    }
 }
 
 
