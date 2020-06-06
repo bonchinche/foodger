@@ -1,17 +1,14 @@
 package com.example.foodger;
 
+import androidx.annotation.NonNull;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
-
+import com.example.foodger.ui.Products.ProductsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,7 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements ProductsFragment.ReplaceFragment, NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -31,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton add_product = findViewById(R.id.add_product); //нижний правый угол плюсик
+       /* FloatingActionButton add_product = findViewById(R.id.add_product); //нижний правый угол плюсик
         add_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -65,4 +64,17 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public void onFragmentReplace(Bundle bundle) {
+    NavController navController=Navigation.findNavController(this,R.id.nav_host_fragment);
+    navController.navigate(R.id.nav_product_characteristics,bundle);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        return true;
+    }
+
 }

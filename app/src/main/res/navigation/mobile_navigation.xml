@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_products">
+    app:startDestination="@+id/nav_products"
+    >
 
     <fragment
         android:id="@+id/nav_products"
@@ -15,25 +16,7 @@
         android:id="@+id/nav_shelflife"
         android:name="com.example.foodger.ui.ShelfLife.ShelfLifeFragment"
         android:label="@string/menu_shelflife"
-        tools:layout="@layout/fragment_shelflife">
-
-        <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.example.foodger.ui.ShelfLife.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
-        <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_products" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/fragment_shelflife"/>
 
     <fragment
         android:id="@+id/nav_nutrition"
@@ -46,4 +29,15 @@
         android:name="com.example.foodger.ui.AddProduct.AddProductFragment"
         android:label="@string/menu_addproduct"
         tools:layout="@layout/fragment_addproduct" />
+<!-- Добавил новый фрагмент !-->
+    <fragment
+        android:id="@+id/nav_product_characteristics"
+        android:name="com.example.foodger.ui.Products.ProductCharacteristics"
+        tools:layout="@layout/fragment_product_characteristics" >
+        <action
+            android:id="@+id/action_nav_product_characteristics_to_nav_products"
+            app:destination="@id/nav_products" />
+    </fragment>
+
+
 </navigation>

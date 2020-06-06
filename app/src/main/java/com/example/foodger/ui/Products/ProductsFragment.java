@@ -1,37 +1,54 @@
 package com.example.foodger.ui.Products;
 
-import android.content.ContentValues;
+import android.content.Context;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ProcessLifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.foodger.R;
-
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
 import com.example.foodger.ProductsTablesContracts.Product_Type;
 import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.DataBaseHelper;
 
+
 import java.util.ArrayList;
 
 public class ProductsFragment extends Fragment {
 
-    private ProductsViewModel productsViewModel;
+
+    private ReplaceFragment replaceFragment;
+
+    public interface ReplaceFragment {
+        void onFragmentReplace(Bundle bundle);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ReplaceFragment) {
+            replaceFragment = (ReplaceFragment) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragment1DataListener");
+        }
+    }
+
+    public ProductsFragment(){
+
+    }
+
     private DataBaseHelper dbHelper;
     ArrayList<String> ProductsList = new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
@@ -121,7 +138,7 @@ public class ProductsFragment extends Fragment {
                 String currentName = cursor.getString(ProductNameIndex);
 
                 // Выводим значения каждого столбца
-                TypeProductsList.add(currentName);
+                //TypeProductsList.add(currentName);
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -169,7 +186,7 @@ public class ProductsFragment extends Fragment {
                 String currentID = cursor.getString(idColumnIndex);
 
                 // Выводим значения каждого столбца
-                ProductCharacteristicList.add(currentID);
+               // ProductCharacteristicList.add(currentID);
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -180,8 +197,7 @@ public class ProductsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
-        productsViewModel =
-                ViewModelProviders.of(this).get(ProductsViewModel.class);
+
         final View root = inflater.inflate(R.layout.fragment_products, container, false);
         //final TextView textView = root.findViewById(R.id.text_products);
 
@@ -222,13 +238,19 @@ public class ProductsFragment extends Fragment {
 
         listView.setAdapter(meat_list_adapter);
 
-        productsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
+                String selectedFromList= (String) parent.getItemAtPosition(position).toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("arg1", selectedFromList);
+                bundle.putInt("arg2", position);
+                replaceFragment.onFragmentReplace(bundle);
             }
         });
+
         return root;
     }
 }

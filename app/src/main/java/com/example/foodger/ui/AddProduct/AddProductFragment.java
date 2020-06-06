@@ -17,27 +17,24 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
 
 import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.example.foodger.calendarDate;
 
-import java.util.ArrayList;
 
 public class AddProductFragment extends Fragment{
 
-    private AddProductViewModel addProductViewModel;
     private AdditionalInfo additionalInfo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        addProductViewModel = ViewModelProviders.of(this).get(AddProductViewModel.class);
+
         final View root = inflater.inflate(R.layout.fragment_addproduct, container, false);
         
         Button cancellButton = (Button)root.findViewById(R.id.cancellButton);
@@ -164,12 +161,6 @@ public class AddProductFragment extends Fragment{
             }
         });
 
-        addProductViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-
-            }
-        });
         return root;
     }
 
