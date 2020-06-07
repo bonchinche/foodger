@@ -38,8 +38,7 @@ android:id="@+id/lol"
         android:id="@+id/products_list"
         android:layout_width="match_parent"
         android:layout_height="659dp"
-        android:layout_marginRight="100sp"
-     />
+        android:layout_marginRight="0sp" />
 
 
 
