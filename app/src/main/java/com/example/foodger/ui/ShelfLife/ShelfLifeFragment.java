@@ -14,16 +14,20 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.foodger.R;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+
+import java.text.SimpleDateFormat;
 
 public class ShelfLifeFragment extends Fragment {
 
+    private SimpleDateFormat date = new SimpleDateFormat();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_shelflife, container, false);
-        final CalendarView calendarView = root.findViewById(R.id.calendarView);
-
+        //final CalendarView calendarView = root.findViewById(R.id.calendarView);
+        final CompactCalendarView calendarView;
 
 
         return root;
