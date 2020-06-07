@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodger.R;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
@@ -28,19 +29,24 @@ import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.DataBaseHelper;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ProductsFragment extends Fragment {
 
     public ListView listView;
+    //ImageButton deleteButton;
     private DataBaseHelper dbHelper;
     ArrayList<String> ProductsList = new ArrayList<>();
+    //ArrayList<Product> listproduct2 = new ArrayList<Product>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
     ArrayList<String> ProductCharacteristicList = new ArrayList<>();
+    MyAdapter myAdapter;
 
     private ReplaceFragment replaceFragment;
 
-    public ProductsFragment(){
+    public ProductsFragment() {
 
     }
 
@@ -66,7 +72,7 @@ public class ProductsFragment extends Fragment {
         //final TextView textView = root.findViewById(R.id.text_products);
 
         listView = root.findViewById(R.id.products_list);
-
+       // deleteButton = root.findViewById(R.id.deleteButton);
 
         dbHelper = new DataBaseHelper(getContext());
 
@@ -75,11 +81,7 @@ public class ProductsFragment extends Fragment {
         // а информация о госте является значениями ключей
         ContentValues values = new ContentValues();
         values.put(Products.NAME, "diimmooonn");
-
-
         long newRowId = wd.insert(Products.TABLE_NAME, null, values);
-
-
         if (newRowId == -1) {
             // Если ID  -1, значит произошла ошибка
             Toast.makeText(getContext(), "Ошибка при заведении гостя", Toast.LENGTH_SHORT).show();
@@ -87,30 +89,33 @@ public class ProductsFragment extends Fragment {
             Toast.makeText(getContext(), "Гость заведён под номером: " + newRowId, Toast.LENGTH_SHORT).show();
         }*/
 
-        if (!(ProductsList.size()>0)){
-        SelectFromProducts();}
+        if (!(ProductsList.size() > 0)) {
+            SelectFromProducts();
+        }
 
         Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity (), android.R.layout.simple_spinner_item,  TypeProductsList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, TypeProductsList);
         // Определяем разметку для использования при выборе элемента
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
-       spinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
 
 
+      //  ArrayAdapter<String> meat_list_adapter = new ArrayAdapter<>(getActivity(),
+      //          android.R.layout.simple_list_item_1, ProductsList);
 
-        ArrayAdapter<String> meat_list_adapter = new ArrayAdapter<>(getActivity(),
-               android.R.layout.simple_list_item_1, ProductsList );
+        myAdapter=new MyAdapter(getActivity(),ProductsList);
 
-        listView.setAdapter(meat_list_adapter);
+        //listView.setAdapter(meat_list_adapter);
+        listView.setAdapter(myAdapter);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                String selectedFromList= (String) parent.getItemAtPosition(position).toString();
+                String selectedFromList = (String) parent.getItemAtPosition(position).toString();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("arg1", selectedFromList);
@@ -132,7 +137,7 @@ public class ProductsFragment extends Fragment {
                 Products.PRODUCT_TYPE_ID,
                 Products.PRODUCT_CHARACTERISTIC_ID,
                 Products.NAME,
-                Products.SHELF_LIFE ,
+                Products.SHELF_LIFE,
                 Products.DOM};
 
         // Делаем запрос
@@ -260,8 +265,86 @@ public class ProductsFragment extends Fragment {
             // Всегда закрываем курсор после чтения
             cursor.close();
         }
+
+    }
+
+    class MyAdapter extends BaseAdapter {
+
+        private LayoutInflater layoutInflater;
+        private ArrayList<String> productlist = new ArrayList<String>();
+        Context context;
+
+        public MyAdapter(Context context, ArrayList<String> product_list) {
+            layoutInflater = LayoutInflater.from(context);
+
+            this.productlist = product_list;
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return productlist.size();
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position){
+            return productlist.get(position);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            final ViewHolder holder;
+
+            if (convertView == null) {
+
+                convertView=layoutInflater.inflate(R.layout.row,null);
+                holder=new ViewHolder();
+                holder.product_name=(TextView) convertView.findViewById(R.id.ProductName);
+                holder.delete_button=(ImageButton)convertView.findViewById(R.id.deleteButton);
+                convertView.setTag(holder);
+            }
+            else
+            {
+               holder=(ViewHolder)convertView.getTag();
+            }
+
+            holder.product_name.setText(productlist.get(position).toString());
+
+            holder.product_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String selectedFromList = holder.product_name.getText().toString();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("arg1",selectedFromList);
+                    replaceFragment.onFragmentReplace(bundle);
+
+                }
+            });
+
+            holder.delete_button.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                   // String selectedFromList = (String) parent.getItemAtPosition(position).toString();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("arg1","ImageButton");
+                   // bundle.putInt("arg2", position);
+                    replaceFragment.onFragmentReplace(bundle);
+                }
+            });
+            return convertView;
+        }
+    }
+
+    static class ViewHolder{
+        TextView product_name;
+        ImageButton delete_button;
     }
 
 }
-
-
