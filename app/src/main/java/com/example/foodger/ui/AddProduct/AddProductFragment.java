@@ -124,7 +124,7 @@ public class AddProductFragment extends Fragment{
                 }
                 Calendar c = Calendar.getInstance();
                 c.setTime(dt);
-                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
+//                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
                 dt = c.getTime();
                 _dateOfSpoilage = sdf.format(dt);
                 Log.d("TEST", "***************************************************************");
@@ -167,7 +167,7 @@ public class AddProductFragment extends Fragment{
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
-                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
+                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, 5); // Срок хранения
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
                 ContentValues valuesOfProductCharacteristics = new ContentValues();
