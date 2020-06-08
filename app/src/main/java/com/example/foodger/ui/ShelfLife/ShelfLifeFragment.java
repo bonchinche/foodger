@@ -126,7 +126,6 @@ public class ShelfLifeFragment extends Fragment {
         String[] projection = {
                 ProductsTablesContracts.Products._ID,
                 ProductsTablesContracts.Products.PRODUCT_TYPE_ID,
-                ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID,
                 ProductsTablesContracts.Products.NAME,
                 ProductsTablesContracts.Products.SHELF_LIFE,
                 ProductsTablesContracts.Products.DOM};
