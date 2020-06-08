@@ -171,6 +171,7 @@ public class AddProductFragment extends Fragment{
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
                 ContentValues valuesOfProductCharacteristics = new ContentValues();
+                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic._ID, min_free_id);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CALORIES, _calories);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.PROTEIN, _protein);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.FATNESS, _fatness);

@@ -112,7 +112,7 @@ public class ShelfLifeFragment extends Fragment {
         //actionBar.setTitle(null);
 
         dbHelper = new DataBaseHelper(getContext());
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Calendar calendar = Calendar.getInstance();
         _currentMonth = calendar.get(Calendar.MONTH) + 1;
@@ -123,28 +123,45 @@ public class ShelfLifeFragment extends Fragment {
         compactCalendarView = (CompactCalendarView)root.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
+        /*
         String[] projection = {
-                ProductsTablesContracts.Products._ID,
-                ProductsTablesContracts.Products.PRODUCT_TYPE_ID,
-                ProductsTablesContracts.Products.NAME,
-                ProductsTablesContracts.Products.SHELF_LIFE,
-                ProductsTablesContracts.Products.DOM};
-
-        String[] selection = {
-                ProductsTablesContracts.Products.SHELF_LIFE
+                ProductsTablesContracts.Products.NAME
         };
 
+        //String selection = ProductsTablesContracts.Products.DOM + " like ?";
+
+
+        String[] selectionArgs = {
+                "'%2020/06/09 00:00:00%'"
+        };
+        */
+        /*
         Cursor cursor = db.query(
                 ProductsTablesContracts.Products.TABLE_NAME,   // таблица
                 projection,            // столбцы
-                ProductsTablesContracts.Products.SHELF_LIFE,   // столбцы для условия WHERE
-                null,                  // значения для условия WHERE
+                selection,   // столбцы для условия WHERE
+                selectionArgs,                  // значения для условия WHERE
                 null,                  // Don't group the rows
                 null,                  // Don't filter by row groups
                 null);
+        */
+        //Cursor cursor = db.rawQuery("Select * from Products where DOM like '%2020/06/09%'", null);
+        //Cursor cursor = db.rawQuery("Select * from Products", null);
+        Cursor cursor = db.rawQuery("Select Name from Products WHERE DOS like '%2020/06/09%'", null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.NAME);
+        String pr = cursor.getString(columnIndex);
+        Log.d("PRODUCTI:", pr);
+        Toast.makeText(getActivity(), "YOUR DOM: " + pr, Toast.LENGTH_LONG).show();
+        /*
+        while (cursor.moveToNext()){
 
+            int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.NAME);
+            String pr = cursor.getString(columnIndex);
+            Log.d("PRODUCTI:", pr);
 
-
+        }
+         */
         String myDate = "2020/06/09 00:00:00"; //1596978249000
                                                 //1591707849000
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -166,6 +183,9 @@ public class ShelfLifeFragment extends Fragment {
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+
+
+
                 Context context = getContext();
                 SimpleDateFormat dayFormat = new SimpleDateFormat("d", Locale.getDefault());
                 SimpleDateFormat monthFormat = new SimpleDateFormat("M");
@@ -174,6 +194,10 @@ public class ShelfLifeFragment extends Fragment {
                 int day = Integer.parseInt(dayFormat.format(dateClicked));
                 int month = Integer.parseInt(monthFormat.format(dateClicked));
                 int year = Integer.parseInt(yearFormat.format(dateClicked));
+
+                Cursor cursor = db.rawQuery("Select Name from Products WHERE DOS like '%" + year + "/" + month + "/" + day + "%'", null);
+                
+
 
                 FragmentManager fragmentManager = getFragmentManager();
                 ProductsDialog productsDialog = new ProductsDialog();
