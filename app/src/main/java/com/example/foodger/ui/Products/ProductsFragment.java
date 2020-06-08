@@ -150,7 +150,7 @@ public class ProductsFragment extends Fragment {
                 // Выводим значения каждого столбца
                 ProductsList.add(currentName);
                 ProductsID.add(currentID);
-               // mainActivity.ProductsList.add(currentName);
+                // mainActivity.ProductsList.add(currentName);
             }
         } finally {
             // Всегда закрываем курсор после чтения
