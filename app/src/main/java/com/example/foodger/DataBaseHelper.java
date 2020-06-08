@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.foodger.ProductsTablesContracts.Product_Type;
 import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
+import com.example.foodger.ui.Products.ProductCharacteristics;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -25,7 +26,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Строка для создания таблицы
         String SQL_CREATE_PRODUCT_TYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Product_Type.TABLE_NAME + " ("
-                + ProductsTablesContracts.Product_Type._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + ProductsTablesContracts.Product_Type._ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ProductsTablesContracts.Product_Type.AVG_SHELF_LIFE + " INTEGER NOT NULL, "
                 + ProductsTablesContracts.Product_Type.TEMPERATURE + " INTEGER NOT NULL, "
                 + ProductsTablesContracts.Product_Type.TYPE_NAME + " TEXT NOT NULL, "
@@ -35,7 +36,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         // Строка для создания таблицы
         String SQL_CREATE_PRODUCT_CHARACTERISTIC_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Product_Characteristic.TABLE_NAME + " ("
-                + ProductsTablesContracts.Product_Characteristic._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + ProductsTablesContracts.Product_Characteristic._ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ProductsTablesContracts.Product_Characteristic.CALORIES + " INTEGER, "
                 + ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES + " INTEGER , "
                 + ProductsTablesContracts.Product_Characteristic.PROTEIN + " INTEGER , "
@@ -47,16 +48,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
         String SQL_CREATE_PRODUCTS_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Products.TABLE_NAME + " ("
-                + ProductsTablesContracts.Products._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + ProductsTablesContracts.Products._ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ProductsTablesContracts.Products.PRODUCT_TYPE_ID + " INTEGER, "
-                + ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID + " INTEGER , "
                 + ProductsTablesContracts.Products.DOM + " TEXT, "
+                + ProductsTablesContracts.Products.DOS + " TEXT, "
                 + ProductsTablesContracts.Products.SHELF_LIFE+ " INTEGER , "
                 + ProductsTablesContracts.Products.NAME + " TEXT , FOREIGN KEY(\""
-                + ProductsTablesContracts.Products.PRODUCT_TYPE_ID+"\") REFERENCES \""
-                + ProductsTablesContracts.Product_Type.TABLE_NAME+"\", FOREIGN KEY(\""
-                + ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID+"\") REFERENCES \""
-                + ProductsTablesContracts.Product_Characteristic.TABLE_NAME+"\" )";
+                + ProductsTablesContracts.Products.PRODUCT_TYPE_ID+"\") REFERENCES "
+                + ProductsTablesContracts.Product_Type.TABLE_NAME+"("+ Product_Type._ID+"), FOREIGN KEY(\""
+                + ProductsTablesContracts.Products._ID+"\") REFERENCES "
+                + ProductsTablesContracts.Product_Characteristic.TABLE_NAME+"("+ Product_Characteristic._ID+"))";
         // Запускаем создание таблицы
         db.execSQL(SQL_CREATE_PRODUCTS_TABLE);
 

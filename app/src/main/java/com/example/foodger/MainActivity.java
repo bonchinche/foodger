@@ -17,10 +17,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements ProductsFragment.ReplaceFragment, NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    //public ArrayList<String> ProductsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

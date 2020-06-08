@@ -16,12 +16,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodger.MainActivity;
 import com.example.foodger.R;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
 import com.example.foodger.ProductsTablesContracts.Product_Type;
@@ -36,10 +38,9 @@ import java.util.ArrayList;
 public class ProductsFragment extends Fragment {
 
     public ListView listView;
-    //ImageButton deleteButton;
     private DataBaseHelper dbHelper;
     ArrayList<String> ProductsList = new ArrayList<>();
-    //ArrayList<Product> listproduct2 = new ArrayList<Product>();
+    ArrayList<Integer> ProductsID=new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
     ArrayList<String> ProductCharacteristicList = new ArrayList<>();
     MyAdapter myAdapter;
@@ -75,6 +76,7 @@ public class ProductsFragment extends Fragment {
        // deleteButton = root.findViewById(R.id.deleteButton);
 
         dbHelper = new DataBaseHelper(getContext());
+       // getActivity().deleteDatabase("Products.db");
 
         /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
         // Создаем объект ContentValues, где имена столбцов ключи,
@@ -90,6 +92,8 @@ public class ProductsFragment extends Fragment {
         }*/
 
         if (!(ProductsList.size() > 0)) {
+        //if (!(mainActivity.ProductsList.size()>0)){
+            Toast.makeText(getContext(), "Пустой products_list", Toast.LENGTH_SHORT).show();
             SelectFromProducts();
         }
 
@@ -101,29 +105,10 @@ public class ProductsFragment extends Fragment {
         // Применяем адаптер к элементу spinner
         spinner.setAdapter(adapter);
 
-
-      //  ArrayAdapter<String> meat_list_adapter = new ArrayAdapter<>(getActivity(),
-      //          android.R.layout.simple_list_item_1, ProductsList);
-
-        myAdapter=new MyAdapter(getActivity(),ProductsList);
+        myAdapter=new MyAdapter(getActivity());
 
         //listView.setAdapter(meat_list_adapter);
         listView.setAdapter(myAdapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                String selectedFromList = (String) parent.getItemAtPosition(position).toString();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("arg1", selectedFromList);
-                bundle.putInt("arg2", position);
-                replaceFragment.onFragmentReplace(bundle);
-            }
-        });
-
         return root;
     }
 
@@ -135,7 +120,6 @@ public class ProductsFragment extends Fragment {
         String[] projection = {
                 Products._ID,
                 Products.PRODUCT_TYPE_ID,
-                Products.PRODUCT_CHARACTERISTIC_ID,
                 Products.NAME,
                 Products.SHELF_LIFE,
                 Products.DOM};
@@ -160,11 +144,13 @@ public class ProductsFragment extends Fragment {
             // Проходим через все ряды
             while (cursor.moveToNext()) {
                 // Используем индекс для получения строки или числа
-                //int currentID = cursor.getInt(idColumnIndex);
+                int currentID = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(ProductNameIndex);
 
                 // Выводим значения каждого столбца
                 ProductsList.add(currentName);
+                ProductsID.add(currentID);
+               // mainActivity.ProductsList.add(currentName);
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -271,19 +257,16 @@ public class ProductsFragment extends Fragment {
     class MyAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
-        private ArrayList<String> productlist = new ArrayList<String>();
         Context context;
 
-        public MyAdapter(Context context, ArrayList<String> product_list) {
+        public MyAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-
-            this.productlist = product_list;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            return productlist.size();
+            return ProductsList.size();
         }
 
         @Override
@@ -293,10 +276,10 @@ public class ProductsFragment extends Fragment {
 
         @Override
         public Object getItem(int position){
-            return productlist.get(position);
+            return ProductsList.get(position);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             final ViewHolder holder;
 
@@ -305,7 +288,12 @@ public class ProductsFragment extends Fragment {
                 convertView=layoutInflater.inflate(R.layout.row,null);
                 holder=new ViewHolder();
                 holder.product_name=(TextView) convertView.findViewById(R.id.ProductName);
+               // holder.product_name.setTag(position);
                 holder.delete_button=(ImageButton)convertView.findViewById(R.id.deleteButton);
+                if (holder.delete_button.getTag()==null){
+                    //Toast.makeText(getContext(), "Tag: " + holder.delete_button.getTag(), Toast.LENGTH_SHORT).show();
+                holder.delete_button.setTag(position);
+                     } //тут присваивать тег равны   й йди в таблице продукт
                 convertView.setTag(holder);
             }
             else
@@ -313,12 +301,16 @@ public class ProductsFragment extends Fragment {
                holder=(ViewHolder)convertView.getTag();
             }
 
-            holder.product_name.setText(productlist.get(position).toString());
+
+            holder.product_name.setText(ProductsList.get(position).toString());
+
 
             holder.product_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String selectedFromList = holder.product_name.getText().toString();
+                 SQLiteDatabase ReadCharacteristics=dbHelper.getReadableDatabase();
+
+                    String selectedFromList = holder.product_name.getText().toString()+", ID: "+position;
                     Bundle bundle = new Bundle();
                     bundle.putString("arg1",selectedFromList);
                     replaceFragment.onFragmentReplace(bundle);
@@ -330,12 +322,12 @@ public class ProductsFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                   // String selectedFromList = (String) parent.getItemAtPosition(position).toString();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("arg1","ImageButton");
-                   // bundle.putInt("arg2", position);
-                    replaceFragment.onFragmentReplace(bundle);
+                    Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
+                    dbHelper.getWritableDatabase().delete(Products.TABLE_NAME,Products._ID+"="+ProductsID.get(position),null);
+                    ProductsID.remove(position);
+                    ProductsList.remove(position);
+                    notifyDataSetChanged();
                 }
             });
             return convertView;

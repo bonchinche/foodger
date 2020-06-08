@@ -2,6 +2,7 @@ package com.example.foodger.ui.AddProduct;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -111,7 +112,26 @@ public class AddProductFragment extends Fragment{
                 //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
                 // Создаем объект ContentValues, где имена столбцов ключи,
 
+                SQLiteDatabase selectmaxid=_db.getReadableDatabase();
+
+                Cursor cursor = selectmaxid.rawQuery("Select MAX(_ID) from Products;",null);
+
+                int min_free_id;
+                String str_min_free_id;
+
+                    cursor.moveToFirst();
+                    str_min_free_id=cursor.getString(0);
+                    min_free_id = cursor.getInt(0);
+
+                    if (str_min_free_id!=null){
+                        min_free_id++;
+                    }
+                else{
+                    min_free_id=0;
+                }
+
                 ContentValues valuesOfProduct = new ContentValues();
+                valuesOfProduct.put(ProductsTablesContracts.Products._ID, min_free_id);
                 valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Выбранный тип продукта
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
@@ -132,7 +152,7 @@ public class AddProductFragment extends Fragment{
                     // Если ID  -1, значит произошла ошибка
                     Toast.makeText(getContext(), "Ошибка при добавлении продукта", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Продукт добавлен под номером: " + newRowIdProducts, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getContext(), "Продукт добавлен с ID: " + min_free_id, Toast.LENGTH_SHORT).show();
                 }
             }
         });
