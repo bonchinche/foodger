@@ -76,6 +76,7 @@ public class ProductsFragment extends Fragment {
 
         dbHelper = new DataBaseHelper(getContext());
 
+        //getActivity().deleteDatabase("Products.db");
         /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
         // Создаем объект ContentValues, где имена столбцов ключи,
         // а информация о госте является значениями ключей

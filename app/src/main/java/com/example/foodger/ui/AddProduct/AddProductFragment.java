@@ -2,8 +2,10 @@ package com.example.foodger.ui.AddProduct;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,11 @@ import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.example.foodger.calendarDate;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class AddProductFragment extends Fragment{
@@ -62,10 +69,9 @@ public class AddProductFragment extends Fragment{
         ratingBar.setStepSize(1);
         ratingBar.setRating(0);
         //Calendar
-        _calendarDate = new calendarDate(0, 0, 0);
 
-
-
+        Calendar calendar = Calendar.getInstance();
+        _calendarDate = new calendarDate(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,19 +112,62 @@ public class AddProductFragment extends Fragment{
             public void onClick(View view) {
 
                 _productName = productNameEditText.getText().toString();
-                _dateOfManufacture = _calendarDate.get_date() + "." + _calendarDate.get_month() + "." + _calendarDate.get_year();
+                _dateOfManufacture = _calendarDate.get_year() + "/" + _calendarDate.get_month() + "/" + _calendarDate.get_date() + " 00:00:00";
+
+                //date2 = sdf.parse(myDate);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
+                Date dt = new Date();
+                try {
+                    dt = sdf.parse(_dateOfManufacture); // присваиваем dt значение текущей даты
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Calendar c = Calendar.getInstance();
+                c.setTime(dt);
+                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
+                dt = c.getTime();
+                _dateOfSpoilage = sdf.format(dt);
+                Log.d("TEST", "***************************************************************");
+                Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
+                Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
+                Log.d("TEST", "***************************************************************");
+
 
                 // Gets the database in write mode
-                Toast.makeText(getContext(), "Дата: " + _dateOfManufacture, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Дата: " + _dateOfManufacture, Toast.LENGTH_SHORT).show()
                 SQLiteDatabase db = _db.getWritableDatabase();
                 //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
                 // Создаем объект ContentValues, где имена столбцов ключи,
 
+                SQLiteDatabase selectmaxid=_db.getReadableDatabase();
+
+                Cursor cursor = selectmaxid.rawQuery("Select MAX(_ID) from Products;",null);
+
+                int min_free_id;
+                String str_min_free_id;
+
+                cursor.moveToFirst();
+                str_min_free_id=cursor.getString(0);
+                min_free_id = cursor.getInt(0);
+
+                if (str_min_free_id!=null){
+                    min_free_id++;
+                }
+                else{
+                    min_free_id=0;
+                }
+
+                //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
+                // Создаем объект ContentValues, где имена столбцов ключи,
+
+
                 ContentValues valuesOfProduct = new ContentValues();
+                valuesOfProduct.put(ProductsTablesContracts.Products._ID, min_free_id);
                 valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
-                valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Выбранный тип продукта
+                valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
+                valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
-                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, 0); // Срок хранения
+                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
                 ContentValues valuesOfProductCharacteristics = new ContentValues();
@@ -128,15 +177,19 @@ public class AddProductFragment extends Fragment{
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
 
+
                 long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
                 long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
+
 
                 if (newRowIdProducts == -1) {
                     // Если ID  -1, значит произошла ошибка
                     Toast.makeText(getContext(), "Ошибка при добавлении продукта", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Продукт добавлен под номером: " + newRowIdProducts, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Продукт добавлен с ID: " + min_free_id, Toast.LENGTH_SHORT).show();
                 }
+
+
                 productNameEditText.setText("");
                 spinner.setSelection(0);
                 ratingBar.setRating(0);
@@ -195,6 +248,7 @@ public class AddProductFragment extends Fragment{
     private String _productName;
     private String _dateOfManufacture;
     private String _chosenType;
+    private String _dateOfSpoilage;
     private int _chosenPosition;
     private String[] _productType = {"milk", "meat", "eggs", "cheese", "vegetables", "other"};
 

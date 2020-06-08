@@ -52,6 +52,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 + ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID + " INTEGER , "
                 + ProductsTablesContracts.Products.DOM + " TEXT, "
                 + ProductsTablesContracts.Products.SHELF_LIFE+ " INTEGER , "
+                + ProductsTablesContracts.Products.DOS + " TEXT , "
                 + ProductsTablesContracts.Products.NAME + " TEXT , FOREIGN KEY(\""
                 + ProductsTablesContracts.Products.PRODUCT_TYPE_ID+"\") REFERENCES \""
                 + ProductsTablesContracts.Product_Type.TABLE_NAME+"\", FOREIGN KEY(\""
