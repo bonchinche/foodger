@@ -12,26 +12,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.foodger.MainActivity;
 import com.example.foodger.R;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
 import com.example.foodger.ProductsTablesContracts.Product_Type;
 import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.DataBaseHelper;
-
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -311,7 +302,7 @@ public class ProductsFragment extends Fragment {
                 public void onClick(View v) {
                  SQLiteDatabase ReadCharacteristics=dbHelper.getReadableDatabase();
 
-                    String selectedFromList = holder.product_name.getText().toString()+", ID: "+position;
+                    String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsID.get(position);
                     Bundle bundle = new Bundle();
                     bundle.putString("arg1",selectedFromList);
                     replaceFragment.onFragmentReplace(bundle);
