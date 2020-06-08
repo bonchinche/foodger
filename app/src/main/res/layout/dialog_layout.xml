@@ -7,8 +7,8 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="283dp"
-        android:layout_height="180dp"
+        android:layout_width="295dp"
+        android:layout_height="319dp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
@@ -22,13 +22,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.223">
 
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Каллории (ККАЛ)"
+            android:textColor="#000000" />
+
         <EditText
             android:id="@+id/caloriesTextEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Каллории"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Белки (Г)"
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/proteinTextEdit"
@@ -36,7 +51,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Белки"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Углеводы (Г)"
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/carbohydratesTextEdit"
@@ -44,7 +67,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Углеводы"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Жиры (Г)"
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/fatnessTextEdit"
@@ -52,6 +83,23 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Жиры"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Срок  хранения (Г)"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/shelfLifeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Срок хранения"
+            android:inputType="number"
+            android:maxLength="6" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

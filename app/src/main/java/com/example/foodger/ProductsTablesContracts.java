@@ -14,8 +14,9 @@ public class ProductsTablesContracts {
 
         public final static String _ID= BaseColumns._ID;
         public final static String PRODUCT_TYPE_ID="PRODUCT_TYPE_ID";
+        public final static String PRODUCT_CHARACTERISTIC_ID = "PRODUCT_CHARACTERISTIC_ID";
         public final static String DOM = "DOM";
-        public final static String DOS= "DOS";
+        public final static String DOS = "DOS";
         public final static String SHELF_LIFE = "SHELF_LIFE";
         public final static String NAME = "NAME";
 
