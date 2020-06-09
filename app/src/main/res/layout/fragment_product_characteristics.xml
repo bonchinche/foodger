@@ -56,9 +56,10 @@
                     android:layout_marginRight="25dp"
                     android:layout_weight="0"
                     android:ems="10"
+                    android:hint="Неизвестно"
                     android:inputType="textPersonName"
-                    android:text="Your text"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -92,12 +93,13 @@
                         <EditText
                             android:id="@+id/editcarbohydrates"
                             android:layout_width="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="YourText" />
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -117,11 +119,12 @@
                             android:id="@+id/editprotein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="YourText" />
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -141,11 +144,12 @@
                             android:id="@+id/editfatness"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="YourText" />
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -157,18 +161,19 @@
                             android:id="@+id/calories"
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:text="Калории: "
+                            android:text="Каллории: "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editcalories"
                             android:layout_width="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
                             android:layout_weight="1"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="YourText" />
+                            />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -197,11 +202,12 @@
                             android:id="@+id/editDom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="Your text" />
+                            />
 
                     </LinearLayout>
 
@@ -222,11 +228,12 @@
                             android:id="@+id/editShelf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="Your text" />
+                            />
 
                     </LinearLayout>
 
@@ -247,11 +254,12 @@
                             android:id="@+id/editTemperature"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
                             android:inputType="textPersonName"
-                            android:text="YourText" />
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -295,7 +303,9 @@
                     android:id="@+id/updatebutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Принять изменения" />
+                    android:text="Принять изменения"
+                    android:visibility="invisible"
+                    />
             </LinearLayout>
 
         </LinearLayout>

@@ -2,6 +2,8 @@ package com.example.foodger.ui.Products;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -45,28 +48,97 @@ public class ProductCharacteristics extends Fragment {
             nametextview.setText(Name);
 
             EditText carbohydrates=(EditText)root.findViewById(R.id.editcarbohydrates);
-            carbohydrates.setText(String.valueOf(Carbo));
+            if (Carbo!=0) {
+                carbohydrates.setText(String.valueOf(Carbo));
+            }else{
+                carbohydrates.setText("");
+                //int RGB = android.graphics.Color.rgb(215, 115, 25);
+               // carbohydrates.setBackgroundColor(RGB);
+            }
 
             EditText calories=(EditText) root.findViewById(R.id.editcalories);
-            calories.setText(String.valueOf(Calories));
+            if (Calories!=0) {
+                carbohydrates.setText(String.valueOf(Calories));
+            }else{
+                calories.setText("");
+               // int RGB = android.graphics.Color.rgb(215, 115, 25);
+                //calories.setBackgroundColor(RGB);
+            }
 
             EditText dom=(EditText) root.findViewById(R.id.editDom);
-            dom.setText(String.valueOf(Dom));
+            if (Dom!=null) {
+                dom.setText(String.valueOf(Dom));
+            }else{
+                dom.setText("");
+               // int RGB = android.graphics.Color.rgb(215, 115, 25);
+               // dom.setBackgroundColor(RGB);
+            }
 
             EditText shelf=(EditText) root.findViewById(R.id.editShelf);
-            shelf.setText(String.valueOf(Shelf));
+            if (Shelf!=null) {
+                shelf.setText(String.valueOf(Shelf));
+            }else{
+                shelf.setText("");
+                //int RGB = android.graphics.Color.rgb(215, 115, 25);
+               // shelf.setBackgroundColor(RGB);
+            }
 
             EditText temp=(EditText) root.findViewById(R.id.editTemperature);
-            temp.setText(String.valueOf(Temperature));
+            if (Temperature!=null) {
+                temp.setText(String.valueOf(Temperature));
+            }else{
+                temp.setText("");
+                //int RGB = android.graphics.Color.rgb(215, 115, 25);
+                //temp.setBackgroundColor(RGB);
+            }
 
             EditText fatness=(EditText) root.findViewById(R.id.editfatness);
-            fatness.setText(String.valueOf(Fatness));
+            if (Fatness!=0) {
+                fatness.setText(String.valueOf(Fatness));
+            }else{
+                fatness.setText("");
+                //int RGB = android.graphics.Color.rgb(215, 115, 25);
+                //fatness.setBackgroundColor(RGB);
+            }
 
            EditText protein=(EditText) root.findViewById(R.id.editprotein);
-            protein.setText(String.valueOf(Protein));
+            if (Protein!=0) {
+                protein.setText(String.valueOf(Protein));
+            }else{
+                protein.setText("");
+               // int RGB = android.graphics.Color.rgb(215, 115, 25);
+               // protein.setBackgroundColor(RGB);
+            }
 
             RatingBar rating=(RatingBar)root.findViewById(R.id.Rating);
             rating.setRating(Rating);
+
+
+            /*(EditText).root.findViewByID(R.id.editcalories).addTextChangedListener(new TextWatcher(){
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(fatnessTextView.getText().toString().isEmpty() != true) {
+                        long i = Long.parseLong(fatnessTextView.getText().toString());
+                        if (i > 1000) {
+                            fatnessTextView.setBackgroundColor(getResources().getColor(R.color.Red));
+                        } else {
+                            fatnessTextView.setBackgroundColor(getResources().getColor(R.color.White));
+                        }
+                    }
+                }
+            });*/
 
             return root;
         }
