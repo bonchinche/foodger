@@ -36,9 +36,6 @@ import java.util.Date;
 
 
 public class AddProductFragment extends Fragment{
-
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -107,93 +104,94 @@ public class AddProductFragment extends Fragment{
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                if (productNameEditText.getText().toString().length() != 0) {
+                    _productName = productNameEditText.getText().toString();
+                    _dateOfManufacture = _calendarDate.get_year() + "/" + _calendarDate.get_month() + "/" + _calendarDate.get_date() + " 00:00:00";
 
-                _productName = productNameEditText.getText().toString();
-                _dateOfManufacture = _calendarDate.get_year() + "/" + _calendarDate.get_month() + "/" + _calendarDate.get_date() + " 00:00:00";
+                    //date2 = sdf.parse(myDate);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
+                    Date dt = new Date();
+                    try {
+                        dt = sdf.parse(_dateOfManufacture); // присваиваем dt значение текущей даты
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(dt);
+                    c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
+                    dt = c.getTime();
+                    _dateOfSpoilage = sdf.format(dt);
+                    Log.d("TEST", "***************************************************************");
+                    Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
+                    Log.d("SHELF LIFE: ", _shelfLife);
+                    Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
+                    Log.d("TEST", "***************************************************************");
 
-                //date2 = sdf.parse(myDate);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
-                Date dt = new Date();
-                try {
-                    dt = sdf.parse(_dateOfManufacture); // присваиваем dt значение текущей даты
-                } catch (ParseException e) {
-                    e.printStackTrace();
+
+                    // Gets the database in write mode
+                    //Toast.makeText(getContext(), "Дата: " + _dateOfManufacture, Toast.LENGTH_SHORT).show()
+                    SQLiteDatabase db = _db.getWritableDatabase();
+                    //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
+                    // Создаем объект ContentValues, где имена столбцов ключи,
+
+                    SQLiteDatabase selectmaxid = _db.getReadableDatabase();
+
+                    Cursor cursor = selectmaxid.rawQuery("Select MAX(_ID) from Products;", null);
+
+                    int min_free_id;
+                    String str_min_free_id;
+
+                    cursor.moveToFirst();
+                    str_min_free_id = cursor.getString(0);
+                    min_free_id = cursor.getInt(0);
+
+                    if (str_min_free_id != null) {
+                        min_free_id++;
+                    } else {
+                        min_free_id = 0;
+                    }
+
+                    //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
+                    // Создаем объект ContentValues, где имена столбцов ключи,
+
+
+                    ContentValues valuesOfProduct = new ContentValues();
+                    valuesOfProduct.put(ProductsTablesContracts.Products._ID, min_free_id);
+                    valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
+                    valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
+                    valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
+                    valuesOfProduct.put(ProductsTablesContracts.Products.TEMPERATURE, _temperature); // Дата изготовления
+                    valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
+
+                    ContentValues valuesOfProductCharacteristics = new ContentValues();
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic._ID, min_free_id);
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CALORIES, _calories);
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.PROTEIN, _protein);
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.FATNESS, _fatness);
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
+                    valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
+                    Log.d("TEST", "***************************************************************");
+                    Log.d("ADDED CHAR", "CALORIES = " + _calories + " PROTEIN = " + _protein + " FATNESS = " + _fatness + " CARBO = " + _carbohydrates + " TEMPERATURE = " + _temperature + " RATING = " + _rating);
+                    Log.d("TEST", "***************************************************************");
+                    long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
+                    long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
+                    Log.d("TEST", "NEW ROW IN CHAR = " + newRowIdCharacteristics);
+
+                    if (newRowIdProducts == -1) {
+                        // Если ID  -1, значит произошла ошибка
+                        Toast.makeText(getContext(), "Ошибка при добавлении продукта", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Продукт добавлен с ID: " + min_free_id, Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    productNameEditText.setText("");
+                    spinner.setSelection(0);
+                    calendarView.setDate(date);
+                    reset();
+                }else{
+                    Toast.makeText(getContext(), "Пустое название продукта! ", Toast.LENGTH_LONG).show();
                 }
-                Calendar c = Calendar.getInstance();
-                c.setTime(dt);
-                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
-                dt = c.getTime();
-                _dateOfSpoilage = sdf.format(dt);
-                Log.d("TEST", "***************************************************************");
-                Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
-                Log.d("SHELF LIFE: ", _shelfLife);
-                Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
-                Log.d("TEST", "***************************************************************");
-
-
-                // Gets the database in write mode
-                //Toast.makeText(getContext(), "Дата: " + _dateOfManufacture, Toast.LENGTH_SHORT).show()
-                SQLiteDatabase db = _db.getWritableDatabase();
-                //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
-                // Создаем объект ContentValues, где имена столбцов ключи,
-
-                SQLiteDatabase selectmaxid=_db.getReadableDatabase();
-
-                Cursor cursor = selectmaxid.rawQuery("Select MAX(_ID) from Products;",null);
-
-                int min_free_id;
-                String str_min_free_id;
-
-                cursor.moveToFirst();
-                str_min_free_id=cursor.getString(0);
-                min_free_id = cursor.getInt(0);
-
-                if (str_min_free_id!=null){
-                    min_free_id++;
-                }
-                else{
-                    min_free_id=0;
-                }
-
-                //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
-                // Создаем объект ContentValues, где имена столбцов ключи,
-
-
-                ContentValues valuesOfProduct = new ContentValues();
-                valuesOfProduct.put(ProductsTablesContracts.Products._ID, min_free_id);
-                valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
-                valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
-                valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
-                //valuesOfProduct.put(ProductsTablesContracts.Products., ); // Дата изготовления
-                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
-                //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
-
-                ContentValues valuesOfProductCharacteristics = new ContentValues();
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic._ID, min_free_id);
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CALORIES, _calories);
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.PROTEIN, _protein);
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.FATNESS, _fatness);
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
-                valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
-                Log.d("TEST", "***************************************************************");
-                Log.d("ADDED CHAR", "CALORIES = " + _calories +" PROTEIN = " + _protein + " FATNESS = " + _fatness + " CARBO = " + _carbohydrates + " RATING = " + _rating);
-                Log.d("TEST", "***************************************************************");
-                long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
-                long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
-                Log.d("TEST", "NEW ROW IN CHAR = " + newRowIdCharacteristics);
-
-                if (newRowIdProducts == -1) {
-                    // Если ID  -1, значит произошла ошибка
-                    Toast.makeText(getContext(), "Ошибка при добавлении продукта", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "Продукт добавлен с ID: " + min_free_id, Toast.LENGTH_SHORT).show();
-                }
-
-
-                productNameEditText.setText("");
-                spinner.setSelection(0);
-                calendarView.setDate(date);
-                reset();
             }
         });
 
