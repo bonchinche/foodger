@@ -17,6 +17,7 @@ public class ProductsTablesContracts {
         public final static String DOM = "DOM";
         public final static String DOS = "DOS";
         public final static String SHELF_LIFE = "SHELF_LIFE";
+        public final static String TEMPERATURE = "TEMPERATURE";
         public final static String NAME = "NAME";
 
     }
@@ -26,7 +27,7 @@ public class ProductsTablesContracts {
 
         public final static String _ID = BaseColumns._ID;
         public final static String AVG_SHELF_LIFE="AVG_SHELF_LIFE";
-        public final static String TEMPERATURE = "TEMPERATURE";
+        public final static String AVG_TEMPERATURE = "AVG_TEMPERATURE";
         public final static String COLOR = "COLOR";
         public final static String TYPE_NAME = "TYPE_NAME";
 
