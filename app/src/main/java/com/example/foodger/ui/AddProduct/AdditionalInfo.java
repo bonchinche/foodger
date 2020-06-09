@@ -126,7 +126,7 @@ public class AdditionalInfo extends AppCompatDialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(fatnessTextView.getText().toString().isEmpty() != true) {
-                    long i = Long.parseLong(shelfLifeTextView.getText().toString());
+                    long i = Long.parseLong(fatnessTextView.getText().toString());
                     if (i > 1000) {
                         fatnessTextView.setBackgroundColor(getResources().getColor(R.color.Red));
                     } else {

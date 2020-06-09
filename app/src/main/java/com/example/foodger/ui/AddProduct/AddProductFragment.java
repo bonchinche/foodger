@@ -124,11 +124,12 @@ public class AddProductFragment extends Fragment{
                 }
                 Calendar c = Calendar.getInstance();
                 c.setTime(dt);
-//                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
+                c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
                 dt = c.getTime();
                 _dateOfSpoilage = sdf.format(dt);
                 Log.d("TEST", "***************************************************************");
                 Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
+                Log.d("SHELF LIFE: ", _shelfLife);
                 Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
                 Log.d("TEST", "***************************************************************");
 
@@ -167,7 +168,7 @@ public class AddProductFragment extends Fragment{
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
-                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, 5); // Срок хранения
+                valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
                 ContentValues valuesOfProductCharacteristics = new ContentValues();
@@ -177,8 +178,9 @@ public class AddProductFragment extends Fragment{
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.FATNESS, _fatness);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
-
-
+                Log.d("TEST", "***************************************************************");
+                Log.d("ADDED CHAR", "CALORIES = " + _calories +" PROTEIN = " + _protein + " FATNESS = " + _fatness + " CARBO = " + _carbohydrates);
+                Log.d("TEST", "***************************************************************");
                 long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
                 long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
 
