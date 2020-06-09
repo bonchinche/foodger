@@ -28,7 +28,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String SQL_CREATE_PRODUCT_TYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Product_Type.TABLE_NAME + " ("
                 + ProductsTablesContracts.Product_Type._ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ProductsTablesContracts.Product_Type.AVG_SHELF_LIFE + " INTEGER NOT NULL, "
-                + ProductsTablesContracts.Product_Type.TEMPERATURE + " INTEGER NOT NULL, "
+                + ProductsTablesContracts.Product_Type.AVG_TEMPERATURE + " INTEGER NOT NULL, "
                 + ProductsTablesContracts.Product_Type.TYPE_NAME + " TEXT NOT NULL, "
                 + ProductsTablesContracts.Product_Type.COLOR + " TEXT )";
         // Запускаем создание таблицы
@@ -50,6 +50,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String SQL_CREATE_PRODUCTS_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Products.TABLE_NAME + " ("
                 + ProductsTablesContracts.Products._ID + " INTEGER PRIMARY KEY NOT NULL, "
                 + ProductsTablesContracts.Products.PRODUCT_TYPE_ID + " INTEGER, "
+                + ProductsTablesContracts.Products.TEMPERATURE + " INTEGER, "
                 + ProductsTablesContracts.Products.DOM + " TEXT, "
                 + ProductsTablesContracts.Products.DOS + " TEXT, "
                 + ProductsTablesContracts.Products.SHELF_LIFE+ " INTEGER , "

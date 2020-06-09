@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class ProductsFragment extends Fragment {
        // deleteButton = root.findViewById(R.id.deleteButton);
 
         dbHelper = new DataBaseHelper(getContext());
-       // getActivity().deleteDatabase("Products.db");
+        //getActivity().deleteDatabase("Products.db");
 
         //getActivity().deleteDatabase("Products.db");
         /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
@@ -159,7 +160,7 @@ public class ProductsFragment extends Fragment {
                 Product_Type._ID,
                 Product_Type.TYPE_NAME,
                 Product_Type.COLOR,
-                Product_Type.TEMPERATURE,
+                Product_Type.AVG_TEMPERATURE,
                 Product_Type.AVG_SHELF_LIFE,
         };
 
@@ -260,18 +261,26 @@ public class ProductsFragment extends Fragment {
                     // Делаем запрос rawQuery("SELECT id, name FROM people WHERE name = ? AND id = ?", new String[] {"David", "2"});
                     String CurrentId=ProductsID.get(position).toString();
                     //Cursor cursor = TakeInfo.rawQuery("Select * from Product_Characteristic where _ID=?",new String[]{CurrentId});
-                    Cursor cursor = TakeInfo.rawQuery("Select * from Product_Characteristic where _ID=5",null);
+                    Cursor cursor = TakeInfo.rawQuery("Select * from "+Product_Characteristic.TABLE_NAME.toString()+" where _ID="+CurrentId,null);
 
                     cursor.moveToFirst();
                         //int currentID = cursor.getInt(cursor.getColumnIndex(Product_Characteristic._ID));
                         int protein_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.PROTEIN));
-                        //float rating_column=cursor.getFloat(cursor.getColumnIndex(Product_Characteristic.RATING));
+                        String rating_column_s=cursor.getString(cursor.getColumnIndex(Product_Characteristic.RATING));
                         int fatness_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.FATNESS));
                         int carbo_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CARBOHYDRATES));
                         int calories_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CALORIES));
                        // String photo_column=cursor.getString(cursor.getColumnIndex(Product_Characteristic.PHOTO));
+                        float rating_column=Float.parseFloat(rating_column_s);
+
+                        cursor=TakeInfo.rawQuery("Select DOM, TEMPERATURE, SHELF_LIFE FROM "+Products.TABLE_NAME.toString()+" where _ID="+CurrentId,null);
+                        cursor.moveToFirst();
+                        String dom=cursor.getString(cursor.getColumnIndex(Products.DOM));
+                        String temperature=cursor.getString(cursor.getColumnIndex(Products.TEMPERATURE));
+                        String shelf=cursor.getString(cursor.getColumnIndex(Products.SHELF_LIFE));
 
                         // ProductCharacteristicList.add(currentID);
+                    Log.d("SOSAT","rating: "+rating_column_s);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("Name",holder.product_name.getText().toString());
@@ -279,7 +288,11 @@ public class ProductsFragment extends Fragment {
                     bundle.putInt("Fatness",fatness_column);
                     bundle.putInt("Calories",calories_column);
                     bundle.putInt("Carbohydrates",carbo_column);
-                   // bundle.putDouble("Rating",rating_column);
+                    bundle.putFloat("Rating",rating_column);
+                    bundle.putString("DOM",dom);
+                    bundle.putString("TEMPERATURE",temperature);
+                    bundle.putString("SHELF",shelf);
+
                     replaceFragment.onFragmentReplace(bundle);
 
                 }
@@ -292,6 +305,7 @@ public class ProductsFragment extends Fragment {
 
                     Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
                     dbHelper.getWritableDatabase().delete(Products.TABLE_NAME,Products._ID+"="+ProductsID.get(position),null);
+                    dbHelper.getWritableDatabase().delete(Product_Characteristic.TABLE_NAME,Product_Characteristic._ID+"="+ProductsID.get(position),null);
                     ProductsID.remove(position);
                     ProductsList.remove(position);
                     notifyDataSetChanged();
