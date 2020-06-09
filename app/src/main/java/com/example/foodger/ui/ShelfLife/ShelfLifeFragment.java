@@ -8,20 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-
 import com.example.foodger.DataBaseHelper;
-import com.example.foodger.MainActivity;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -42,10 +35,6 @@ public class ShelfLifeFragment extends Fragment {
     private DataBaseHelper dbHelper;
 
     private String getCurrentMonth(String curMonth) {
-
-
-        //Calendar calendar = Calendar.getInstance();
-        //int month = calendar.get(Calendar.MONTH) + 1;
         int month = Integer.parseInt (curMonth);
         String monthStr = "";
         switch(month){
@@ -107,12 +96,8 @@ public class ShelfLifeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         final View root = inflater.inflate(R.layout.fragment_shelflife, container, false);
-        //final CalendarView calendarView = root.findViewById(R.id.calendarView);
         final CompactCalendarView compactCalendarView;
-        final ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
         final TextView monthTextView = (TextView)root.findViewById(R.id.monthTextView);
-        //actionBar.setDisplayHomeAsUpEnabled(false);
-        //actionBar.setTitle(null);
 
         dbHelper = new DataBaseHelper(getContext());
         final SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -126,23 +111,19 @@ public class ShelfLifeFragment extends Fragment {
         compactCalendarView = (CompactCalendarView)root.findViewById(R.id.compactcalendar_view);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        //Cursor cursor = db.rawQuery("Select * from Products where DOM like '%2020/06/09%'", null);
-        //Cursor cursor = db.rawQuery("Select * from Products", null);
-        //Cursor cursor = db.rawQuery("Select DOS from Products WHERE DOS like '%2020/06/09%'", null);
         Cursor cursor = db.rawQuery("Select DOS from Products", null);
-        cursor.moveToFirst();
-
         final List<String> datesOfSpoilage = new ArrayList<>();
-        Log.d("CURSOR#1", "***************************************************************************");
-        //datesOfSpoilage.add(cursor.getString(0));
-        if(cursor != null && cursor.moveToFirst()){
-            datesOfSpoilage.add(cursor.getString(0));
-            while(cursor.moveToNext()){
-                int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.DOS);
-                datesOfSpoilage.add(cursor.getString(columnIndex));
+        if(cursor != null) {
+            cursor.moveToFirst();
+            Log.d("CURSOR#1", "***************************************************************************");
+            if (cursor != null && cursor.moveToFirst()) {
+                datesOfSpoilage.add(cursor.getString(0));
+                while (cursor.moveToNext()) {
+                    int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.DOS);
+                    datesOfSpoilage.add(cursor.getString(columnIndex));
+                }
             }
         }
-
         Log.d("SIZE OF LIST ", "size = " + datesOfSpoilage.size());
 
         for(int i=0; i < datesOfSpoilage.size(); i++) {
@@ -162,35 +143,7 @@ public class ShelfLifeFragment extends Fragment {
         }
 
             Log.d("CURSOR#1", "***************************************************************************");
-        //String pr = cursor.getString(columnIndex);
-        //Log.d("PRODUCTI:", pr);
 
-
-
-        //Toast.makeText(getActivity(), "YOUR DOM: " + pr, Toast.LENGTH_LONG).show();
-        /*
-        while (cursor.moveToNext()){
-
-            int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.NAME);
-            String pr = cursor.getString(columnIndex);
-            Log.d("PRODUCTI:", pr);
-
-        }
-         */
-        String myDate = "2020/06/09 00:00:00"; //1596978249000
-                                                //1591707849000
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date2 = null;
-        try {
-            date2 = sdf.parse(myDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long millis = date2.getTime();
-
-        Event event = new Event(R.color.Red, millis, "EVENT");
-
-        compactCalendarView.addEvent(event);
 
         Date month = compactCalendarView.getFirstDayOfCurrentMonth();
 
@@ -198,8 +151,6 @@ public class ShelfLifeFragment extends Fragment {
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-
-
 
                 Context context = getContext();
                 SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
@@ -211,7 +162,6 @@ public class ShelfLifeFragment extends Fragment {
                 String year = yearFormat.format(dateClicked);
 
                 Cursor cursor = db.rawQuery("Select Name from Products WHERE DOS like '%" + year + "/" + month + "/" + day + "%'", null);
-
                 List<String> currentDOM = new ArrayList<>();
                 Log.d(" CURSOR#2", "***************************************************************************");
                 Log.d(" DOS#2", year + "/" + month + "/" + day);
@@ -230,26 +180,12 @@ public class ShelfLifeFragment extends Fragment {
 
                     Log.d("CURSOR#2", "***************************************************************************");
                 FragmentManager fragmentManager = getFragmentManager();
-
-
-
                 ProductsDialog productsDialog = new ProductsDialog(currentDOM);
                 productsDialog.setTargetFragment(ShelfLifeFragment.this, 0);
-                //productsDialog.setProducts(currentDOM, root);
                 productsDialog.show(fragmentManager, "DIALOG");
 
                 Toast.makeText(context, day + "/" + month + "/" + year, Toast.LENGTH_SHORT).show();
 
-
-
-                /*
-                if(dateClicked.toString().compareTo("Fri Oct 21 00:00:00 AST 2020") == 0){
-                    Toast.makeText(context, "TEACHERS DAY", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context, "NO EVENTS", Toast.LENGTH_SHORT).show();
-                }
-
-                 */
             }
 
             @Override
@@ -258,7 +194,6 @@ public class ShelfLifeFragment extends Fragment {
 
             }
         });
-
         return root;
     }
 }

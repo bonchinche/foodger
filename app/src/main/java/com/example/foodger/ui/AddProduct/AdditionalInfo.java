@@ -28,6 +28,7 @@ public class AdditionalInfo extends AppCompatDialogFragment {
     private TextView fatnessTextView;
     private TextView carbohydratesTextView;
     private TextView shelfLifeTextView;
+    private TextView temperatureTextView;
     private RatingBar productRatingBar;
 
     public AdditionalInfo(String calories, String protein, String carbohydrates, String fatness, String shelfLife, String rating){
@@ -55,6 +56,7 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         fatnessTextView = view.findViewById(R.id.fatnessTextEdit);
         carbohydratesTextView = view.findViewById(R.id.carbohydratesTextEdit);
         shelfLifeTextView = view.findViewById(R.id.shelfLifeTextView);
+        temperatureTextView = view.findViewById(R.id.temperatureEditText);
         productRatingBar = view.findViewById(R.id.productRatingBar);
 
         productRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -84,6 +86,32 @@ public class AdditionalInfo extends AppCompatDialogFragment {
             productRatingBar.setRating(Float.parseFloat(_rating));
         }
         //int i = Integer.parseInt (myString);
+
+        temperatureTextView.addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(temperatureTextView.getText().toString().isEmpty() != true) {
+                    long i = Long.parseLong(temperatureTextView.getText().toString());
+                    if (i > 100) {
+                        temperatureTextView.setBackgroundColor(getResources().getColor(R.color.Red));
+                    } else {
+                        temperatureTextView.setBackgroundColor(getResources().getColor(R.color.White));
+                    }
+                }
+            }
+        });
 
         shelfLifeTextView.addTextChangedListener(new TextWatcher(){
             @SuppressLint("ResourceAsColor")
@@ -238,8 +266,9 @@ public class AdditionalInfo extends AppCompatDialogFragment {
                             _fatness = "";
                             _shelfLife = "";
                             _rating = "";
+                            _temperature = "";
 
-                            String buf[] = {_calories, _protein, _carbohydrates, _fatness, _shelfLife, _rating};
+                            String buf[] = {_calories, _protein, _carbohydrates, _fatness, _shelfLife, _temperature, _rating};
                             sendResult(Activity.RESULT_OK, buf);
                         }
                     })
@@ -252,8 +281,9 @@ public class AdditionalInfo extends AppCompatDialogFragment {
                             String fatness = fatnessTextView.getText().toString();
                             String carbohydrates = carbohydratesTextView.getText().toString();
                             String shelfLife = shelfLifeTextView.getText().toString();
+                            String temperature = temperatureTextView.getText().toString();
 
-                            String buf[] = {calories, protein, carbohydrates, fatness, shelfLife, _rating};
+                            String buf[] = {calories, protein, carbohydrates, fatness, shelfLife, temperature, _rating};
 
                             sendResult(Activity.RESULT_OK, buf);
                         }
@@ -278,6 +308,7 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         _fatness = null;
         _shelfLife = null;
         _rating = null;
+        _temperature = null;
     }
 
     private String _calories = null;
@@ -286,4 +317,5 @@ public class AdditionalInfo extends AppCompatDialogFragment {
     private String _fatness = null;
     private String _shelfLife = null;
     private String _rating = null;
+    private String _temperature = null;
 }

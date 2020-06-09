@@ -164,7 +164,7 @@ public class AddProductFragment extends Fragment{
                 valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
                 valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
-                //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, ); // Дата изготовления
+                //valuesOfProduct.put(ProductsTablesContracts.Products., ); // Дата изготовления
                 valuesOfProduct.put(ProductsTablesContracts.Products.SHELF_LIFE, _shelfLife); // Срок хранения
                 //valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_CHARACTERISTIC_ID, ); //
 
@@ -236,7 +236,8 @@ public class AddProductFragment extends Fragment{
         _carbohydrates = buf[2];
         _fatness = buf[3];
         _shelfLife = buf[4];
-        _rating = buf[5];
+        _temperature = buf[5];
+        _rating = buf[6];
     }
 
     private AdditionalInfo additionalInfo;
@@ -247,6 +248,7 @@ public class AddProductFragment extends Fragment{
     private String _fatness = "";
     private String _shelfLife = "";
     private String _rating = "";
+    private String _temperature = "";
 
     private DataBaseHelper _db;
     private calendarDate _calendarDate;
