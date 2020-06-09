@@ -47,7 +47,6 @@ public class AddProductFragment extends Fragment{
         Button cancellButton = (Button)root.findViewById(R.id.cancellButton);
         Button applyButton = (Button)root.findViewById(R.id.applyButton);
         Button additionalInfoButton = (Button)root.findViewById(R.id.additionalnfoButton);
-        final RatingBar ratingBar = (RatingBar)root.findViewById(R.id.ratingBar);
         final EditText productNameEditText = (EditText)root.findViewById(R.id.productNameEditText);
         final CalendarView calendarView = (CalendarView)root.findViewById(R.id.Layout);
         final Spinner spinner = (Spinner)root.findViewById(R.id.productCategorySpinner);
@@ -65,9 +64,6 @@ public class AddProductFragment extends Fragment{
         spinner.setPrompt("Choose your category");
         spinner.setSelection(0);
 
-        //Rating bar
-        ratingBar.setStepSize(1);
-        ratingBar.setRating(0);
         //Calendar
 
         Calendar calendar = Calendar.getInstance();
@@ -93,15 +89,16 @@ public class AddProductFragment extends Fragment{
             public void onClick(View view) {
                 productNameEditText.setText("");
                 spinner.setSelection(0);
-                ratingBar.setRating(0);
                 calendarView.setDate(date);
+
+                reset();
             }
         });
 
         additionalInfoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
-                AdditionalInfo additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife);
+                additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife, _rating);
                 additionalInfo.setTargetFragment(AddProductFragment.this, 0);
                 additionalInfo.show(fragmentManager, "DIALOG");
             }
@@ -179,11 +176,11 @@ public class AddProductFragment extends Fragment{
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.CARBOHYDRATES, _carbohydrates);
                 valuesOfProductCharacteristics.put(ProductsTablesContracts.Product_Characteristic.RATING, _rating);
                 Log.d("TEST", "***************************************************************");
-                Log.d("ADDED CHAR", "CALORIES = " + _calories +" PROTEIN = " + _protein + " FATNESS = " + _fatness + " CARBO = " + _carbohydrates);
+                Log.d("ADDED CHAR", "CALORIES = " + _calories +" PROTEIN = " + _protein + " FATNESS = " + _fatness + " CARBO = " + _carbohydrates + " RATING = " + _rating);
                 Log.d("TEST", "***************************************************************");
                 long newRowIdProducts = db.insert(ProductsTablesContracts.Products.TABLE_NAME, null, valuesOfProduct);
                 long newRowIdCharacteristics = db.insert(ProductsTablesContracts.Product_Characteristic.TABLE_NAME, null, valuesOfProductCharacteristics);
-
+                Log.d("TEST", "NEW ROW IN CHAR = " + newRowIdCharacteristics);
 
                 if (newRowIdProducts == -1) {
                     // Если ID  -1, значит произошла ошибка
@@ -195,8 +192,8 @@ public class AddProductFragment extends Fragment{
 
                 productNameEditText.setText("");
                 spinner.setSelection(0);
-                ratingBar.setRating(0);
                 calendarView.setDate(date);
+                reset();
             }
         });
 
@@ -216,15 +213,18 @@ public class AddProductFragment extends Fragment{
 
 
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                _rating = rating;
-                Toast.makeText(getContext(), "Рейтинг продукта: " + rating, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return root;
+    }
+
+    public void reset(){
+        additionalInfo.reset();
+        _calories = "";
+        _protein = "";
+        _carbohydrates = "";
+        _fatness = "";
+        _shelfLife = "";
+        _rating = "";
     }
 
     @Override
@@ -236,15 +236,17 @@ public class AddProductFragment extends Fragment{
         _carbohydrates = buf[2];
         _fatness = buf[3];
         _shelfLife = buf[4];
+        _rating = buf[5];
     }
 
+    private AdditionalInfo additionalInfo;
 
     private String _calories = "";
     private String _protein = "";
     private String _carbohydrates = "";
     private String _fatness = "";
     private String _shelfLife = "";
-    private float _rating = 0;
+    private String _rating = "";
 
     private DataBaseHelper _db;
     private calendarDate _calendarDate;

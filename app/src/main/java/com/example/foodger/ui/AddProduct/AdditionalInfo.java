@@ -14,7 +14,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -26,24 +28,15 @@ public class AdditionalInfo extends AppCompatDialogFragment {
     private TextView fatnessTextView;
     private TextView carbohydratesTextView;
     private TextView shelfLifeTextView;
+    private RatingBar productRatingBar;
 
-    public void setConceptions(String calories, String protein, String fatness, String carbohydrates){
-
-        if(calories != ""){
-            caloriesTextView.setText(calories);
-        }
-        if(protein != ""){
-            proteinTextView.setText(protein);
-        }
-
-    }
-
-    public AdditionalInfo(String calories, String protein, String carbohydrates, String fatness, String shelfLife){
+    public AdditionalInfo(String calories, String protein, String carbohydrates, String fatness, String shelfLife, String rating){
                 _calories = calories;
                 _protein = protein;
                 _carbohydrates = carbohydrates;
                 _fatness = fatness;
                 _shelfLife = shelfLife;
+                _rating = rating;
     }
 
 
@@ -62,6 +55,15 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         fatnessTextView = view.findViewById(R.id.fatnessTextEdit);
         carbohydratesTextView = view.findViewById(R.id.carbohydratesTextEdit);
         shelfLifeTextView = view.findViewById(R.id.shelfLifeTextView);
+        productRatingBar = view.findViewById(R.id.productRatingBar);
+
+        productRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                _rating = String.valueOf(rating);
+                Toast.makeText(getContext(), "Ваш рейтинг: " + rating, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if(_calories != ""){
             caloriesTextView.setText(_calories);
@@ -78,7 +80,9 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         if(_shelfLife != ""){
             shelfLifeTextView.setText(_shelfLife);
         }
-
+        if(_rating != ""){
+            productRatingBar.setRating(Float.parseFloat(_rating));
+        }
         //int i = Integer.parseInt (myString);
 
         shelfLifeTextView.addTextChangedListener(new TextWatcher(){
@@ -233,8 +237,9 @@ public class AdditionalInfo extends AppCompatDialogFragment {
                             _carbohydrates = "";
                             _fatness = "";
                             _shelfLife = "";
+                            _rating = "";
 
-                            String buf[] = {_calories, _protein, _carbohydrates, _fatness, _shelfLife};
+                            String buf[] = {_calories, _protein, _carbohydrates, _fatness, _shelfLife, _rating};
                             sendResult(Activity.RESULT_OK, buf);
                         }
                     })
@@ -248,7 +253,7 @@ public class AdditionalInfo extends AppCompatDialogFragment {
                             String carbohydrates = carbohydratesTextView.getText().toString();
                             String shelfLife = shelfLifeTextView.getText().toString();
 
-                            String buf[] = {calories, protein, carbohydrates, fatness, shelfLife};
+                            String buf[] = {calories, protein, carbohydrates, fatness, shelfLife, _rating};
 
                             sendResult(Activity.RESULT_OK, buf);
                         }
@@ -266,11 +271,19 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         i.putExtra( "DIALOG_RESULT", result );
         getTargetFragment().onActivityResult( getTargetRequestCode(), resultCode, i );
     }
-
+    public void reset(){
+        _calories = null;
+        _protein = null;
+        _carbohydrates = null;
+        _fatness = null;
+        _shelfLife = null;
+        _rating = null;
+    }
 
     private String _calories = null;
     private String _protein = null;
     private String _carbohydrates = null;
     private String _fatness = null;
     private String _shelfLife = null;
+    private String _rating = null;
 }

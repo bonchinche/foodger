@@ -65,30 +65,7 @@
             <CalendarView
                 android:id="@+id/Layout"
                 android:layout_width="match_parent"
-                android:layout_height="294dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    style="@android:style/Widget.RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
+                android:layout_height="320dp" />
 
         </LinearLayout>
     </ScrollView>
