@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,13 +27,36 @@ public class ProductCharacteristics extends Fragment {
                                  ViewGroup container, Bundle savedInstanceState) {
 
             View root = inflater.inflate(R.layout.fragment_product_characteristics, container, false);
-            String arg1Value = getArguments().getString("arg1");
-            Integer arg2Value=getArguments().getInt("arg2");
+            int Protein = getArguments().getInt("Protein");
+            int Carbo = getArguments().getInt("Carbohydrates");
+            int Calories = getArguments().getInt("Calories");
+            int Fatness = getArguments().getInt("Fatness");
+           // float Rating=getArguments().getFloat("Rating");
+            String Name=getArguments().getString("Name");
 
             TextView nametextview=(TextView)root.findViewById(R.id.nameproductview);
-            nametextview.setText(arg1Value);
-           // Button tButton=(Button)root.findViewById(R.id.button);
-           // tButton.setText(arg1Value+",  ID: "+arg2Value.toString());
+            nametextview.setText(Name);
+
+            EditText carbohydrates=(EditText) root.findViewById(R.id.editcarbohydrates);
+            carbohydrates.setText(Carbo);
+
+            EditText calories=(EditText) root.findViewById(R.id.editcalories);
+            calories.setText(Calories);
+
+           // EditText dom=(EditText) root.findViewById(R.id.editDom);
+           // carbohydrates.setText(dom);
+
+            EditText fatness=(EditText) root.findViewById(R.id.editfatness);
+            fatness.setText(Fatness);
+
+            EditText protein=(EditText) root.findViewById(R.id.editprotein);
+            protein.setText(Protein);
+
+           // RatingBar rating=(RatingBar)root.findViewById(R.id.Rating);
+           // rating.setRating(Rating);
+
+
+
             return root;
         }
 }

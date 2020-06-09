@@ -197,55 +197,6 @@ public class ProductsFragment extends Fragment {
         }
     }
 
-    private void SelectFromProductCharacteristic() {
-        // Создадим и откроем для чтения базу данных
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Зададим условие для выборки - список столбцов
-        String[] projection = {
-                Product_Characteristic._ID,
-                Product_Characteristic.PROTEIN,
-                Product_Characteristic.PHOTO,
-                Product_Characteristic.RATING,
-                Product_Characteristic.FATNESS,
-                Product_Characteristic.CARBOHYDRATES,
-                Product_Characteristic.CALORIES,
-        };
-
-        // Делаем запрос
-        Cursor cursor = db.query(
-                Product_Characteristic.TABLE_NAME,   // таблица
-                projection,            // столбцы
-                null,                  // столбцы для условия WHERE
-                null,                  // значения для условия WHERE
-                null,                  // Don't group the rows
-                null,                  // Don't filter by row groups
-                null);                   // порядок сортировки
-
-
-        try {
-
-            // ProductCharacteristicList.add(Products.NAME);
-
-            // Узнаем индекс каждого столбца
-            int idColumnIndex = cursor.getColumnIndex(Product_Characteristic._ID);
-
-            // Проходим через все ряды
-            while (cursor.moveToNext()) {
-                // Используем индекс для получения строки или числа
-                //int currentID = cursor.getInt(idColumnIndex);
-                String currentID = cursor.getString(idColumnIndex);
-
-                // Выводим значения каждого столбца
-                // ProductCharacteristicList.add(currentID);
-            }
-        } finally {
-            // Всегда закрываем курсор после чтения
-            cursor.close();
-        }
-
-    }
-
     class MyAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
@@ -303,8 +254,32 @@ public class ProductsFragment extends Fragment {
                  SQLiteDatabase ReadCharacteristics=dbHelper.getReadableDatabase();
 
                     String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsID.get(position);
+
+                    SQLiteDatabase TakeInfo= dbHelper.getReadableDatabase();
+
+                    // Делаем запрос rawQuery("SELECT id, name FROM people WHERE name = ? AND id = ?", new String[] {"David", "2"});
+                    String CurrentId=ProductsID.get(position).toString();
+                    //Cursor cursor = TakeInfo.rawQuery("Select * from Product_Characteristic where _ID=?",new String[]{CurrentId});
+                    Cursor cursor = TakeInfo.rawQuery("Select * from Product_Characteristic where _ID=5",null);
+
+                    cursor.moveToFirst();
+                        //int currentID = cursor.getInt(cursor.getColumnIndex(Product_Characteristic._ID));
+                        int protein_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.PROTEIN));
+                        //float rating_column=cursor.getFloat(cursor.getColumnIndex(Product_Characteristic.RATING));
+                        int fatness_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.FATNESS));
+                        int carbo_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CARBOHYDRATES));
+                        int calories_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CALORIES));
+                       // String photo_column=cursor.getString(cursor.getColumnIndex(Product_Characteristic.PHOTO));
+
+                        // ProductCharacteristicList.add(currentID);
+
                     Bundle bundle = new Bundle();
-                    bundle.putString("arg1",selectedFromList);
+                    bundle.putString("Name",holder.product_name.getText().toString());
+                    bundle.putInt("Protein",protein_column);
+                    bundle.putInt("Fatness",fatness_column);
+                    bundle.putInt("Calories",calories_column);
+                    bundle.putInt("Carbohydrates",carbo_column);
+                   // bundle.putDouble("Rating",rating_column);
                     replaceFragment.onFragmentReplace(bundle);
 
                 }
