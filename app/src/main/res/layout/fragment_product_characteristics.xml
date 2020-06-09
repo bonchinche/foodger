@@ -49,7 +49,7 @@
                     android:textSize="24sp" />
 
                 <EditText
-                    android:id="@+id/editText10"
+                    android:id="@+id/editType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -194,7 +194,7 @@
                             android:textSize="18sp" />
 
                         <EditText
-                            android:id="@+id/editText7"
+                            android:id="@+id/editDom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
@@ -219,7 +219,7 @@
                             android:textSize="18sp" />
 
                         <EditText
-                            android:id="@+id/editText8"
+                            android:id="@+id/editShelf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
@@ -244,7 +244,7 @@
                             android:textSize="18sp" />
 
                         <EditText
-                            android:id="@+id/editText9"
+                            android:id="@+id/editTemperature"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
@@ -277,7 +277,7 @@
                     android:textSize="24sp" />
 
                 <RatingBar
-                    android:id="@+id/ratingBar2"
+                    android:id="@+id/Rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
