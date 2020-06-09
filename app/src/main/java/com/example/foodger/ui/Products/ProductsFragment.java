@@ -271,8 +271,12 @@ public class ProductsFragment extends Fragment {
                         int carbo_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CARBOHYDRATES));
                         int calories_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.CALORIES));
                        // String photo_column=cursor.getString(cursor.getColumnIndex(Product_Characteristic.PHOTO));
-                        float rating_column=Float.parseFloat(rating_column_s);
-
+                    float rating_column;
+                        if (rating_column_s.isEmpty()){
+                            rating_column=0;
+                        }else {
+                            rating_column = Float.parseFloat(rating_column_s);
+                        }
                         cursor=TakeInfo.rawQuery("Select DOM, TEMPERATURE, SHELF_LIFE FROM "+Products.TABLE_NAME.toString()+" where _ID="+CurrentId,null);
                         cursor.moveToFirst();
                         String dom=cursor.getString(cursor.getColumnIndex(Products.DOM));
