@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
 import com.example.foodger.ProductsTablesContracts.Products;
@@ -217,10 +219,13 @@ public class ProductsFragment extends Fragment {
                         String temperature=cursor.getString(cursor.getColumnIndex(Products.TEMPERATURE));
                         String shelf=cursor.getString(cursor.getColumnIndex(Products.SHELF_LIFE));
 
-                        // ProductCharacteristicList.add(currentID);
-                    Log.d("SOSAT","rating: "+rating_column_s);
+                        cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
+                        cursor.moveToFirst();
+                        String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
 
                     Bundle bundle = new Bundle();
+                    bundle.putString("TYPE_NAME",type_name);
+                    bundle.putString("ID",CurrentId);
                     bundle.putString("Name",holder.product_name.getText().toString());
                     bundle.putInt("Protein",protein_column);
                     bundle.putInt("Fatness",fatness_column);

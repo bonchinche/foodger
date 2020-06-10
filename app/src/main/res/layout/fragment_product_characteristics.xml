@@ -84,22 +84,22 @@
 
                         <TextView
                             android:id="@+id/carbohydrates"
-                            android:layout_width="200dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Углеводы: "
+                            android:text="Углеводы (Г): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editcarbohydrates"
                             android:layout_width="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="7" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -109,22 +109,22 @@
 
                         <TextView
                             android:id="@+id/protein"
-                            android:layout_width="200dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Белки: "
+                            android:text="Белки (Г): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editprotein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="7" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -134,22 +134,22 @@
 
                         <TextView
                             android:id="@+id/fatness"
-                            android:layout_width="200dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Жирность: "
+                            android:text="Жирность (Г): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editfatness"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="7" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -159,21 +159,21 @@
 
                         <TextView
                             android:id="@+id/calories"
-                            android:layout_width="200dp"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:text="Каллории: "
+                            android:text="Калории (Г): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editcalories"
                             android:layout_width="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="25dp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="7" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -202,12 +202,11 @@
                             android:id="@+id/editDom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="textPersonName" />
 
                     </LinearLayout>
 
@@ -221,19 +220,19 @@
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Срок годности: "
+                            android:text="Срок годности (Дней): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editShelf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="7" />
 
                     </LinearLayout>
 
@@ -244,22 +243,22 @@
 
                         <TextView
                             android:id="@+id/textView26"
-                            android:layout_width="200dp"
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
-                            android:text="Температура хранения: "
+                            android:text="Температура хранения (°C): "
                             android:textSize="18sp" />
 
                         <EditText
                             android:id="@+id/editTemperature"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Неизвестно"
                             android:layout_marginRight="25dp"
                             android:layout_weight="0"
                             android:ems="10"
-                            android:inputType="textPersonName"
-                            />
+                            android:hint="Неизвестно"
+                            android:inputType="number"
+                            android:maxLength="4" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -303,9 +302,7 @@
                     android:id="@+id/updatebutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Принять изменения"
-                    android:visibility="invisible"
-                    />
+                    android:text="Принять изменения" />
             </LinearLayout>
 
         </LinearLayout>
