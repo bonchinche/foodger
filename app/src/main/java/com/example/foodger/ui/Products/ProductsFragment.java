@@ -1,7 +1,9 @@
 package com.example.foodger.ui.Products;
 
+import android.app.AlertDialog;
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -21,7 +22,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.example.foodger.R;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
-import com.example.foodger.ProductsTablesContracts.Product_Type;
 import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.DataBaseHelper;
 
@@ -34,7 +34,6 @@ public class ProductsFragment extends Fragment {
     ArrayList<String> ProductsList = new ArrayList<>();
     ArrayList<Integer> ProductsID=new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
-    ArrayList<String> ProductCharacteristicList = new ArrayList<>();
     MyAdapter myAdapter;
 
     private ReplaceFragment replaceFragment;
@@ -62,27 +61,10 @@ public class ProductsFragment extends Fragment {
                              final ViewGroup container, Bundle savedInstanceState) {
 
         final View root = inflater.inflate(R.layout.fragment_products, container, false);
-        //final TextView textView = root.findViewById(R.id.text_products);
 
         listView = root.findViewById(R.id.products_list);
-       // deleteButton = root.findViewById(R.id.deleteButton);
 
         dbHelper = new DataBaseHelper(getContext());
-        //getActivity().deleteDatabase("Products.db");
-
-        //getActivity().deleteDatabase("Products.db");
-        /*SQLiteDatabase wd = dbHelper.getWritableDatabase();
-        // Создаем объект ContentValues, где имена столбцов ключи,
-        // а информация о госте является значениями ключей
-        ContentValues values = new ContentValues();
-        values.put(Products.NAME, "diimmooonn");
-        long newRowId = wd.insert(Products.TABLE_NAME, null, values);
-        if (newRowId == -1) {
-            // Если ID  -1, значит произошла ошибка
-            Toast.makeText(getContext(), "Ошибка при заведении гостя", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Гость заведён под номером: " + newRowId, Toast.LENGTH_SHORT).show();
-        }*/
 
         if (!(ProductsList.size() > 0)) {
         //if (!(mainActivity.ProductsList.size()>0)){
@@ -100,7 +82,6 @@ public class ProductsFragment extends Fragment {
 
         myAdapter=new MyAdapter(getActivity());
 
-        //listView.setAdapter(meat_list_adapter);
         listView.setAdapter(myAdapter);
         return root;
     }
@@ -144,53 +125,6 @@ public class ProductsFragment extends Fragment {
                 ProductsList.add(currentName);
                 ProductsID.add(currentID);
                 // mainActivity.ProductsList.add(currentName);
-            }
-        } finally {
-            // Всегда закрываем курсор после чтения
-            cursor.close();
-        }
-    }
-
-    private void SelectFromTypeProducts() {
-        // Создадим и откроем для чтения базу данных
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        // Зададим условие для выборки - список столбцов
-        String[] projection = {
-                Product_Type._ID,
-                Product_Type.TYPE_NAME,
-                Product_Type.COLOR,
-                Product_Type.AVG_TEMPERATURE,
-                Product_Type.AVG_SHELF_LIFE,
-        };
-
-        // Делаем запрос
-        Cursor cursor = db.query(
-                Product_Type.TABLE_NAME,   // таблица
-                projection,            // столбцы
-                null,                  // столбцы для условия WHERE
-                null,                  // значения для условия WHERE
-                null,                  // Don't group the rows
-                null,                  // Don't filter by row groups
-                null);                   // порядок сортировки
-
-
-        try {
-
-            // TypeProductsList.add(Products.NAME);
-
-            // Узнаем индекс каждого столбца
-            int idColumnIndex = cursor.getColumnIndex(Product_Type._ID);
-            int ProductNameIndex = cursor.getColumnIndex(Product_Type.TYPE_NAME);
-
-            // Проходим через все ряды
-            while (cursor.moveToNext()) {
-                // Используем индекс для получения строки или числа
-                //int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(ProductNameIndex);
-
-                // Выводим значения каждого столбца
-                //TypeProductsList.add(currentName);
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -308,11 +242,31 @@ public class ProductsFragment extends Fragment {
                 public void onClick(View v) {
 
                     Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
-                    dbHelper.getWritableDatabase().delete(Products.TABLE_NAME,Products._ID+"="+ProductsID.get(position),null);
-                    dbHelper.getWritableDatabase().delete(Product_Characteristic.TABLE_NAME,Product_Characteristic._ID+"="+ProductsID.get(position),null);
-                    ProductsID.remove(position);
-                    ProductsList.remove(position);
-                    notifyDataSetChanged();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                    builder.setTitle("Вы уверены, что хотите удалить продукт: "+ProductsList.get(position)+"?");
+
+                    builder.setMessage("Продукт будет удален с вашего устройства, восстановить его уже не получится!!!")
+                            .setCancelable(false)
+                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dbHelper.getWritableDatabase().delete(Products.TABLE_NAME,Products._ID+"="+ProductsID.get(position),null);
+                                    dbHelper.getWritableDatabase().delete(Product_Characteristic.TABLE_NAME,Product_Characteristic._ID+"="+ProductsID.get(position),null);
+                                    ProductsID.remove(position);
+                                    ProductsList.remove(position);
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+
                 }
             });
             return convertView;

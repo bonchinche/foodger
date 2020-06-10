@@ -1,6 +1,7 @@
 package com.example.foodger.ui.Products;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,7 +48,7 @@ public class ProductCharacteristics extends Fragment {
             TextView nametextview=(TextView)root.findViewById(R.id.nameproductview);
             nametextview.setText(Name);
 
-            EditText carbohydrates=(EditText)root.findViewById(R.id.editcarbohydrates);
+            final EditText carbohydrates=(EditText)root.findViewById(R.id.editcarbohydrates);
             if (Carbo!=0) {
                 carbohydrates.setText(String.valueOf(Carbo));
             }else{
@@ -58,7 +59,7 @@ public class ProductCharacteristics extends Fragment {
 
             EditText calories=(EditText) root.findViewById(R.id.editcalories);
             if (Calories!=0) {
-                carbohydrates.setText(String.valueOf(Calories));
+                calories.setText(String.valueOf(Calories));
             }else{
                 calories.setText("");
                // int RGB = android.graphics.Color.rgb(215, 115, 25);
@@ -114,31 +115,45 @@ public class ProductCharacteristics extends Fragment {
             rating.setRating(Rating);
 
 
-            /*(EditText).root.findViewByID(R.id.editcalories).addTextChangedListener(new TextWatcher(){
+            final String TextBefore=carbohydrates.getText().toString();
+
+            carbohydrates.addTextChangedListener(new TextWatcher(){
 
                 @Override
                 public void afterTextChanged(Editable s) {
-
+                    //срабатывает сразу после изменения текста
                 }
 
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    //срабатывает сразу перед изменением текста
                 }
 
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(fatnessTextView.getText().toString().isEmpty() != true) {
-                        long i = Long.parseLong(fatnessTextView.getText().toString());
-                        if (i > 1000) {
-                            fatnessTextView.setBackgroundColor(getResources().getColor(R.color.Red));
-                        } else {
-                            fatnessTextView.setBackgroundColor(getResources().getColor(R.color.White));
+                    //срабатывает во время изменения текста
+                    if (TextBefore.equalsIgnoreCase(s.toString())) {
+                         carbohydrates.setBackgroundResource(R.drawable.edit_text_false);
+                    }
+                    else {
+                        carbohydrates.setBackgroundResource(R.drawable.edit_text_changed);
+                    }
+                    }
+            });
+
+            carbohydrates.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                Drawable background=carbohydrates.getBackground();
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        if (TextBefore.equalsIgnoreCase(carbohydrates.getText().toString())) {
+                            carbohydrates.setBackground(background);
                         }
                     }
                 }
-            });*/
+            });
+
 
             return root;
         }
