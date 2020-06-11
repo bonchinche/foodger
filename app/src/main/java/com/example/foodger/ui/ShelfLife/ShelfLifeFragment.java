@@ -161,15 +161,27 @@ public class ShelfLifeFragment extends Fragment {
                 String month = monthFormat.format(dateClicked);
                 String year = yearFormat.format(dateClicked);
 
-                Cursor cursor = db.rawQuery("Select Name from Products WHERE DOS like '%" + year + "/" + month + "/" + day + "%'", null);
+                Cursor cursor = db.rawQuery("Select Name, SHELF_LIFE from Products WHERE DOS like '%" + year + "/" + month + "/" + day + "%'", null);
                 List<String> currentDOM = new ArrayList<>();
                 Log.d(" CURSOR#2", "***************************************************************************");
                 Log.d(" DOS#2", year + "/" + month + "/" + day);
                 if(cursor != null && cursor.moveToFirst()){
-                    currentDOM.add(cursor.getString(0));
+                    if(cursor.getString(1).length() == 0){
+                        currentDOM.add(cursor.getString(0) + " (заполните срок хранения)");
+                    }else{
+                        currentDOM.add(cursor.getString(0));
+                    }
+
+                    Log.d("CURSOR", "CURSOR =" + cursor.getString(0) + " ------- " + cursor.getString(1));
                     while(cursor.moveToNext()){
-                        int columnIndex = cursor.getColumnIndex(ProductsTablesContracts.Products.NAME);
-                        currentDOM.add(cursor.getString(columnIndex));
+                        int columnIndexName = cursor.getColumnIndex(ProductsTablesContracts.Products.NAME);
+                        int columnIndexShelfLife = cursor.getColumnIndex(ProductsTablesContracts.Products.SHELF_LIFE);
+                        if(cursor.getString(columnIndexShelfLife).length() == 0){
+                            currentDOM.add(cursor.getString(columnIndexName) + " (заполните срок хранения)");
+                        }else{
+                            currentDOM.add(cursor.getString(columnIndexName));
+                        }
+
                     }
                 }
 
