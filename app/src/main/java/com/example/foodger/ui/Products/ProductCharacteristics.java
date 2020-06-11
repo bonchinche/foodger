@@ -65,7 +65,7 @@ public class ProductCharacteristics extends Fragment {
             Log.d("CARBGO: ","CARBO= "+Carbo);
 
             int Calories = getArguments().getInt("Calories");
-            //final String Type_Name=getArguments().getString("TYPE_NAME");
+            final String Type_Name=getArguments().getString("TYPE_NAME");
             final String ID=getArguments().getString("ID");
             int Fatness = getArguments().getInt("Fatness");
             float Rating=getArguments().getFloat("Rating");
@@ -112,7 +112,7 @@ public class ProductCharacteristics extends Fragment {
             dom.setTextColor(Color.rgb(0,0,0));
 
             final EditText editType=(EditText)root.findViewById(R.id.editType);
-            //editType.setText(Type_Name);
+            editType.setText(Type_Name);
             editType.setEnabled(false);
             editType.setHintTextColor(Color.rgb(0,0,0));
             editType.setTextColor(Color.rgb(0,0,0));

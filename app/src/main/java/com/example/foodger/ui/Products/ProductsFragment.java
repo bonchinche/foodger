@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -37,8 +38,10 @@ public class ProductsFragment extends Fragment {
     ArrayList<Integer> ProductsID=new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
     MyAdapter myAdapter;
+    int current_type;
 
     private ReplaceFragment replaceFragment;
+
 
     public ProductsFragment() {
 
@@ -62,6 +65,8 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
 
+        current_type=0;
+
         final View root = inflater.inflate(R.layout.fragment_products, container, false);
 
         listView = root.findViewById(R.id.products_list);
@@ -74,9 +79,44 @@ public class ProductsFragment extends Fragment {
             SelectFromProducts();
         }
 
+       if (!(TypeProductsList.size()>0)) {
+
+           TypeProductsList.add("All Products");
+
+            SQLiteDatabase select_types = dbHelper.getReadableDatabase();
+            Cursor cursor = select_types.rawQuery("Select TYPE_NAME from " + ProductsTablesContracts.Product_Type.TABLE_NAME.toString(), null);
+
+            cursor.moveToFirst();
+            String TypeName = cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+            TypeProductsList.add(TypeName);
+
+            while (cursor.moveToNext()) {
+                TypeName = cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                TypeProductsList.add(TypeName);
+            }
+
+        }
+
         Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, TypeProductsList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item ,TypeProductsList);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos,
+                                       long id) {
+              current_type=pos;
+              Log.d("IZMENENO:","CURRENT_TYPE= "+current_type);
+              //myAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                current_type=0;
+            }
+        });
+
         // Определяем разметку для использования при выборе элемента
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
@@ -170,10 +210,28 @@ public class ProductsFragment extends Fragment {
                 holder.product_name=(TextView) convertView.findViewById(R.id.ProductName);
                // holder.product_name.setTag(position);
                 holder.delete_button=(ImageButton)convertView.findViewById(R.id.deleteButton);
-                if (holder.delete_button.getTag()==null){
-                    //Toast.makeText(getContext(), "Tag: " + holder.delete_button.getTag(), Toast.LENGTH_SHORT).show();
-                holder.delete_button.setTag(position);
-                     } //тут присваивать тег равны   й йди в таблице продукт
+
+             /*   if (current_type!=0){
+
+                    SQLiteDatabase check_type=dbHelper.getReadableDatabase();
+
+                    Cursor type=check_type.rawQuery("Select PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString()+" where _ID="+ProductsID.get(position).toString(), null);
+
+                    type.moveToFirst();
+
+                    int type_from_select=type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
+
+                    if (type_from_select!=current_type-1){
+                        holder.product_name.setVisibility(View.INVISIBLE);
+                        holder.delete_button.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.product_name.setVisibility(View.VISIBLE);
+                        holder.delete_button.setVisibility(View.VISIBLE);
+
+                    }
+
+                }*/
+
                 convertView.setTag(holder);
             }
             else
@@ -219,12 +277,12 @@ public class ProductsFragment extends Fragment {
                         String temperature=cursor.getString(cursor.getColumnIndex(Products.TEMPERATURE));
                         String shelf=cursor.getString(cursor.getColumnIndex(Products.SHELF_LIFE));
 
-                        //cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
-                       // cursor.moveToFirst();
-                       // String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                        cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
+                        cursor.moveToFirst();
+                        String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
 
                     Bundle bundle = new Bundle();
-                  //  bundle.putString("TYPE_NAME",type_name);
+                    bundle.putString("TYPE_NAME",type_name);
                     bundle.putString("ID",CurrentId);
                     bundle.putString("Name",holder.product_name.getText().toString());
                     bundle.putInt("Protein",protein_column);
@@ -245,7 +303,7 @@ public class ProductsFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-
+                    holder.delete_button.setEnabled(false);
                     Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -261,11 +319,13 @@ public class ProductsFragment extends Fragment {
                                     ProductsID.remove(position);
                                     ProductsList.remove(position);
                                     notifyDataSetChanged();
+                                    holder.delete_button.setEnabled(true);
                                 }
                             })
                             .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
+                                    holder.delete_button.setEnabled(true);
                                 }
                             });
 
