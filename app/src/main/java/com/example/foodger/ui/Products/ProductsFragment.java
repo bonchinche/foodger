@@ -219,12 +219,12 @@ public class ProductsFragment extends Fragment {
                         String temperature=cursor.getString(cursor.getColumnIndex(Products.TEMPERATURE));
                         String shelf=cursor.getString(cursor.getColumnIndex(Products.SHELF_LIFE));
 
-                        cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
-                        cursor.moveToFirst();
-                        String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                        //cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
+                       // cursor.moveToFirst();
+                       // String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("TYPE_NAME",type_name);
+                  //  bundle.putString("TYPE_NAME",type_name);
                     bundle.putString("ID",CurrentId);
                     bundle.putString("Name",holder.product_name.getText().toString());
                     bundle.putInt("Protein",protein_column);
