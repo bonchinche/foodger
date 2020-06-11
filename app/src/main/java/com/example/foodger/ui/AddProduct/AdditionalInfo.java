@@ -31,12 +31,13 @@ public class AdditionalInfo extends AppCompatDialogFragment {
     private TextView temperatureTextView;
     private RatingBar productRatingBar;
 
-    public AdditionalInfo(String calories, String protein, String carbohydrates, String fatness, String shelfLife, String rating){
+    public AdditionalInfo(String calories, String protein, String carbohydrates, String fatness, String shelfLife, String temp, String rating){
                 _calories = calories;
                 _protein = protein;
                 _carbohydrates = carbohydrates;
                 _fatness = fatness;
                 _shelfLife = shelfLife;
+                _temperature = temp;
                 _rating = rating;
     }
 
@@ -84,6 +85,9 @@ public class AdditionalInfo extends AppCompatDialogFragment {
         }
         if(_rating != ""){
             productRatingBar.setRating(Float.parseFloat(_rating));
+        }
+        if(_temperature != ""){
+            temperatureTextView.setText(_temperature);
         }
         //int i = Integer.parseInt (myString);
 

@@ -92,7 +92,7 @@ public class AddProductFragment extends Fragment{
         additionalInfoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
-                additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife, _rating);
+                additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife, _temperature, _rating);
                 additionalInfo.setTargetFragment(AddProductFragment.this, 0);
                 additionalInfo.show(fragmentManager, "DIALOG");
             }
@@ -199,7 +199,7 @@ public class AddProductFragment extends Fragment{
                     productNameEditText.setText("");
                     spinner.setSelection(0);
                     calendarView.setDate(date);
-                    //reset();
+                    reset();
                 }else{
                     Toast.makeText(getContext(), "Пустое название продукта! ", Toast.LENGTH_LONG).show();
                 }
@@ -227,12 +227,16 @@ public class AddProductFragment extends Fragment{
     }
 
     public void reset(){
-        additionalInfo.reset();
+        if(additionalInfo != null){
+            additionalInfo.reset();
+        }
+
         _calories = "";
         _protein = "";
         _carbohydrates = "";
         _fatness = "";
         _shelfLife = "";
+        _temperature = "";
         _rating = "";
     }
 
