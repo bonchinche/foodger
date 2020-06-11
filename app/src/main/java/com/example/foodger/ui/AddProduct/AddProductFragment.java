@@ -58,7 +58,7 @@ public class AddProductFragment extends Fragment{
 
         //Выпадающий список
         spinner.setAdapter(adapter);
-        spinner.setPrompt("Choose your category");
+        spinner.setPrompt("Выберите категорию продукта");
         spinner.setSelection(0);
 
         //Calendar
@@ -70,9 +70,6 @@ public class AddProductFragment extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                // показываем позиция нажатого элемента
-                Toast.makeText(getContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
-
                 _chosenPosition = position;
                 _chosenType = _productType[position];
             }
@@ -95,7 +92,7 @@ public class AddProductFragment extends Fragment{
         additionalInfoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
-                additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife, _rating);
+                additionalInfo = new AdditionalInfo(_calories, _protein, _carbohydrates, _fatness, _shelfLife, _temperature, _rating);
                 additionalInfo.setTargetFragment(AddProductFragment.this, 0);
                 additionalInfo.show(fragmentManager, "DIALOG");
             }
@@ -109,23 +106,7 @@ public class AddProductFragment extends Fragment{
                     _dateOfManufacture = _calendarDate.get_year() + "/" + _calendarDate.get_month() + "/" + _calendarDate.get_date() + " 00:00:00";
 
                     //date2 = sdf.parse(myDate);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
-                    Date dt = new Date();
-                    try {
-                        dt = sdf.parse(_dateOfManufacture); // присваиваем dt значение текущей даты
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(dt);
-                    c.add(Calendar.DATE, Integer.parseInt(_shelfLife));
-                    dt = c.getTime();
-                    _dateOfSpoilage = sdf.format(dt);
-                    Log.d("TEST", "***************************************************************");
-                    Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
-                    Log.d("SHELF LIFE: ", _shelfLife);
-                    Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
-                    Log.d("TEST", "***************************************************************");
+
 
 
                     // Gets the database in write mode
@@ -150,6 +131,36 @@ public class AddProductFragment extends Fragment{
                     } else {
                         min_free_id = 0;
                     }
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
+
+                    if(_shelfLife.length() == 0){
+                        if(_chosenPosition != 6) {
+                            Cursor shelfLifeCursor = db.rawQuery("Select AVG_SHELF_LIFE from Product_Type WHERE _ID = " + _chosenPosition, null);
+
+                            if (shelfLifeCursor != null) {
+                                shelfLifeCursor.moveToFirst();
+                                //_shelfLife = shelfLifeCursor.getString(0);
+                                _dateOfSpoilage = findDayOfSpoilage(_dateOfManufacture, shelfLifeCursor.getString(0), sdf);
+                                Log.d("TEST", "***************************************************************");
+                                Log.d("SHELF LIFE: ", _shelfLife);
+                                Log.d("TEST", "***************************************************************");
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Введите срок годности продукта!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }else{
+                        _dateOfSpoilage = findDayOfSpoilage(_dateOfManufacture, _shelfLife, sdf);
+                    }
+
+                    //_dateOfSpoilage = findDayOfSpoilage(_dateOfManufacture, _shelfLife, sdf);
+
+                    Log.d("TEST", "***************************************************************");
+                    Log.d("DATE OF MANIFACTURE: ", _dateOfManufacture);
+                    Log.d("SHELF LIFE: ", _shelfLife);
+                    Log.d("DATE OF SPOILAGE: ", _dateOfSpoilage);
+                    Log.d("TEST", "***************************************************************");
 
                     //SQLiteDatabase db = DataBaseHelper.mDBHelper.getWritableDatabase();
                     // Создаем объект ContentValues, где имена столбцов ключи,
@@ -216,13 +227,33 @@ public class AddProductFragment extends Fragment{
     }
 
     public void reset(){
-        additionalInfo.reset();
+        if(additionalInfo != null){
+            additionalInfo.reset();
+        }
+
         _calories = "";
         _protein = "";
         _carbohydrates = "";
         _fatness = "";
         _shelfLife = "";
+        _temperature = "";
         _rating = "";
+    }
+
+    public String findDayOfSpoilage(String dateOfManufacture, String shelfLife, SimpleDateFormat sdf){
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00"); // Задаем формат даты
+        Date dt = new Date();
+        try {
+            dt = sdf.parse(dateOfManufacture); // присваиваем dt значение даты изготовления продукта
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, Integer.parseInt(shelfLife)); //
+        dt = c.getTime();
+        String dateOfSpoilage = sdf.format(dt); // получаем обычный формат даты
+        return dateOfSpoilage;
     }
 
     @Override
@@ -255,7 +286,8 @@ public class AddProductFragment extends Fragment{
     private String _chosenType;
     private String _dateOfSpoilage;
     private int _chosenPosition;
-    private String[] _productType = {"milk", "meat", "eggs", "cheese", "vegetables", "other"};
+    private String[] _productType = {"\uD83E\uDD66 Овощи", "\uD83E\uDDC0 Сыр", "\uD83E\uDD5A Яйца ", "\uD83E\uDD69 Мясо", "\uD83E\uDD5B Молоко", "\uD83C\uDF4E Фрукты", "Другая"};
+
 
 
 }
