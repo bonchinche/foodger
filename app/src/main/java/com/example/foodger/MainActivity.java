@@ -1,25 +1,24 @@
 package com.example.foodger;
 
-import androidx.annotation.NonNull;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.Menu;
-import com.example.foodger.ui.Products.ProductsFragment;
+import android.view.MenuItem;
 
-import com.google.android.material.navigation.NavigationView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.example.foodger.ui.Products.ProductsFragment;
+import com.google.android.material.navigation.NavigationView;
 
 
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements ProductsFragment.
         setContentView(R.layout.activity_main);
 
         DataBaseHelper dbHelper=new DataBaseHelper(this);
-      //  this.deleteDatabase("Products.db");
+       // this.deleteDatabase("Products.db");
 
         SQLiteDatabase checktypes= dbHelper.getReadableDatabase();
 
