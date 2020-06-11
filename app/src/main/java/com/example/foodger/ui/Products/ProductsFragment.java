@@ -6,9 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,6 +44,7 @@ public class ProductsFragment extends Fragment {
     ArrayList<String> TypeProductsList = new ArrayList<>();
     MyAdapter myAdapter;
     int current_type;
+    MenuItem search;
 
     private ReplaceFragment replaceFragment;
 
@@ -108,7 +114,7 @@ public class ProductsFragment extends Fragment {
                                        long id) {
               current_type=pos;
               Log.d("IZMENENO:","CURRENT_TYPE= "+current_type);
-              //myAdapter.notifyDataSetChanged();
+              myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -174,6 +180,7 @@ public class ProductsFragment extends Fragment {
         }
     }
 
+
     class MyAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
@@ -201,6 +208,9 @@ public class ProductsFragment extends Fragment {
 
         public View getView(final int position, View convertView, ViewGroup parent) {
 
+            String CorrectType;
+            String previous_text;
+
             final ViewHolder holder;
 
             if (convertView == null) {
@@ -210,27 +220,6 @@ public class ProductsFragment extends Fragment {
                 holder.product_name=(TextView) convertView.findViewById(R.id.ProductName);
                // holder.product_name.setTag(position);
                 holder.delete_button=(ImageButton)convertView.findViewById(R.id.deleteButton);
-
-             /*   if (current_type!=0){
-
-                    SQLiteDatabase check_type=dbHelper.getReadableDatabase();
-
-                    Cursor type=check_type.rawQuery("Select PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString()+" where _ID="+ProductsID.get(position).toString(), null);
-
-                    type.moveToFirst();
-
-                    int type_from_select=type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
-
-                    if (type_from_select!=current_type-1){
-                        holder.product_name.setVisibility(View.INVISIBLE);
-                        holder.delete_button.setVisibility(View.INVISIBLE);
-                    } else {
-                        holder.product_name.setVisibility(View.VISIBLE);
-                        holder.delete_button.setVisibility(View.VISIBLE);
-
-                    }
-
-                }*/
 
                 convertView.setTag(holder);
             }
@@ -242,6 +231,40 @@ public class ProductsFragment extends Fragment {
 
             holder.product_name.setText(ProductsList.get(position).toString());
 
+            if (current_type!=0){
+
+                SQLiteDatabase check_type=dbHelper.getReadableDatabase();
+
+                Cursor type=check_type.rawQuery("Select PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString()+" where _ID="+ProductsID.get(position).toString(), null);
+
+                type.moveToFirst();
+
+                int type_from_select=type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
+
+                if (type_from_select!=current_type-1){
+
+                    Cursor typer=check_type.rawQuery("Select TYPE_NAME from  " + ProductsTablesContracts.Product_Type.TABLE_NAME.toString()+" where _ID="+type_from_select, null);
+                    typer.moveToFirst();
+
+                    CorrectType=typer.getString(typer.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                    previous_text=holder.product_name.getText().toString();
+                    holder.product_name.setText(previous_text+" ("+CorrectType+")");
+
+                    holder.product_name.setEnabled(false);
+                    holder.product_name.setTextColor(Color.rgb(163,152,152));
+                    holder.delete_button.setVisibility(View.INVISIBLE);
+
+                } else {
+                    holder.product_name.setEnabled(true);
+                    holder.product_name.setTextColor(Color.rgb(0,0,0));
+                    holder.delete_button.setVisibility(View.VISIBLE);
+                }
+
+            } else {
+                holder.product_name.setEnabled(true);
+                holder.product_name.setTextColor(Color.rgb(0,0,0));
+                holder.delete_button.setVisibility(View.VISIBLE);
+            }
 
             holder.product_name.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -342,5 +365,33 @@ public class ProductsFragment extends Fragment {
         TextView product_name;
         ImageButton delete_button;
     }
+
+  /*  @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_settings).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+           // case R.id.action_settings:
+
+                // Do Fragment menu item stuff here
+            //    return true;
+
+            default:
+                break;
+        }
+
+        return false;
+    }*/
 
 }
