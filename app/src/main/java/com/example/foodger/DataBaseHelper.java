@@ -27,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // Строка для создания таблицы
         String SQL_CREATE_PRODUCT_TYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + ProductsTablesContracts.Product_Type.TABLE_NAME + " ("
                 + ProductsTablesContracts.Product_Type._ID + " INTEGER PRIMARY KEY NOT NULL, "
-                + ProductsTablesContracts.Product_Type.AVG_SHELF_LIFE + " INTEGER NOT NULL, "
+                + ProductsTablesContracts.Product_Type.AVG_SHELF_LIFE + " INTEGER, "
                 + ProductsTablesContracts.Product_Type.TYPE_NAME + " TEXT NOT NULL, "
                 + ProductsTablesContracts.Product_Type.COLOR + " TEXT )";
         // Запускаем создание таблицы

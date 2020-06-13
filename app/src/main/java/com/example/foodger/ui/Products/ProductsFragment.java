@@ -6,13 +6,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -31,14 +40,23 @@ import java.util.ArrayList;
 
 public class ProductsFragment extends Fragment {
 
+    EditText text_searcher;
+    TextView text_searcher_textview;
+
     public ListView listView;
     private DataBaseHelper dbHelper;
     ArrayList<String> ProductsList = new ArrayList<>();
     ArrayList<Integer> ProductsID=new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
+    ArrayList<String> ProductsListCategory = new ArrayList<>();
+    ArrayList<String> ProductsIDCategory = new ArrayList<>();
+    ArrayList <Integer> CheckLikeText=new ArrayList<>();
     MyAdapter myAdapter;
+    int current_type;
+    MenuItem search;
 
     private ReplaceFragment replaceFragment;
+
 
     public ProductsFragment() {
 
@@ -62,6 +80,9 @@ public class ProductsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
 
+        current_type=0;
+
+
         final View root = inflater.inflate(R.layout.fragment_products, container, false);
 
         listView = root.findViewById(R.id.products_list);
@@ -74,9 +95,45 @@ public class ProductsFragment extends Fragment {
             SelectFromProducts();
         }
 
+       if (!(TypeProductsList.size()>0)) {
+
+           TypeProductsList.add("All Products");
+
+            SQLiteDatabase select_types = dbHelper.getReadableDatabase();
+            Cursor cursor = select_types.rawQuery("Select TYPE_NAME from " + ProductsTablesContracts.Product_Type.TABLE_NAME.toString(), null);
+
+            cursor.moveToFirst();
+            String TypeName = cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+            TypeProductsList.add(TypeName);
+
+            while (cursor.moveToNext()) {
+                TypeName = cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                TypeProductsList.add(TypeName);
+            }
+
+        }
+
         Spinner spinner = (Spinner) root.findViewById(R.id.type_products);
         // Создаем адаптер ArrayAdapter с помощью массива строк и стандартной разметки элемета spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, TypeProductsList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item ,TypeProductsList);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos,
+                                       long id) {
+              current_type=pos;
+              Log.d("IZMENENO:","CURRENT_TYPE= "+current_type);
+              text_searcher.clearFocus();
+              myAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                current_type=0;
+            }
+        });
+
         // Определяем разметку для использования при выборе элемента
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Применяем адаптер к элементу spinner
@@ -85,6 +142,55 @@ public class ProductsFragment extends Fragment {
         myAdapter=new MyAdapter(getActivity());
 
         listView.setAdapter(myAdapter);
+
+
+        text_searcher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+        text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+        text_searcher_textview.setVisibility(View.VISIBLE);
+        text_searcher.setVisibility(View.VISIBLE);
+
+        text_searcher.setText("");
+
+        text_searcher.clearFocus();
+
+        text_searcher.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //срабатывает сразу после изменения текста
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //срабатывает сразу перед изменением текста
+            }
+
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("DOSHEL","sosat urody sosat!!");
+
+                CheckLikeText.clear();
+
+                if (text_searcher.getText().toString().length()>0) {
+
+                    SQLiteDatabase check_type = dbHelper.getReadableDatabase();
+
+                    Cursor type = check_type.rawQuery("Select _ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where NAME LIKE '%" + text_searcher.getText().toString() + "%'", null);
+
+                    if (type.moveToFirst()){
+                        CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
+                    }
+
+                    while (type.moveToNext()) {
+                        CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
+                    }
+                }
+
+                myAdapter.notifyDataSetChanged();
+            }
+        });
+
         return root;
     }
 
@@ -134,6 +240,7 @@ public class ProductsFragment extends Fragment {
         }
     }
 
+
     class MyAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
@@ -161,33 +268,98 @@ public class ProductsFragment extends Fragment {
 
         public View getView(final int position, View convertView, ViewGroup parent) {
 
+            boolean flag = false;
+            String CorrectType;
+            String previous_text;
+
             final ViewHolder holder;
 
             if (convertView == null) {
 
-                convertView=layoutInflater.inflate(R.layout.row,null);
-                holder=new ViewHolder();
-                holder.product_name=(TextView) convertView.findViewById(R.id.ProductName);
-               // holder.product_name.setTag(position);
-                holder.delete_button=(ImageButton)convertView.findViewById(R.id.deleteButton);
-                if (holder.delete_button.getTag()==null){
-                    //Toast.makeText(getContext(), "Tag: " + holder.delete_button.getTag(), Toast.LENGTH_SHORT).show();
-                holder.delete_button.setTag(position);
-                     } //тут присваивать тег равны   й йди в таблице продукт
+                convertView = layoutInflater.inflate(R.layout.row, null);
+                holder = new ViewHolder();
+                holder.product_name = (TextView) convertView.findViewById(R.id.ProductName);
+                // holder.product_name.setTag(position);
+                holder.delete_button = (ImageButton) convertView.findViewById(R.id.deleteButton);
+
                 convertView.setTag(holder);
-            }
-            else
-            {
-               holder=(ViewHolder)convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+
             }
 
 
             holder.product_name.setText(ProductsList.get(position).toString());
 
 
+            if (text_searcher.getText().toString().length()>0) {
+
+            if (CheckLikeText.size() > 0) {
+
+                for (int i = 0; i < CheckLikeText.size(); i++) {
+                    if (ProductsID.get(position).equals(CheckLikeText.get(i))) {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+
+            } else {
+                flag=true;
+            }
+
+
+            if (flag) {
+
+                if (current_type != 0) {
+
+                    SQLiteDatabase check_type = dbHelper.getReadableDatabase();
+
+                    Cursor type = check_type.rawQuery("Select PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where _ID=" + ProductsID.get(position).toString(), null);
+
+                    type.moveToFirst();
+
+                    int type_from_select = type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
+
+                    if (type_from_select != current_type - 1) {
+
+                        Cursor typer = check_type.rawQuery("Select TYPE_NAME from  " + ProductsTablesContracts.Product_Type.TABLE_NAME.toString() + " where _ID=" + type_from_select, null);
+                        typer.moveToFirst();
+
+                        CorrectType = typer.getString(typer.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                        previous_text = holder.product_name.getText().toString();
+                        holder.product_name.setText(previous_text + " (" + CorrectType + ")");
+
+                        holder.product_name.setEnabled(false);
+
+                        holder.product_name.setTextColor(Color.rgb(163, 152, 152));
+                        holder.delete_button.setVisibility(View.INVISIBLE);
+
+                    } else {
+                        holder.product_name.setEnabled(true);
+                        holder.product_name.setTextColor(Color.rgb(0, 0, 0));
+                        holder.delete_button.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    holder.product_name.setEnabled(true);
+                    holder.product_name.setTextColor(Color.rgb(0, 0, 0));
+                    holder.delete_button.setVisibility(View.VISIBLE);
+                }
+
+            } else {
+
+                holder.product_name.setEnabled(false);
+                holder.product_name.setTextColor(Color.rgb(163, 152, 152));
+                holder.delete_button.setVisibility(View.INVISIBLE);
+            }
+
+
+
             holder.product_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    text_searcher.clearFocus();
                  SQLiteDatabase ReadCharacteristics=dbHelper.getReadableDatabase();
 
                     String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsID.get(position);
@@ -219,12 +391,12 @@ public class ProductsFragment extends Fragment {
                         String temperature=cursor.getString(cursor.getColumnIndex(Products.TEMPERATURE));
                         String shelf=cursor.getString(cursor.getColumnIndex(Products.SHELF_LIFE));
 
-                        //cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
-                       // cursor.moveToFirst();
-                       // String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+                        cursor=TakeInfo.rawQuery("Select pt.TYPE_NAME from Product_Type pt inner join Products p on p.PRODUCT_TYPE_ID=pt._ID where p._ID="+CurrentId,null);
+                        cursor.moveToFirst();
+                        String type_name=cursor.getString(cursor.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
 
                     Bundle bundle = new Bundle();
-                  //  bundle.putString("TYPE_NAME",type_name);
+                    bundle.putString("TYPE_NAME",type_name);
                     bundle.putString("ID",CurrentId);
                     bundle.putString("Name",holder.product_name.getText().toString());
                     bundle.putInt("Protein",protein_column);
@@ -245,7 +417,8 @@ public class ProductsFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-
+                    text_searcher.clearFocus();
+                    holder.delete_button.setEnabled(false);
                     Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -261,11 +434,13 @@ public class ProductsFragment extends Fragment {
                                     ProductsID.remove(position);
                                     ProductsList.remove(position);
                                     notifyDataSetChanged();
+                                    holder.delete_button.setEnabled(true);
                                 }
                             })
                             .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
+                                    holder.delete_button.setEnabled(true);
                                 }
                             });
 

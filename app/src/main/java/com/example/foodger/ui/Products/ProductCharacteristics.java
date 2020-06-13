@@ -33,6 +33,9 @@ import java.util.ArrayList;
 
 public class ProductCharacteristics extends Fragment {
 
+
+    EditText text_searcher;
+    TextView text_searcher_textview;
     boolean updateCalories;
     boolean updateCarbohydrates;
     boolean updateRating;
@@ -42,6 +45,7 @@ public class ProductCharacteristics extends Fragment {
     boolean updateShelf;
     private DataBaseHelper MyDB;
 
+
         public ProductCharacteristics() {
 
     }
@@ -49,6 +53,13 @@ public class ProductCharacteristics extends Fragment {
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
+
+            text_searcher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+            text_searcher.setVisibility(View.INVISIBLE);
+
+            text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+            text_searcher_textview.setVisibility(View.INVISIBLE);
+
             MyDB=new DataBaseHelper(getActivity());
             updateCalories=false;
             updateCarbohydrates=false;
@@ -65,7 +76,7 @@ public class ProductCharacteristics extends Fragment {
             Log.d("CARBGO: ","CARBO= "+Carbo);
 
             int Calories = getArguments().getInt("Calories");
-            //final String Type_Name=getArguments().getString("TYPE_NAME");
+            final String Type_Name=getArguments().getString("TYPE_NAME");
             final String ID=getArguments().getString("ID");
             int Fatness = getArguments().getInt("Fatness");
             float Rating=getArguments().getFloat("Rating");
@@ -112,7 +123,7 @@ public class ProductCharacteristics extends Fragment {
             dom.setTextColor(Color.rgb(0,0,0));
 
             final EditText editType=(EditText)root.findViewById(R.id.editType);
-            //editType.setText(Type_Name);
+            editType.setText(Type_Name);
             editType.setEnabled(false);
             editType.setHintTextColor(Color.rgb(0,0,0));
             editType.setTextColor(Color.rgb(0,0,0));

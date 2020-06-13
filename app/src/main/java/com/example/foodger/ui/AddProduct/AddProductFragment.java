@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,13 +32,23 @@ import com.example.foodger.calendarDate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class AddProductFragment extends Fragment{
+
+    EditText text_searcher;
+    TextView text_searcher_textview;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
+        text_searcher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+        text_searcher.setVisibility(View.INVISIBLE);
+        text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+        text_searcher_textview.setVisibility(View.INVISIBLE);
 
         final View root = inflater.inflate(R.layout.fragment_addproduct, container, false);
 
@@ -51,6 +62,16 @@ public class AddProductFragment extends Fragment{
         //DataBase
         _db = new DataBaseHelper(getContext());
 
+
+        SQLiteDatabase for_type_products_select=_db.getReadableDatabase();
+        Cursor check_types=for_type_products_select.rawQuery("Select TYPE_NAME FROM "+ ProductsTablesContracts.Product_Type.TABLE_NAME,null);
+        check_types.moveToFirst();
+        String current_name=check_types.getString(check_types.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+        _productType.add(current_name);
+        while (check_types.moveToNext()){
+            current_name=check_types.getString(check_types.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
+            _productType.add(current_name);
+        }
 
         //адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, _productType);
@@ -71,7 +92,8 @@ public class AddProductFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 _chosenPosition = position;
-                _chosenType = _productType[position];
+              //  _chosenType = _productType[position];
+                _chosenType = _productType.get(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -168,6 +190,7 @@ public class AddProductFragment extends Fragment{
 
                     ContentValues valuesOfProduct = new ContentValues();
                     valuesOfProduct.put(ProductsTablesContracts.Products._ID, min_free_id);
+                    valuesOfProduct.put(ProductsTablesContracts.Products.PRODUCT_TYPE_ID, _chosenPosition);
                     valuesOfProduct.put(ProductsTablesContracts.Products.NAME, _productName); // Имя продукта
                     valuesOfProduct.put(ProductsTablesContracts.Products.DOM, _dateOfManufacture); // Дата изготовления
                     valuesOfProduct.put(ProductsTablesContracts.Products.DOS, _dateOfSpoilage); // Дата порчи продукта
@@ -286,8 +309,8 @@ public class AddProductFragment extends Fragment{
     private String _chosenType;
     private String _dateOfSpoilage;
     private int _chosenPosition;
-    private String[] _productType = {"\uD83E\uDD66 Овощи", "\uD83E\uDDC0 Сыр", "\uD83E\uDD5A Яйца ", "\uD83E\uDD69 Мясо", "\uD83E\uDD5B Молоко", "\uD83C\uDF4E Фрукты", "Другая"};
-
+    //private String[] _productType = {"\uD83E\uDD66 Овощи", "\uD83E\uDDC0 Сыр", "\uD83E\uDD5A Яйца ", "\uD83E\uDD69 Мясо", "\uD83E\uDD5B Молоко", "\uD83C\uDF4E Фрукты", "Другая"};
+    ArrayList<String> _productType=new ArrayList<>();
 
 
 }
