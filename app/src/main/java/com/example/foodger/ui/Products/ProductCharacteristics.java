@@ -58,7 +58,7 @@ public class ProductCharacteristics extends Fragment {
             text_searcher.setVisibility(View.INVISIBLE);
 
             text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
-            text_searcher_textview.setVisibility(View.VISIBLE);
+            text_searcher_textview.setVisibility(View.INVISIBLE);
 
             MyDB=new DataBaseHelper(getActivity());
             updateCalories=false;
