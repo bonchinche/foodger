@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements ProductsFragment.
         setContentView(R.layout.activity_main);
 
         DataBaseHelper dbHelper=new DataBaseHelper(this);
-       // this.deleteDatabase("Products.db");
+        //this.deleteDatabase("Products.db");
 
         SQLiteDatabase checktypes= dbHelper.getReadableDatabase();
 
