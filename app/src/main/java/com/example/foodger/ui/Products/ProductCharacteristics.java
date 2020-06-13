@@ -33,6 +33,9 @@ import java.util.ArrayList;
 
 public class ProductCharacteristics extends Fragment {
 
+
+    EditText text_searcher;
+    TextView text_searcher_textview;
     boolean updateCalories;
     boolean updateCarbohydrates;
     boolean updateRating;
@@ -42,6 +45,7 @@ public class ProductCharacteristics extends Fragment {
     boolean updateShelf;
     private DataBaseHelper MyDB;
 
+
         public ProductCharacteristics() {
 
     }
@@ -49,6 +53,13 @@ public class ProductCharacteristics extends Fragment {
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
+
+            text_searcher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+            text_searcher.setVisibility(View.INVISIBLE);
+
+            text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+            text_searcher_textview.setVisibility(View.VISIBLE);
+
             MyDB=new DataBaseHelper(getActivity());
             updateCalories=false;
             updateCarbohydrates=false;

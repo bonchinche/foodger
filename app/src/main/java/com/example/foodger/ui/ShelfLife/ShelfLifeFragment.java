@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -30,6 +31,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class ShelfLifeFragment extends Fragment {
+
+    EditText text_seacrher;
+    TextView text_searcher_textview;
 
     private int _currentMonth;
     private DataBaseHelper dbHelper;
@@ -94,6 +98,11 @@ public class ShelfLifeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        text_seacrher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+        text_seacrher.setVisibility(View.INVISIBLE);
+        text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+        text_searcher_textview.setVisibility(View.INVISIBLE);
 
         final View root = inflater.inflate(R.layout.fragment_shelflife, container, false);
         final CompactCalendarView compactCalendarView;

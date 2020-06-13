@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements ProductsFragment.
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
+               // R.id.nav_products, R.id.nav_shelflife,R.id.nav_nutrition, R.id.nav_addproduct)
                 R.id.nav_products, R.id.nav_shelflife,R.id.nav_nutrition, R.id.nav_addproduct)
                 .setDrawerLayout(drawer)
                 .build();

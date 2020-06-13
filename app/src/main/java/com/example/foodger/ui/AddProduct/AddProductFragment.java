@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,8 +38,17 @@ import java.util.Date;
 
 
 public class AddProductFragment extends Fragment{
+
+    EditText text_searcher;
+    TextView text_searcher_textview;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
+        text_searcher=(EditText)getActivity().findViewById(R.id.SearchEdit);
+        text_searcher.setVisibility(View.INVISIBLE);
+        text_searcher_textview=(TextView)getActivity().findViewById(R.id.SearchText);
+        text_searcher_textview.setVisibility(View.INVISIBLE);
 
         final View root = inflater.inflate(R.layout.fragment_addproduct, container, false);
 
