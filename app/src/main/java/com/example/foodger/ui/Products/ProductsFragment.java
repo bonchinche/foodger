@@ -48,12 +48,11 @@ public class ProductsFragment extends Fragment {
     ArrayList<String> ProductsList = new ArrayList<>();
     ArrayList<Integer> ProductsID=new ArrayList<>();
     ArrayList<String> TypeProductsList = new ArrayList<>();
-    ArrayList<String> ProductsListCategory = new ArrayList<>();
-    ArrayList<String> ProductsIDCategory = new ArrayList<>();
+    ArrayList<String> ProductsListMain = new ArrayList<>();
+    ArrayList<Integer> ProductsIDMain = new ArrayList<>();
     ArrayList <Integer> CheckLikeText=new ArrayList<>();
     MyAdapter myAdapter;
     int current_type;
-    MenuItem search;
 
     private ReplaceFragment replaceFragment;
 
@@ -123,8 +122,50 @@ public class ProductsFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int pos,
                                        long id) {
               current_type=pos;
-              Log.d("IZMENENO:","CURRENT_TYPE= "+current_type);
+              boolean flag;
               text_searcher.clearFocus();
+                ProductsID.clear();
+                ProductsList.clear();
+                for (int i=0;i<ProductsIDMain.size();i++) {
+                        flag=false;
+                    if (CheckLikeText.size() > 0) {
+
+                        for (int j = 0; j < CheckLikeText.size(); j++) {
+                            if (ProductsIDMain.get(i) == CheckLikeText.get(j)) {
+                            flag = true;
+                            }
+                        }
+                    } else if (text_searcher.getText().toString().length()==0) {
+                        flag = true;
+                    }
+                    if (flag) {
+                        ProductsList.add(ProductsListMain.get(i));
+                        ProductsID.add(ProductsIDMain.get(i));
+                    }
+                }
+
+                  if (current_type != 0) {
+
+                      SQLiteDatabase check_type = dbHelper.getReadableDatabase();
+
+                      Cursor type = check_type.rawQuery("Select _ID,PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString(), null);
+
+                      while (type.moveToNext()) {
+
+                          int type_from_select = type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
+                          int id_from_select = type.getInt(type.getColumnIndex(Products._ID));
+
+                          for (int i = 0; i < ProductsID.size(); i++) {
+                              if (ProductsID.get(i) == id_from_select) {
+                                  if (type_from_select != current_type - 1) {
+                                      ProductsID.remove(i);
+                                      ProductsList.remove(i);
+                                  }
+                              }
+                          }
+                      }
+                  }
+
               myAdapter.notifyDataSetChanged();
             }
 
@@ -168,25 +209,65 @@ public class ProductsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("DOSHEL","sosat urody sosat!!");
 
                 CheckLikeText.clear();
+
+                ProductsList.clear();
+                ProductsID.clear();
 
                 if (text_searcher.getText().toString().length()>0) {
 
                     SQLiteDatabase check_type = dbHelper.getReadableDatabase();
 
-                    Cursor type = check_type.rawQuery("Select _ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where NAME LIKE '%" + text_searcher.getText().toString() + "%'", null);
-
-                    if (type.moveToFirst()){
-                        CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
-                    }
+                    Cursor type = check_type.rawQuery("Select _ID,NAME,PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where NAME LIKE '%" + text_searcher.getText().toString() + "%'", null);
 
                     while (type.moveToNext()) {
-                        CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
+
+                        if (current_type!=0) {
+
+                            int type_from_select = type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
+
+                            if (type_from_select == current_type - 1) {
+                                CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
+                                ProductsList.add(type.getString(type.getColumnIndex(Products.NAME)));
+                                ProductsID.add(type.getInt(type.getColumnIndex(Products._ID)));
+                            }
+
+                        } else {
+                            CheckLikeText.add(type.getInt(type.getColumnIndex(Products._ID)));
+                            ProductsList.add(type.getString(type.getColumnIndex(Products.NAME)));
+                            ProductsID.add(type.getInt(type.getColumnIndex(Products._ID)));
+                        }
+                    }
+                } else {
+
+                    if (current_type==0){
+
+                for (int i=0;i<ProductsIDMain.size();i++){
+                    ProductsID.add(ProductsIDMain.get(i));
+                    ProductsList.add(ProductsListMain.get(i));
+                    }
+
+                    } else {
+                        SQLiteDatabase check_type2 = dbHelper.getReadableDatabase();
+
+                        Cursor type2 = check_type2.rawQuery("Select _ID,PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME, null);
+
+                        while (type2.moveToNext()) {
+                            int type2_from_select = type2.getInt(type2.getColumnIndex(Products.PRODUCT_TYPE_ID));
+                            int id2_from_select=type2.getInt(type2.getColumnIndex(Products._ID));
+
+                            for (int i=0;i<ProductsIDMain.size();i++){
+                                if (ProductsIDMain.get(i)==id2_from_select){
+                                    if (type2_from_select==current_type-1){
+                                        ProductsID.add(ProductsIDMain.get(i));
+                                        ProductsList.add(ProductsListMain.get(i));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-
                 myAdapter.notifyDataSetChanged();
             }
         });
@@ -222,17 +303,20 @@ public class ProductsFragment extends Fragment {
             // Узнаем индекс каждого столбца
             int idColumnIndex = cursor.getColumnIndex(Products._ID);
             int ProductNameIndex = cursor.getColumnIndex(Products.NAME);
-
+            int i=-1;
             // Проходим через все ряды
             while (cursor.moveToNext()) {
                 // Используем индекс для получения строки или числа
                 int currentID = cursor.getInt(idColumnIndex);
                 String currentName = cursor.getString(ProductNameIndex);
-
+                i++;
                 // Выводим значения каждого столбца
                 ProductsList.add(currentName);
-                ProductsID.add(currentID);
-                // mainActivity.ProductsList.add(currentName);
+               // ProductsID.add(currentID);
+                ProductsID.add(i);
+                ProductsListMain.add(currentName);
+                ProductsIDMain.add(currentID);
+
             }
         } finally {
             // Всегда закрываем курсор после чтения
@@ -279,7 +363,6 @@ public class ProductsFragment extends Fragment {
                 convertView = layoutInflater.inflate(R.layout.row, null);
                 holder = new ViewHolder();
                 holder.product_name = (TextView) convertView.findViewById(R.id.ProductName);
-                // holder.product_name.setTag(position);
                 holder.delete_button = (ImageButton) convertView.findViewById(R.id.deleteButton);
 
                 convertView.setTag(holder);
@@ -288,72 +371,7 @@ public class ProductsFragment extends Fragment {
 
             }
 
-
-            holder.product_name.setText(ProductsList.get(position).toString());
-
-
-            if (text_searcher.getText().toString().length()>0) {
-
-            if (CheckLikeText.size() > 0) {
-
-                for (int i = 0; i < CheckLikeText.size(); i++) {
-                    if (ProductsID.get(position).equals(CheckLikeText.get(i))) {
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-
-            } else {
-                flag=true;
-            }
-
-
-            if (flag) {
-
-                if (current_type != 0) {
-
-                    SQLiteDatabase check_type = dbHelper.getReadableDatabase();
-
-                    Cursor type = check_type.rawQuery("Select PRODUCT_TYPE_ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where _ID=" + ProductsID.get(position).toString(), null);
-
-                    type.moveToFirst();
-
-                    int type_from_select = type.getInt(type.getColumnIndex(Products.PRODUCT_TYPE_ID));
-
-                    if (type_from_select != current_type - 1) {
-
-                        Cursor typer = check_type.rawQuery("Select TYPE_NAME from  " + ProductsTablesContracts.Product_Type.TABLE_NAME.toString() + " where _ID=" + type_from_select, null);
-                        typer.moveToFirst();
-
-                        CorrectType = typer.getString(typer.getColumnIndex(ProductsTablesContracts.Product_Type.TYPE_NAME));
-                        previous_text = holder.product_name.getText().toString();
-                        holder.product_name.setText(previous_text + " (" + CorrectType + ")");
-
-                        holder.product_name.setEnabled(false);
-
-                        holder.product_name.setTextColor(Color.rgb(163, 152, 152));
-                        holder.delete_button.setVisibility(View.INVISIBLE);
-
-                    } else {
-                        holder.product_name.setEnabled(true);
-                        holder.product_name.setTextColor(Color.rgb(0, 0, 0));
-                        holder.delete_button.setVisibility(View.VISIBLE);
-                    }
-
-                } else {
-                    holder.product_name.setEnabled(true);
-                    holder.product_name.setTextColor(Color.rgb(0, 0, 0));
-                    holder.delete_button.setVisibility(View.VISIBLE);
-                }
-
-            } else {
-
-                holder.product_name.setEnabled(false);
-                holder.product_name.setTextColor(Color.rgb(163, 152, 152));
-                holder.delete_button.setVisibility(View.INVISIBLE);
-            }
-
+                holder.product_name.setText(ProductsList.get(position).toString());
 
 
             holder.product_name.setOnClickListener(new View.OnClickListener() {
@@ -364,11 +382,12 @@ public class ProductsFragment extends Fragment {
 
                     String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsID.get(position);
 
+                    //String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsIDMain.get(ProductsID.get(position));
                     SQLiteDatabase TakeInfo= dbHelper.getReadableDatabase();
 
-                    // Делаем запрос rawQuery("SELECT id, name FROM people WHERE name = ? AND id = ?", new String[] {"David", "2"});
-                    String CurrentId=ProductsID.get(position).toString();
-                    //Cursor cursor = TakeInfo.rawQuery("Select * from Product_Characteristic where _ID=?",new String[]{CurrentId});
+                   String CurrentId=ProductsID.get(position).toString();
+                   // String CurrentId=ProductsIDMain.get(ProductsID.get(position)).toString();
+
                     Cursor cursor = TakeInfo.rawQuery("Select * from "+Product_Characteristic.TABLE_NAME.toString()+" where _ID="+CurrentId,null);
 
                     cursor.moveToFirst();
@@ -419,11 +438,12 @@ public class ProductsFragment extends Fragment {
                 public void onClick(View v) {
                     text_searcher.clearFocus();
                     holder.delete_button.setEnabled(false);
-                    Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
-
+                   Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(getContext(), "Удаляем: ID: " + ProductsIDMain.get(ProductsID.get(position))+", ИМЯ: "+ProductsList.get(ProductsID.get(position)), Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                     builder.setTitle("Вы уверены, что хотите удалить продукт: "+ProductsList.get(position)+"?");
+                   // builder.setTitle("Вы уверены, что хотите удалить продукт: "+ProductsList.get(ProductsID.get(position))+"?");
 
                     builder.setMessage("Продукт будет удален с вашего устройства, восстановить его уже не получится!!!")
                             .setCancelable(false)
@@ -431,8 +451,16 @@ public class ProductsFragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dbHelper.getWritableDatabase().delete(Products.TABLE_NAME,Products._ID+"="+ProductsID.get(position),null);
                                     dbHelper.getWritableDatabase().delete(Product_Characteristic.TABLE_NAME,Product_Characteristic._ID+"="+ProductsID.get(position),null);
-                                    ProductsID.remove(position);
+
+                                    for (int i=0;i<ProductsIDMain.size();i++){
+                                        if (ProductsID.get(position)==ProductsIDMain.get(i)){
+                                            ProductsIDMain.remove(i);
+                                            ProductsListMain.remove(i);
+                                        }
+                                    }
+
                                     ProductsList.remove(position);
+                                    ProductsID.remove(position);
                                     notifyDataSetChanged();
                                     holder.delete_button.setEnabled(true);
                                 }
