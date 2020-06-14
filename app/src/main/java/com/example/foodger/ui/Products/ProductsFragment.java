@@ -6,16 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -89,8 +83,6 @@ public class ProductsFragment extends Fragment {
         dbHelper = new DataBaseHelper(getContext());
 
         if (!(ProductsList.size() > 0)) {
-        //if (!(mainActivity.ProductsList.size()>0)){
-            Toast.makeText(getContext(), "Пустой products_list", Toast.LENGTH_SHORT).show();
             SelectFromProducts();
         }
 
@@ -136,7 +128,7 @@ public class ProductsFragment extends Fragment {
                 while (like_type.moveToNext()) {
                     CheckLikeText.add(like_type.getInt(like_type.getColumnIndex(Products._ID)));
                 }
-                
+
                 for (int i=0;i<ProductsIDMain.size();i++) {
                         flag=false;
                     if (CheckLikeText.size() > 0) {
@@ -323,7 +315,6 @@ public class ProductsFragment extends Fragment {
                 i++;
                 // Выводим значения каждого столбца
                 ProductsList.add(currentName);
-               // ProductsID.add(currentID);
                 ProductsID.add(i);
                 ProductsListMain.add(currentName);
                 ProductsIDMain.add(currentID);
@@ -393,16 +384,13 @@ public class ProductsFragment extends Fragment {
 
                     String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsID.get(position);
 
-                    //String selectedFromList = holder.product_name.getText().toString()+", ID: "+ProductsIDMain.get(ProductsID.get(position));
                     SQLiteDatabase TakeInfo= dbHelper.getReadableDatabase();
 
                    String CurrentId=ProductsID.get(position).toString();
-                   // String CurrentId=ProductsIDMain.get(ProductsID.get(position)).toString();
 
                     Cursor cursor = TakeInfo.rawQuery("Select * from "+Product_Characteristic.TABLE_NAME.toString()+" where _ID="+CurrentId,null);
 
                     cursor.moveToFirst();
-                        //int currentID = cursor.getInt(cursor.getColumnIndex(Product_Characteristic._ID));
                         int protein_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.PROTEIN));
                         String rating_column_s=cursor.getString(cursor.getColumnIndex(Product_Characteristic.RATING));
                         int fatness_column=cursor.getInt(cursor.getColumnIndex(Product_Characteristic.FATNESS));
@@ -449,12 +437,9 @@ public class ProductsFragment extends Fragment {
                 public void onClick(View v) {
                     text_searcher.clearFocus();
                     holder.delete_button.setEnabled(false);
-                   Toast.makeText(getContext(), "Удаляем: ID: " + ProductsID.get(position)+", ИМЯ: "+ProductsList.get(position), Toast.LENGTH_SHORT).show();
-                   //Toast.makeText(getContext(), "Удаляем: ID: " + ProductsIDMain.get(ProductsID.get(position))+", ИМЯ: "+ProductsList.get(ProductsID.get(position)), Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
                     builder.setTitle("Вы уверены, что хотите удалить продукт: "+ProductsList.get(position)+"?");
-                   // builder.setTitle("Вы уверены, что хотите удалить продукт: "+ProductsList.get(ProductsID.get(position))+"?");
 
                     builder.setMessage("Продукт будет удален с вашего устройства, восстановить его уже не получится!!!")
                             .setCancelable(false)

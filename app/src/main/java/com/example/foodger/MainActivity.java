@@ -25,7 +25,6 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements ProductsFragment.ReplaceFragment, NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
-    //public DataBaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements ProductsFragment.
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                // R.id.nav_products, R.id.nav_shelflife,R.id.nav_nutrition, R.id.nav_addproduct)
                 R.id.nav_products, R.id.nav_shelflife,R.id.nav_nutrition, R.id.nav_addproduct)

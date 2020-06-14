@@ -3,12 +3,9 @@ package com.example.foodger;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
 import com.example.foodger.ProductsTablesContracts.Product_Type;
-import com.example.foodger.ProductsTablesContracts.Products;
 import com.example.foodger.ProductsTablesContracts.Product_Characteristic;
-import com.example.foodger.ui.Products.ProductCharacteristics;
+
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -61,13 +58,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // Запускаем создание таблицы
         db.execSQL(SQL_CREATE_PRODUCTS_TABLE);
 
-
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
 
     }
 }

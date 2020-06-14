@@ -2,8 +2,6 @@ package com.example.foodger;
 
 import android.provider.BaseColumns;
 
-//TEST COMMENT
-
 public class ProductsTablesContracts {
 
     private ProductsTablesContracts() {
@@ -43,5 +41,4 @@ public class ProductsTablesContracts {
         public final static String PHOTO = "PHOTO";
         public final static String PROTEIN = "PROTEIN";
     }
-
 }

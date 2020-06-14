@@ -2,7 +2,6 @@ package com.example.foodger.ui.Products;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -28,8 +27,6 @@ import androidx.navigation.Navigation;
 import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
-
-import java.util.ArrayList;
 
 public class ProductCharacteristics extends Fragment {
 
