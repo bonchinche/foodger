@@ -126,6 +126,17 @@ public class ProductsFragment extends Fragment {
               text_searcher.clearFocus();
                 ProductsID.clear();
                 ProductsList.clear();
+
+                CheckLikeText.clear();
+
+                SQLiteDatabase check_like_type = dbHelper.getReadableDatabase();
+
+                Cursor like_type = check_like_type.rawQuery("Select _ID from " + ProductsTablesContracts.Products.TABLE_NAME.toString() + " where NAME LIKE '%" + text_searcher.getText().toString() + "%'", null);
+
+                while (like_type.moveToNext()) {
+                    CheckLikeText.add(like_type.getInt(like_type.getColumnIndex(Products._ID)));
+                }
+                
                 for (int i=0;i<ProductsIDMain.size();i++) {
                         flag=false;
                     if (CheckLikeText.size() > 0) {
