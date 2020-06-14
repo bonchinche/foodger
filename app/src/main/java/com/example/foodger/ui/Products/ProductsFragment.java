@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -481,5 +480,6 @@ public class ProductsFragment extends Fragment {
         TextView product_name;
         ImageButton delete_button;
     }
+
 
 }

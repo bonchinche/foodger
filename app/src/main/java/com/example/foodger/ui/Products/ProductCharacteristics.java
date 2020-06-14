@@ -3,6 +3,7 @@ package com.example.foodger.ui.Products;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -27,6 +28,11 @@ import androidx.navigation.Navigation;
 import com.example.foodger.DataBaseHelper;
 import com.example.foodger.ProductsTablesContracts;
 import com.example.foodger.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ProductCharacteristics extends Fragment {
 
@@ -718,8 +724,21 @@ public class ProductCharacteristics extends Fragment {
                     }
 
                     if(updateShelf==true){
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00");
+
+                        SQLiteDatabase sel_dom= MyDB.getReadableDatabase();
+
+                        Cursor select_dom=sel_dom.rawQuery("Select DOM FROM "+ ProductsTablesContracts.Products.TABLE_NAME+ " WHERE _ID="+ID,null);
+                        select_dom.moveToFirst();
+
+                        String dom=select_dom.getString(select_dom.getColumnIndex(ProductsTablesContracts.Products.DOM));
+
+                        String dos=findDayOfSpoilage(dom, shelf.getText().toString(), sdf);
+
                         ContentValues cv=new ContentValues();
                         cv.put("SHELF_LIFE",shelf.getText().toString());
+                        cv.put("DOS",dos);
                         db.update(ProductsTablesContracts.Products.TABLE_NAME,cv,"_ID=?", new String[]{ID});
                     }
 
@@ -754,4 +773,22 @@ public class ProductCharacteristics extends Fragment {
 
             return root;
         }
+
+
+    public String findDayOfSpoilage(String dateOfManufacture, String shelfLife, SimpleDateFormat sdf){
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 00:00:00"); // Задаем формат даты
+        Date dt = new Date();
+        try {
+            dt = sdf.parse(dateOfManufacture); // присваиваем dt значение даты изготовления продукта
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, Integer.parseInt(shelfLife)); //
+        dt = c.getTime();
+        String dateOfSpoilage = sdf.format(dt); // получаем обычный формат даты
+        return dateOfSpoilage;
+    }
+
 }
