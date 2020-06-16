@@ -1,13 +1,13 @@
- version: 2
+version: 2
 jobs:
-  build_develop:
+  build:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-25-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
-      - checkout:
+      - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
@@ -17,27 +17,14 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run lint
-          command: |
-            ./gradlew lintDebug
       - store_artifacts:
           path: app/build/reports
-          destination: reports/
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
       - run:
-          name: Run build
-          command: |
-            ./gradlew assembleDebug
+          name: Run Build
+          command: ./gradlew build
       - store_artifacts:
-          path: app/build/outputs/apk
-          destination: apks/
-workflows:
-  version: 2
-
-  build_app:
-    jobs:
-      - build_develop:
-          filters:
-            branches:
-              only:
-                - develop
+          path: app/build/outputs/apk/debug/
+          destination: artifact-file
