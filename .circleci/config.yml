@@ -5,15 +5,16 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/repo
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-    working_directory: ~/foodger
+    
     script:
       - ./gradlew assembleDebug
     artifacts:
       paths:
-      - app/build/outputs/
+      - app
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
