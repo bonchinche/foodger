@@ -31,3 +31,13 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk
           destination: apks/
+workflows:
+  version: 2
+
+  build_app:
+    jobs:
+      - build_develop:
+          filters:
+            branches:
+              only:
+                - develop
