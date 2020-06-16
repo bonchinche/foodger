@@ -1,28 +1,25 @@
 image: mreichelt/android:29
 
-before_script:
-  - chmod +x ./gradlew
-
-
 stages:
   -build
   -deploy
+  
+jobs:
+  build: 
+      stage: build 
+      script:
+      - ./gradlew assembleDebug
+      artifacts:
+         paths:
+         - app/build/outputs/
 
-build: 
-    stage: build 
+
+  pages:
+    stage: deploy
     script:
-    - ./gradlew assembleDebug
+    - ./gradlew dokka 
+    - mv app/build/doc/app/ public/
     artifacts:
        paths:
-       - app/build/outputs/
-    
-      
-pages:
-  stage: deploy
-  script:
-  - ./gradlew dokka 
-  - mv app/build/doc/app/ public/
-  artifacts:
-     paths:
-      - public
+        - public
 
