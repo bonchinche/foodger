@@ -1,8 +1,8 @@
-image: circleci/openjdk:8-jdk
-
 version: 2
 jobs:
   build: 
+  docker:
+      - image: circleci/openjdk:8-jdk
       script:
       - ./gradlew assembleDebug
       artifacts:
