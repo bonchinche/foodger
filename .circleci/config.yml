@@ -1,13 +1,14 @@
 version: 2
 jobs:
-  build: 
-  docker:
-      - image: circleci/openjdk:8-jdk
-      script:
-      - ./gradlew assembleDebug
-      artifacts:
-         paths:
-         - app/build/outputs/
+  build:
+    working_directory: ~/foodger
+    docker:
+        - image: circleci/openjdk:8-jdk
+        script:
+        - ./gradlew assembleDebug
+        artifacts:
+           paths:
+           - app/build/outputs/
 
 
   pages:
