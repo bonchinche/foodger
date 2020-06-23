@@ -42,3 +42,5 @@ jobs:
       - run:
           name: Upload to Beta
           command: ./gradlew crashlyticsUploadDistributionBetaRelease
+          commands:
+      - cd scripts && ./build.sh
