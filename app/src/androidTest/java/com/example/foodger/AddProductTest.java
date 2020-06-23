@@ -269,7 +269,7 @@ public class AddProductTest {
 
     @Test //Тест на занесение в базу данных при нажатии Apply Button
     public void testSetInDataBase() {
-        InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
+      //  InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
         _db = new DataBaseHelper(InstrumentationRegistry.getInstrumentation().getTargetContext());
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkSetInDataBase"));
@@ -292,6 +292,8 @@ public class AddProductTest {
         assertEquals("12", productsCursor.getString(productsCursor.getColumnIndex(ProductsTablesContracts.Products.TEMPERATURE)));
         assertEquals("MilkSetInDataBase", productsCursor.getString(productsCursor.getColumnIndex(ProductsTablesContracts.Products.NAME)));
         assertEquals("7", productsCursor.getString(productsCursor.getColumnIndex(ProductsTablesContracts.Products.SHELF_LIFE)));
+
+
 
         Cursor productCharacteristicCursor = db.rawQuery("Select * from Product_Characteristic WHERE _id = " + 0, null);
         productCharacteristicCursor.moveToFirst();

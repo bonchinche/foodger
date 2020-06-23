@@ -102,14 +102,14 @@ public class ProductCharacteristics extends Fragment {
             updateButton.setVisibility(View.INVISIBLE);
 
             final EditText carbohydrates=(EditText)root.findViewById(R.id.editcarbohydrates);
-            if (Carbo!=0) {
+            if (Carbo>0) {
                 carbohydrates.setText(String.valueOf(Carbo));
             }else{
                 carbohydrates.setText("");
             }
 
             final EditText calories=(EditText) root.findViewById(R.id.editcalories);
-            if (Calories!=0) {
+            if (Calories>0) {
                 calories.setText(String.valueOf(Calories));
             }else{
                 calories.setText("");
@@ -146,14 +146,14 @@ public class ProductCharacteristics extends Fragment {
             }
 
             final EditText fatness=(EditText) root.findViewById(R.id.editfatness);
-            if (Fatness!=0) {
+            if (Fatness>0) {
                 fatness.setText(String.valueOf(Fatness));
             }else{
                 fatness.setText("");
             }
 
            final EditText protein=(EditText) root.findViewById(R.id.editprotein);
-            if (Protein!=0) {
+            if (Protein>0) {
                 protein.setText(String.valueOf(Protein));
             }else{
                 protein.setText("");
