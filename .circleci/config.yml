@@ -23,9 +23,9 @@ jobs:
       - run:
           name: Run all checks
           command: ./gradlew clean test
-      - run:
-          name: Setup emulator
-          command: avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
+      #- run:
+         # name: Setup emulator
+          #command: avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
           #sdkmanager "system-images;android-29;default;armeabi-v7a" && echo "no" | 
       - run:
           name: Launch emulator
