@@ -29,7 +29,8 @@ jobs:
           #sdkmanager "system-images;android-29;default;armeabi-v7a" && echo "no" | 
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+          command: emulator -avd circleci-android22 -no-audio -no-window:
+          #command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
       - run:
           name: Wait emulator
