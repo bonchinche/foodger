@@ -25,7 +25,6 @@ jobs:
           command: ./gradlew clean test
       - run:
           name: Launch emulator
-          command:
           - emulator -avd circleci-android22 -no-audio -no-window:
           background: true
           parallel: true
