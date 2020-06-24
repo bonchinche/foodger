@@ -25,7 +25,7 @@ jobs:
           command: ./gradlew clean test
       - run:
           name: Run UI tests
-          override: emulator -avd circleci-android22 -no-audio -no-window:
+          override: emulator -avd circleci-android22 -no-audio -no-window
               background: true
               parallel: true
           # wait for it to have booted
