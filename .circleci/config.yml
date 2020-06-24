@@ -34,6 +34,17 @@ jobs:
           destination: apks/
       - store_test_results:
           path: app/build/test-results   
+          
+  machine:
+  environment:
+    ANDROID_HOME: /usr/local/android-sdk-linux
+    ADB_INSTALL_TIMEOUT: 8
+
+  dependencies:
+    override:
+      - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-21.1.2,android-22,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+      - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+
   test:
     override:
     steps:
