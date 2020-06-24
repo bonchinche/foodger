@@ -31,8 +31,9 @@ jobs:
           command: ./gradlew clean assembleDebug --no-daemon --stacktrace
       - store_artifacts:
           path: app/build/outputs/apk/
-          destination: apks/      
-
+          destination: apks/
+      - store_test_results:
+          path: app/build/test-results   
 
 
 
