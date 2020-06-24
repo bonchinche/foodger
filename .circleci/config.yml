@@ -37,5 +37,11 @@ test:
     - cp -r app/build/outputs $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
-
-
+  - run:
+      name: Run Tests
+      command: ./gradlew connectedAndroidTest
+  - store_artifacts:
+      path: app/build/reports
+      destination: reports
+  - store_test_results:
+      path: app/build/test-results
