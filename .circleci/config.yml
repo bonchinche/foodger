@@ -24,6 +24,7 @@ jobs:
           name: Run all checks
           command: ./gradlew clean test
       - run:
+          name: Run UI tests
           commands:
           - emulator -avd circleci-android22 -no-audio -no-window:
           background: true
