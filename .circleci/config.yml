@@ -50,6 +50,9 @@ jobs:
           command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -list-avds
           background: true    
       - run:
+          name: Search emulator
+          command: sudo apt-get install libpulse0:i386
+      - run:
           name: Launch emulator
           command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib:${ANDROID_HOME}/emulator && emulator -avd test -noaudio
           background: true
