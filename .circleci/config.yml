@@ -47,9 +47,10 @@ jobs:
       - run:
           name: Launch emulator
           command: |
+                  sudo apt-get install libpulse0
                   cd ${ANDROID_HOME}/emulator;
                   export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-                  emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on  
+                  emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on -verbose -gpu swiftshader 
           background: true
       - run:
           name: Wait emulator
