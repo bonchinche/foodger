@@ -41,7 +41,7 @@ jobs:
           command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-29;google_apis_playstore;x86"
       - run:
           name: Check Libaray
-          command: ls ${ANDROID_HOME}/emulator/lib64
+          command: ls ${ANDROID_HOME}/emulator
       - run:
           name: Check Libaray
           command: ls ${ANDROID_HOME}/emulator/lib64/qt/lib  
@@ -51,7 +51,7 @@ jobs:
           background: true    
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -avd Nexus_5X_API_27
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -avd "Nexus_5X_API_27"
           background: true
       - run:
           name: Wait emulator
