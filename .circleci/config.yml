@@ -40,7 +40,7 @@ jobs:
      # - store_test_results:
      #     path: app/build/test-results 
      # - run:
-      #    command: sdkmanager --list --verbose | grep system-images          
+     #      command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-29;google_apis_playstore;x86"              
