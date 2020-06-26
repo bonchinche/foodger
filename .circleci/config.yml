@@ -38,20 +38,7 @@ jobs:
           command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-27;google_apis_playstore;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-27;google_apis_playstore;x86"
-      - run:
-          name: Check Libaray1
-          command: ls ${ANDROID_HOME}/emulator
-      - run:
-          name: Check Libaray2
-          command: ls ${ANDROID_HOME}/emulator/lib64/qt/lib 
-      - run:
-          name: Check Libaray3
-          command: ls ${ANDROID_HOME}/emulator/lib64     
-      - run:
-          name: Search emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -list-avds
-          background: true          
+          command: sdkmanager "system-images;android-27;google_apis_playstore;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-27;google_apis_playstore;x86"         
       - run:
           name: Launch emulator
           command: |
