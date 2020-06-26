@@ -44,7 +44,11 @@ jobs:
           command: ls ${ANDROID_HOME}/emulator/lib64
       - run:
           name: Check Libaray
-          command: ls ${ANDROID_HOME}/emulator/lib64/qt/lib    
+          command: ls ${ANDROID_HOME}/emulator/lib64/qt/lib  
+      - run:
+          name: Search emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -list-avds
+          background: true    
       - run:
           name: Launch emulator
           command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator && emulator -avd Nexus_5X_API_27
