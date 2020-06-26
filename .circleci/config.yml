@@ -33,7 +33,9 @@ jobs:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
       - store_test_results:
-          path: app/build/test-results         
+          path: app/build/test-results 
+      - run:
+          command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
