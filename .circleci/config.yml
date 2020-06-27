@@ -50,9 +50,6 @@ jobs:
           command: |
                   avdmanager list avd;
       - run:
-          name: Setup hvm
-          command: cd ${ANDROID_HOME}/extras;ls
-      - run:
           name: Check accel
           command: cd ${ANDROID_HOME}/emulator/emulator -accel-check    
       - run:
