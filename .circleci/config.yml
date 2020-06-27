@@ -43,7 +43,7 @@ jobs:
      #      command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -с 100M -n test -d 9 -k "system-images;android-29;google_apis_playstore;x86"              
+          command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-29;google_apis_playstore;x86"              
       - run:
           name: Search emulator
           command: |
