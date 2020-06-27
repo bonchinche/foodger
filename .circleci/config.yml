@@ -44,7 +44,11 @@ jobs:
      # - store_test_results:
      #     path: app/build/test-results 
      # - run:
-     #      command: sdkmanager --list --verbose | grep system-images          
+     #      command: sdkmanager --list --verbose | grep system-images    
+      - run:
+          name: Sudo
+          command: |                 
+                  sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-27;google_apis_playstore;x86" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-27;google_apis_playstore;x86" 
