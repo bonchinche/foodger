@@ -48,7 +48,7 @@ jobs:
       - run:
           name: Sudo
           command: |                 
-                  sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+                  sudo apt-get install cpu-checker
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-27;google_apis_playstore;x86" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-27;google_apis_playstore;x86" 
