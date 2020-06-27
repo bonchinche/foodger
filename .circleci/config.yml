@@ -47,7 +47,7 @@ jobs:
      #      command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
-          command: sdkmanager "system-images;android-29;google_apis_playstore;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-27;google_apis_playstore;armeabi-v7a" 
+          command: sdkmanager "system-images;android-27;google_apis_playstore;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-27;google_apis_playstore;armeabi-v7a" 
           #command: ${ANDROID_HOME}/tools/bin/avdmanager create avd -n avd_name -k "system-images;android-29;google_apis_playstore;x86"
       - run:
           name: Search emulator
