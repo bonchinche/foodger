@@ -50,10 +50,22 @@ jobs:
           command: |
                   avdmanager list avd;
       - run:
-          name: Check accel
+          name: Install
           command: |
-                  cd ${ANDROID_HOME}/emulator;
-                  emulator -accel-check 
+                  sudo apt-get install cpu-checker
+      - run:
+          name: Search emulator
+          command: |
+                  egrep -c '(vmx|svm)' /proc/cpuinfo
+      - run:
+          name: Search emulator
+          command: |
+                  kvm-ok
+      #- run:
+      #    name: Check accel
+      #    command: |
+      #            cd ${ANDROID_HOME}/emulator;
+      #            emulator -accel-check 
       - run:
           name: Launch emulator
           command: |
