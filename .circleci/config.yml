@@ -51,7 +51,9 @@ jobs:
                   avdmanager list avd;
       - run:
           name: Check accel
-          command: cd ${ANDROID_HOME}/emulator/emulator -accel-check    
+          command: |
+                  cd ${ANDROID_HOME}/emulator;
+                  emulator -accel-check 
       - run:
           name: Launch emulator
           command: |
