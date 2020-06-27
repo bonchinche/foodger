@@ -49,6 +49,10 @@ jobs:
           command: |
                   avdmanager list avd;
       - run:
+          name: Check vmx
+          command: |
+                  egrep -c '(vmx|svm)' /proc/cpuinfo
+      - run:
           name: Launch emulator
           command: |
                   cd ${ANDROID_HOME}/emulator;
