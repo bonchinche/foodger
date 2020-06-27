@@ -44,7 +44,11 @@ jobs:
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -n test -k "system-images;android-29;google_apis_playstore;x86"              
-      - run:
+     - run:
+          name: Search emulator
+          command: |
+                  cd ${ANDROID_HOME}/emulator && emulator -list-avds;
+     - run:
           name: Launch emulator
           command: |
                   cd ${ANDROID_HOME}/emulator;
