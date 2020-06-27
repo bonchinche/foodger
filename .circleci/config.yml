@@ -25,6 +25,10 @@ jobs:
           command: android list target
           environment:
           TERM: dumb    
+      - run:
+          name: Check directories
+          command: |
+                  cd ${ANDROID_HOME};ls    
       #- run:
       #    name: Run Tests
       #    command: ./gradlew lint test
@@ -49,18 +53,7 @@ jobs:
           name: Search emulator
           command: |
                   avdmanager list avd;
-      - run:
-          name: Install
-          command: |
-                  sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch
-      #- run:
-      #    name: Search emulator
-      #    command: |
-      #            egrep -c '(vmx|svm)' /proc/cpuinfo
-     # - run:
-      #    name: Search emulator
-     #     command: |
-      #            kvm-ok
+         
       #- run:
       #    name: Check accel
       #    command: |
