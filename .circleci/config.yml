@@ -49,9 +49,8 @@ jobs:
           command: |
                   avdmanager list avd;
       - run:
-          name: Check vmx
-          command: |
-                  sudo kvm-ok;
+          name: Setup hvm
+          command: cd ${ANDROID_HOME}/extras/intel/Hardware_Accelerated_Execution_Manager/intelhaxm-android.exe
       - run:
           name: Launch emulator
           command: |
