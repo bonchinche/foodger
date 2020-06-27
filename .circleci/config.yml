@@ -47,11 +47,11 @@ jobs:
      #      command: sdkmanager --list --verbose | grep system-images   
       - run:
           name: Install api25
-          command: sdkmanager --install "system-images;android-25;google_apis;arm64-v8a"
+          command: sdkmanager --install "system-images;android-25;google_apis;armeabi-v7a"
       - run:
           name: Setup emulator
           #command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-25;google_apis;armeabi-v7a" 
-          command: sdkmanager "system-images;android-25;google_apis;arm64-v8a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;arm64-v8a" 
+          command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;armeabi-v7a" 
       - run:
           name: Search emulator
           command: |
@@ -61,7 +61,7 @@ jobs:
           command: |
                   cd ${ANDROID_HOME}/emulator;ls
                   export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-                  emulator -avd test -noaudio -no-boot-anim -no-window -accel on
+                  emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
       - run:
           name: Wait emulator
