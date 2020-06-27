@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Search emulator
           command: |
-                  cd ${ANDROID_HOME}/emulator && emulator -list-avds;
+                  avdmanager list avd;
       - run:
           name: Launch emulator
           command: |
