@@ -43,8 +43,8 @@ jobs:
      #      command: sdkmanager --list --verbose | grep system-images          
       - run:
           name: Setup emulator
-          #command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-29;google_apis_playstore;x86" 
-          command: ${ANDROID_HOME}/tools/bin/avdmanager create avd -n avd_name -k "system-images;android-29;google_apis_playstore;x86"
+          command: sdkmanager "system-images;android-29;google_apis_playstore;x86" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-29;google_apis_playstore;x86" 
+          #command: ${ANDROID_HOME}/tools/bin/avdmanager create avd -n avd_name -k "system-images;android-29;google_apis_playstore;x86"
       - run:
           name: Search emulator
           command: |
@@ -52,6 +52,9 @@ jobs:
       - run:
           name: Setup hvm
           command: cd ${ANDROID_HOME}/extras;ls
+      - run:
+          name: Check accel
+          command: cd ${ANDROID_HOME}/emulator/emulator -accel-check    
       - run:
           name: Launch emulator
           command: |
