@@ -47,11 +47,11 @@ jobs:
      #      command: sdkmanager --list --verbose | grep system-images   
       - run:
           name: Install api25
-          command: sdkmanager --install "system-images;android-25;google_apis;armeabi-v7a"
+          command: sdkmanager --install "system-images;android-25;google_apis;arm64-v8a"
       - run:
           name: Setup emulator
           #command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-25;google_apis;armeabi-v7a" 
-          command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;armeabi-v7a" 
+          command: sdkmanager "system-images;android-25;google_apis;arm64-v8a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;arm64-v8a" 
       - run:
           name: Search emulator
           command: |
