@@ -155,8 +155,8 @@ public class AddProductTest {
         onView(withId(R.id.additionalnfoButton)).perform(click());
         Espresso.closeSoftKeyboard();
         BaristaSleepActions.sleep(35000);
-        onView(withId(R.id.caloriesTextEdit)).perform(click());
-        onView(withId(R.id.caloriesTextEdit)).perform(typeText("30"));
+       // onView(withId(R.id.caloriesTextEdit)).perform(click());
+      //  onView(withId(R.id.caloriesTextEdit)).perform(typeText("30"));
         //fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.temperatureEditText, "12");
