@@ -153,7 +153,9 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
         Espresso.closeSoftKeyboard();
-        fillText(R.id.caloriesTextEdit, "30");
+        onView(withId(R.id.caloriesTextEdit)).perform(click());
+        onView(withId(R.id.caloriesTextEdit)).perform(typeText("30"));
+        //fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
         fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
