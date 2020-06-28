@@ -49,7 +49,8 @@ public class AddProductTest {
     }
 
     public void fillText(int id, String text) {
-        onView(withId(id)).perform(scrollTo(),click());
+       // onView(withId(id)).perform(scrollTo(),click());
+        onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
     }
 
@@ -192,7 +193,8 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.deleteButton)).perform(click());
         Espresso.closeSoftKeyboard();
-        onView(withText("ДА")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+        //onView(withText("ДА")).perform(click());
     }
 
     @Test //Добавление продукта без жиров
