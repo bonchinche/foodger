@@ -18,6 +18,10 @@ android {
         abortOnError false
     }
 
+    adbOptions {
+        timeOutInMs 600000 // set timeout to 1 minute
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,6 +44,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
