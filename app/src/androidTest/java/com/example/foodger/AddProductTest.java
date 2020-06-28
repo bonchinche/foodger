@@ -124,6 +124,7 @@ public class AddProductTest {
     public void testWithoutProtein() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutProtein"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
         fillText(R.id.temperatureEditText, "12");
         fillText(R.id.caloriesTextEdit, "30");
