@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class AddProductTest {
 
     private DataBaseHelper _db;
+    private Thread BaristaSleepActions;
 
     public void openNavScreen(String screenName) {
         onView(allOf(isDescendantOfA(withId(R.id.toolbar)), isAssignableFrom(AppCompatImageButton.class))).perform(click());
@@ -147,12 +148,13 @@ public class AddProductTest {
     }
 
     @Test //Добавление продукта без углеводов
-    public void testWithoutCarbohydrates() {
+    public void testWithoutCarbohydrates() throws InterruptedException {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutCarbohydrates"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
         Espresso.closeSoftKeyboard();
+        BaristaSleepActions.sleep(35000);
         onView(withId(R.id.caloriesTextEdit)).perform(click());
         onView(withId(R.id.caloriesTextEdit)).perform(typeText("30"));
         //fillText(R.id.caloriesTextEdit, "30");
