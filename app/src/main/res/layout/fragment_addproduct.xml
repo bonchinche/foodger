@@ -48,7 +48,7 @@
             <Spinner
                 android:id="@+id/productCategorySpinner"
                 android:layout_width="match_parent"
-                android:layout_height="41dp"></Spinner>
+                android:layout_height="wrap_content"></Spinner>
 
             <Button
                 android:id="@+id/additionalnfoButton"
@@ -66,15 +66,15 @@
             <CalendarView
                 android:id="@+id/Layout"
                 android:layout_width="match_parent"
-                android:layout_height="320dp" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="387dp"
-        android:layout_height="49dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

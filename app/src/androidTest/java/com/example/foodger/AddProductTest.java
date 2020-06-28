@@ -184,8 +184,13 @@ public class AddProductTest {
         //onView(withText("ОК")).perform(click());
 
         onView(withId(android.R.id.button1)).perform(click());
+        Espresso.closeSoftKeyboard();
+        onView(withId(R.id.applyButton)).perform(click());
+        Espresso.closeSoftKeyboard();
         openNavScreen("Products");
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.deleteButton)).perform(click());
+        Espresso.closeSoftKeyboard();
         onView(withText("ДА")).perform(click());
     }
 
