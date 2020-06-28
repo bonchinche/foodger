@@ -3,10 +3,14 @@ package com.example.foodger;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.AnimatedStateListDrawable;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -31,6 +35,7 @@ public class AddProductTest {
     private AlertDialog ad;
     private DataBaseHelper _db;
     private Thread BaristaSleepActions;
+    private Object UiController;
 
     public void openNavScreen(String screenName) {
         onView(allOf(isDescendantOfA(withId(R.id.toolbar)), isAssignableFrom(AppCompatImageButton.class))).perform(click());
@@ -134,6 +139,7 @@ public class AddProductTest {
         onView(withId(R.id.additionalnfoButton)).perform(click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.temperatureEditText, "12");
+        //onView(withId(R.id.temperatureEditText)).perform(UiController,R.id.temperatureEditText);
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -161,15 +167,15 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
-        fillText(R.id.temperatureEditText, "12");
+      //  fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
-        fillText(R.id.proteinTextEdit, "40");
+      //  fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
         fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
-        fillText(R.id.shelfLifeTextView, "7");
+      //  fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
+      //  onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
        // onView(withText("ОК")).perform(click());
         //ad.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
