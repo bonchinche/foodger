@@ -46,6 +46,9 @@ jobs:
      # - run:
      #     name: Install api25
      #     command: sdkmanager --install "system-images;android-25;google_apis;armeabi-v7a"
+    # - run:
+     #     name: Updating SDK Manager
+     #     command: sdkmanager --update
       - run:
           name: Setup emulator
           #command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-25;google_apis;armeabi-v7a" 
@@ -56,7 +59,7 @@ jobs:
                   avdmanager list avd;    
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose 
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel on -verbose 
                  # cd ${ANDROID_HOME}/emulator;ls
                  # export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
                  # emulator -avd test -noaudio -no-boot-anim -no-window -memory 2048 -gpu swiftshader_indirect -accel auto -verbose
@@ -69,6 +72,7 @@ jobs:
                   circle-android wait-for-boot                    
                   sleep 30
                   adb shell input keyevent 82 
+                  sleep 150
       - run:
           name: Run Espresso UI Tests
           command: ./gradlew connectedMobileDebugAndroidTest --stacktrace #-PdisablePreDex
