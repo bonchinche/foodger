@@ -169,9 +169,9 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.proteinTextEdit, "40");
+        fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
-        fillText(R.id.fatnessTextEdit, "50");
+      //  fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
