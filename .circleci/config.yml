@@ -58,7 +58,7 @@ jobs:
                   avdmanager list avd;    
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose 
                  # cd ${ANDROID_HOME}/emulator;ls
                  # export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
                  # emulator -avd test -noaudio -no-boot-anim -no-window -memory 2048 -gpu swiftshader_indirect -accel auto -verbose
@@ -67,7 +67,8 @@ jobs:
       - run:
           name: Wait emulator
           command: |
-                  chmod +x circle-android wait-for-boot
+                  circle-android wait-for-boot
+                  adb kill-server
                   adb devices
                   sleep 30
                   adb shell input keyevent 82 
