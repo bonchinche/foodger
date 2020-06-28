@@ -150,14 +150,21 @@ public class AddProductTest {
     public void testWithoutCarbohydrates() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutCarbohydrates"));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
-        fillText(R.id.temperatureEditText, "12");
+        Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
+        Espresso.closeSoftKeyboard();
+        fillText(R.id.temperatureEditText, "12");
+        Espresso.closeSoftKeyboard();
         fillText(R.id.proteinTextEdit, "40");
+        Espresso.closeSoftKeyboard();
         fillText(R.id.fatnessTextEdit, "50");
+        Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
+        Espresso.closeSoftKeyboard();
         onView(withText("ОК")).perform(click());
         onView(withId(R.id.applyButton)).perform(click());
         openNavScreen("Products");
