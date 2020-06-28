@@ -124,19 +124,19 @@ public class AddProductTest {
     public void testWithoutProtein() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutProtein"));
-       // onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(click());
         fillText(R.id.temperatureEditText, "12");
         fillText(R.id.caloriesTextEdit, "30");
         fillText(R.id.carbohydratesTextEdit, "40");
         fillText(R.id.fatnessTextEdit, "50");
         fillText(R.id.shelfLifeTextView, "7");
-       // Espresso.closeSoftKeyboard();
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
-        //onView(withText("ОК")).perform(click());
-       // onView(withId(R.id.applyButton)).perform(click());
+        onView(withText("ОК")).perform(click());
+        onView(withId(R.id.applyButton)).perform(click());
         openNavScreen("Products");
-       // onView(withId(R.id.deleteButton)).perform(click());
-       // onView(withText("ДА")).perform(click());
+        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withText("ДА")).perform(click());
     }
 
     @Test //Добавление продукта без углеводов
