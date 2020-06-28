@@ -57,7 +57,7 @@ public class AddProductTest {
     public void testFull() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkFull"));
-      /*  onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(click());
         fillText(R.id.temperatureEditText, "12");
         fillText(R.id.caloriesTextEdit, "30");
         fillText(R.id.proteinTextEdit, "40");
@@ -79,7 +79,7 @@ public class AddProductTest {
         onView(withId(R.id.Rating)).check(matches(RatingBarValue.checkValue(4)));
         Espresso.pressBack();
         onView(withId(R.id.deleteButton)).perform(click());
-        onView(withText("ДА")).perform(click());*/
+        onView(withText("ДА")).perform(click());
     }
 
     @Test //Добавление продукта температуры хранения
@@ -124,7 +124,7 @@ public class AddProductTest {
     public void testWithoutProtein() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutProtein"));
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+       /* onView(withId(R.id.additionalnfoButton)).perform(click());
         fillText(R.id.temperatureEditText, "12");
         fillText(R.id.caloriesTextEdit, "30");
         fillText(R.id.carbohydratesTextEdit, "40");
@@ -136,7 +136,7 @@ public class AddProductTest {
         onView(withId(R.id.applyButton)).perform(click());
         openNavScreen("Products");
         onView(withId(R.id.deleteButton)).perform(click());
-        onView(withText("ДА")).perform(click());
+        onView(withText("ДА")).perform(click());*/
     }
 
     @Test //Добавление продукта без углеводов
