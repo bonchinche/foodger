@@ -152,7 +152,7 @@ public class AddProductTest {
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutCarbohydrates"));
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
-        //Espresso.closeSoftKeyboard();
+        Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
         fillText(R.id.temperatureEditText, "12");
