@@ -1,7 +1,9 @@
 package com.example.foodger;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.View;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.test.espresso.Espresso;
@@ -17,6 +19,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -25,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 public class AddProductTest {
 
+    private AlertDialog ad;
     private DataBaseHelper _db;
     private Thread BaristaSleepActions;
 
@@ -42,6 +46,7 @@ public class AddProductTest {
         onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
     }
+
 
    /* @Before
     public void deleteDataBase() {
@@ -154,23 +159,25 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.additionalnfoButton)).perform(click());
         Espresso.closeSoftKeyboard();
-        BaristaSleepActions.sleep(35000);
-       // onView(withId(R.id.caloriesTextEdit)).perform(click());
-      //  onView(withId(R.id.caloriesTextEdit)).perform(typeText("30"));
-        //fillText(R.id.caloriesTextEdit, "30");
+        fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.temperatureEditText, "12");
+        fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.proteinTextEdit, "40");
+        fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
         fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.shelfLifeTextView, "7");
+        fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
-       // onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
+        onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withText("ОК")).perform(click());
-        onView(withId(R.id.applyButton)).perform(click());
+       // onView(withText("ОК")).perform(click());
+        //ad.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+        //int titleId = this.getActivity().getResources()
+            //    .getIdentifier( "alertTitle", "id", "android" );
+        //onView(withText("ОК")).perform(click());
+
+        onView(withId(android.R.id.button1)).perform(click());
         openNavScreen("Products");
         onView(withId(R.id.deleteButton)).perform(click());
         onView(withText("ДА")).perform(click());
