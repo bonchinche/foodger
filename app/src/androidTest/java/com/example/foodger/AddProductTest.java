@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -48,7 +49,7 @@ public class AddProductTest {
     }
 
     public void fillText(int id, String text) {
-        onView(withId(id)).perform(click());
+        onView(withId(id)).perform(scrollTo(),click());
         onView(withId(id)).perform(typeText(text));
     }
 
@@ -171,7 +172,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
