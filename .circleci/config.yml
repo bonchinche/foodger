@@ -6,7 +6,6 @@ jobs:
       - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xmx3200m
-      ADB_INSTALL_TIMEOUT: "700"
     steps:
       - checkout
       - restore_cache:
@@ -53,7 +52,7 @@ jobs:
       - run:
           name: Setup emulator
           #command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -c 100M -n test -d 9 -k "system-images;android-25;google_apis;armeabi-v7a" 
-          command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;armeabi-v7a" 
+          command: sdkmanager "system-images;android-19;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-19;google_apis;armeabi-v7a" 
       - run:
           name: Search emulator
           command: |
