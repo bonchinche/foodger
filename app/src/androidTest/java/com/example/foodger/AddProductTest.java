@@ -67,10 +67,10 @@ public class AddProductTest {
     }
 
 
-    @Before
+   /* @Before
     public void deleteDataBase() {
         InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
-    }
+    }*/
 
 
     @Rule
