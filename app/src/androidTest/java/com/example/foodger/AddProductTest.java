@@ -60,7 +60,6 @@ public class AddProductTest {
         onView(withId(id)).perform(scrollTo());
         Espresso.closeSoftKeyboard();
         onView(withId(id)).perform(click());
-        Espresso.closeSoftKeyboard();
         //onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
         Espresso.closeSoftKeyboard();
