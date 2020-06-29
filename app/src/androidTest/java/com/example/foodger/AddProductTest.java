@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
