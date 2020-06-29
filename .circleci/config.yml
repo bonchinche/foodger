@@ -19,14 +19,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-     # - run:
-     #     name: Lists installed targets
-      #    command: android list target    
-    #  - run:
-     #     name: Check directories
-    #      command: |
-    #              cd ${ANDROID_HOME};ls    
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}    
       - run:
           name: Run UnitTest
           command: ./gradlew test
@@ -39,16 +32,6 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
-     # - store_test_results:
-     #     path: app/build/test-results 
-     # - run:
-     #      command: sdkmanager --list --verbose | grep system-images   
-     # - run:
-     #     name: Install api25
-     #     command: sdkmanager --install "system-images;android-25;google_apis;armeabi-v7a"
-    # - run:
-     #     name: Updating SDK Manager
-     #     command: sdkmanager --update
       - run:
           name: Setup emulator
          # command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;armeabi-v7a" 
