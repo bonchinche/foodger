@@ -54,8 +54,8 @@ public class AddProductTest {
     public void fillText(int id, String text) {
         Espresso.closeSoftKeyboard();
         //onView(withId(R.id.ScrollForEspresso)).perform(scrollTo());
-       // onView(withId(R.id.onTopOfScrollView)).perform(scrollTo(), click());
-        //onView(withId(R.id.ScrollForEspresso)).perform(ViewActions.swipeDown());
+       // onView(withId(android.R.id.onTopOfScrollView)).perform(scrollTo(), click());
+        onView(withId(R.id.ScrollForEspresso)).perform(ViewActions.swipeDown());
         onView(withId(id)).perform(scrollTo(),click());
         //onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
