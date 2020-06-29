@@ -50,6 +50,7 @@ public class AddProductTest {
 
     public void fillText(int id, String text) {
         Espresso.closeSoftKeyboard();
+        onView(withId(R.id.ScrollForEspresso)).perform(scrollTo(0,0));
         onView(withId(id)).perform(scrollTo(),click());
         //onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
@@ -83,7 +84,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withText("ОК")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.applyButton)).perform(click());
         Espresso.closeSoftKeyboard();
