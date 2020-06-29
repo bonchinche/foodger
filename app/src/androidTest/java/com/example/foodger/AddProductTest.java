@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -66,11 +67,11 @@ public class AddProductTest {
     }
 
 
-   /* @Before
+    @Before
     public void deleteDataBase() {
         InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
     }
-    */
+
 
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
@@ -90,7 +91,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-       // fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -140,7 +141,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
 
@@ -169,7 +170,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-     //   fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -201,7 +202,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-       // fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -231,7 +232,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -295,7 +296,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
@@ -327,7 +328,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -360,7 +361,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -401,7 +402,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -448,7 +449,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
         Espresso.closeSoftKeyboard();
-       // fillText(R.id.fatnessTextEdit, "50");
+        fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
         fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
