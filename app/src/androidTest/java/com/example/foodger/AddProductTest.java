@@ -44,7 +44,7 @@ public class AddProductTest {
     }
 
     public void submitForm() {
-        onView(withText("ОК")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
         onView(withId(R.id.applyButton)).perform(click());
     }
 
@@ -52,7 +52,7 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
        // onView(withId(R.id.ScrollForEspresso)).perform(scrollTo());
        // onView(withId(R.id.onTopOfScrollView)).perform(scrollTo(), click());     
-        onView(withId(R.id.ScrollForEspresso)).perform(swipeDown());
+        onView(withId(R.id.ScrollForEspresso)).perform(ViewActions.swipeDown()));
         onView(withId(id)).perform(scrollTo(),click());
         //onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
