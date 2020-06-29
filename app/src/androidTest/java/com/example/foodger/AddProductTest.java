@@ -68,7 +68,7 @@ public class AddProductTest {
         InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
     }
     */
-
+    /*
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -124,7 +124,7 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
     }
- /*
+
     @Test //Добавление продукта температуры хранения
     public void testWithoutTemperature() {
         openNavScreen("Add Product");
@@ -248,7 +248,7 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         //onView(withText("ДА")).perform(click());
     }
-
+    */
     @Test //Добавление продукта без жиров
     public void testWithoutFatness() {
         openNavScreen("Add Product");
@@ -278,7 +278,7 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
     }
-
+    /*
     @Test //Добавление продукта без срока годности
     public void testWithoutShelfLife() {
         openNavScreen("Add Product");
@@ -486,6 +486,6 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
     }
-    */
 
+    */
 }
