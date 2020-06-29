@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -48,6 +49,7 @@ public class AddProductTest {
     }
 
     public void fillText(int id, String text) {
+       // onView(withId(id)).perform(scrollTo(),click());
         onView(withId(id)).perform(click());
         onView(withId(id)).perform(typeText(text));
     }
@@ -169,9 +171,9 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
-      //  fillText(R.id.proteinTextEdit, "40");
+        fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
-        fillText(R.id.fatnessTextEdit, "50");
+        //fillText(R.id.fatnessTextEdit, "50");
         Espresso.closeSoftKeyboard();
       //  fillText(R.id.shelfLifeTextView, "7");
         Espresso.closeSoftKeyboard();
@@ -191,7 +193,8 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.deleteButton)).perform(click());
         Espresso.closeSoftKeyboard();
-        onView(withText("ДА")).perform(click());
+        onView(withId(android.R.id.button1)).perform(click());
+        //onView(withText("ДА")).perform(click());
     }
 
     @Test //Добавление продукта без жиров
