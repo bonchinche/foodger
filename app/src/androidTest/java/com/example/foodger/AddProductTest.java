@@ -124,7 +124,7 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
     }
-
+ /*
     @Test //Добавление продукта температуры хранения
     public void testWithoutTemperature() {
         openNavScreen("Add Product");
@@ -486,4 +486,6 @@ public class AddProductTest {
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.closeSoftKeyboard();
     }
+    */
+
 }
