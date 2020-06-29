@@ -47,8 +47,8 @@ public class AddProductTest {
     }
 
     public void submitForm() {
-        onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
     }
 
     public void fillText(int id, String text) {
@@ -68,7 +68,7 @@ public class AddProductTest {
         InstrumentationRegistry.getInstrumentation().getTargetContext().deleteDatabase("Products.db");
     }
     */
-    /*
+
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -79,7 +79,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkFull"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
 
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -96,13 +96,13 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withText("MilkFull")).perform(click());
+        onView(withText("MilkFull")).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.editTemperature)).check(matches(withText("12")));
         Espresso.closeSoftKeyboard();
@@ -119,9 +119,9 @@ public class AddProductTest {
         onView(withId(R.id.Rating)).check(matches(RatingBarValue.checkValue(4)));
         Espresso.closeSoftKeyboard();
         Espresso.pressBack();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -130,7 +130,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutTemperature"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
         fillText(R.id.proteinTextEdit, "40");
@@ -144,15 +144,15 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(), click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(), click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(), click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(), click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -161,7 +161,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutCalories"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         fillText(R.id.proteinTextEdit, "40");
         Espresso.closeSoftKeyboard();
         fillText(R.id.carbohydratesTextEdit, "40");
@@ -174,15 +174,15 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -191,7 +191,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutProtein"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         //onView(withId(R.id.temperatureEditText)).perform(UiController,R.id.temperatureEditText);
@@ -206,14 +206,14 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -222,7 +222,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutCarbohydrates"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -237,24 +237,24 @@ public class AddProductTest {
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();       
         //onView(withText("ОК")).perform(click());
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         //onView(withText("ДА")).perform(click());
     }
-    */
+
     @Test //Добавление продукта без жиров
     public void testWithoutFatness() {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutFatness"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -268,17 +268,17 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
-    /*
+
     @Test //Добавление продукта без срока годности
     public void testWithoutShelfLife() {
         openNavScreen("Add Product");
@@ -299,15 +299,15 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -316,7 +316,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkWithoutRating"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -330,15 +330,15 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         fillText(R.id.temperatureEditText, "12");
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
@@ -349,7 +349,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkAdditionalInfoCancel"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -365,9 +365,9 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button2)).perform(click());
+        onView(withId(android.R.id.button2)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.temperatureEditText)).check(matches(withText("")));
         Espresso.closeSoftKeyboard();
@@ -390,7 +390,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkAddProductsCancel"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -406,13 +406,13 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.cancellButton)).perform(click());
+        onView(withId(R.id.cancellButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productNameEditText)).check(matches(withText("")));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.temperatureEditText)).check(matches(withText("")));
         Espresso.closeSoftKeyboard();
@@ -437,7 +437,7 @@ public class AddProductTest {
         openNavScreen("Add Product");
         onView(withId(R.id.productNameEditText)).perform(typeText("MilkSetInData"));
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.additionalnfoButton)).perform(click());
+        onView(withId(R.id.additionalnfoButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         fillText(R.id.caloriesTextEdit, "30");
         Espresso.closeSoftKeyboard();
@@ -454,9 +454,9 @@ public class AddProductTest {
         Espresso.closeSoftKeyboard();
         onView(withId(R.id.productRatingBar)).perform(RatingBarValue.setValue(4));
         Espresso.closeSoftKeyboard();
-       onView(withId(android.R.id.button1)).perform(click());
+       onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.applyButton)).perform(click());
+        onView(withId(R.id.applyButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
         SQLiteDatabase db = _db.getReadableDatabase();
 
@@ -481,11 +481,11 @@ public class AddProductTest {
 
         openNavScreen("Products");
         Espresso.closeSoftKeyboard();
-        onView(withId(R.id.deleteButton)).perform(click());
+        onView(withId(R.id.deleteButton)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
-        onView(withId(android.R.id.button1)).perform(click());
+        onView(withId(android.R.id.button1)).perform(scrollTo(),click());
         Espresso.closeSoftKeyboard();
     }
 
-    */
+
 }
